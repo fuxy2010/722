@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="cpp-project" Database="" Version="10.0.0">
+  <Project Name="test" Path="test/test.project" Active="No"/>
+  <Project Name="RTSPServerConsole" Path="RTSPServer/RTSPServerConsole.project" Active="No"/>
+  <Project Name="RTSPServerLib" Path="RTSPServer/RTSPServerLib.project" Active="No"/>
+  <Project Name="RTSPServerDemo" Path="RTSPServerDemo/RTSPServerDemo.project" Active="No"/>
+  <Project Name="AudioMixer" Path="AudioMixer/AudioMixer.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Environment/>
+      <Project Name="test" ConfigName="Debug"/>
+      <Project Name="RTSPServerConsole" ConfigName="Debug"/>
+      <Project Name="RTSPServerLib" ConfigName="Debug"/>
+      <Project Name="RTSPServerDemo" ConfigName="Debug"/>
+      <Project Name="AudioMixer" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
+      <Project Name="test" ConfigName="Release"/>
+      <Project Name="RTSPServerConsole" ConfigName="Release"/>
+      <Project Name="RTSPServerLib" ConfigName="Release"/>
+      <Project Name="RTSPServerDemo" ConfigName="Release"/>
+      <Project Name="AudioMixer" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>
