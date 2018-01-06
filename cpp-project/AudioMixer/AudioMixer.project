@@ -9,10 +9,10 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="thread">
+      <File Name="src/thread/AudioMixThread.cpp"/>
+      <File Name="src/thread/AudioMixThread.h"/>
       <File Name="src/thread/AudioSendThread.h"/>
       <File Name="src/thread/AudioSendThread.cpp"/>
-      <File Name="src/thread/AudioRecvThread.cpp"/>
-      <File Name="src/thread/AudioRecvThread.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="codec">
       <File Name="src/codec/PCMCodec.h"/>
@@ -339,7 +339,7 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug" CompilerType="Cross GCC ( arm-fsl-linux-gnueabi )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="./"/>
         <IncludePath Value="./src/jrtplib/"/>
@@ -355,6 +355,7 @@
       <Linker Options="" Required="yes">
         <Library Value="pthread"/>
         <Library Value="rt"/>
+        <Library Value="asound"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>

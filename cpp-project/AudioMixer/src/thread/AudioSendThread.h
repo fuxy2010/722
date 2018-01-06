@@ -27,9 +27,10 @@ namespace ScheduleServer
 	class CAudioSendThread : public JThread
 	{
 	public:
-		CAudioSendThread(unsigned long id, unsigned short port) :
+		CAudioSendThread(unsigned long id, unsigned short local_port, unsigned short remote_port) :
         _id(id),
-        _local_port(port)
+        _local_port(local_port),
+        _remote_port(remote_port)
         {
         };
 		virtual ~CAudioSendThread()
@@ -48,7 +49,8 @@ namespace ScheduleServer
         
     private:
         unsigned long _id;
-        unsigned long _local_port;
+        unsigned short _local_port;
+        unsigned short _remote_port;
         
 	};
 }

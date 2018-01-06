@@ -15,7 +15,7 @@
 #include "UserAgent.h"
 #include "JRTPSession.h"
 #include "AudioSendThread.h"
-#include "AudioRecvThread.h"
+#include "AudioMixThread.h"
 
 namespace ScheduleServer
 {
@@ -73,7 +73,7 @@ namespace ScheduleServer
 		unsigned short _rtp_recv_base_port;//Ã½Ìå½ÓÊÕRTP SessionµÄ¼àÌý»ù×¼¶Ë¿Ú
         
         CAudioSendThread* _audio_send_thread[UA_NUM];
-        CAudioRecvThread* _audio_recv_thread;
+        CAudioMixThread* _audio_mix_thread;
 
 	public:
 		static std::string _ver;

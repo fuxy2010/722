@@ -6,13 +6,13 @@
 // ÈÕÆÚ, ×÷Õß, ±ä¸üÄÚÈÝ
 // **********************************************************************
 #include "GeneralDef.h"
-#include "AudioRecvThread.h"
+#include "AudioMixThread.h"
 #include "AudioCodec.h"
 #include "ScheduleServer.h"
 
 using namespace ScheduleServer;
 
-void CAudioRecvThread::mix()
+void CAudioMixThread::mix()
 {
     if(!_next_fetch_audio_frame_timestamp)
 		_next_fetch_audio_frame_timestamp = clock();
@@ -47,8 +47,8 @@ void CAudioRecvThread::mix()
     //如没有非本人的发言人能提供有效的原始语音包则不创建任务
     if(true == mix_frame_ptr.frame->available)
 	{
-        FILE* f = fopen("./mix.pcm", "ab+");
-        
+        //play((char*)mix_frame_ptr.frame->payload);
+        FILE* f = fopen("./mix.pcm", "ab+");        
         fwrite(mix_frame_ptr.frame->payload, sizeof(short), 480, f);
         fclose(f);
 	}
@@ -60,12 +60,27 @@ void CAudioRecvThread::mix()
     _next_fetch_audio_frame_timestamp += AUDIO_SAMPLING_RATE * 1000;
 }
 
-void CAudioRecvThread::play()
+void CAudioMixThread::play(char* pcm)
 {
+    int rc = snd_pcm_writei(_snd_handle, pcm, _snd_frames);
     
+    if(-EPIPE == rc)
+    {
+        /* EPIPE means underrun */
+        fprintf(stderr, "underrun occurred\n");
+        snd_pcm_prepare(_snd_handle);
+    }
+    else if(0 > rc)
+    {
+        fprintf(stderr, "error from writei: %s\n", snd_strerror(rc));
+    }
+    else if(rc != (int)_snd_frames)
+    {
+        fprintf(stderr, "short write, write %d frames\n", rc);
+    }
 }
 
-void* CAudioRecvThread::Thread()
+void* CAudioMixThread::Thread()
 {
     JThread::ThreadStarted();
     

@@ -18,7 +18,7 @@ void* CAudioSendThread::Thread()
     
     CRTPRecvSession rtp_session(_local_port);
     
-    rtp_session.add_dest_addr("127.0.0.1", 30000);
+    rtp_session.add_dest_addr("127.0.0.1", _remote_port);
     
     char temp[32];
     ::memset(temp, 0 ,sizeof(temp));

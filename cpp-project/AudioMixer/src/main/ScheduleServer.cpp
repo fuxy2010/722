@@ -33,6 +33,28 @@ SS_Error CScheduleServer::start(std::string path)
 {
     _cur_path = path;
     
+    std::string role;
+    std::cout << "If this is sender then press \"yes\", otherwise press \"no\"" << std::endl;
+	std::cin >> role;
+    role = (role == "yes") ? "sender" : "receiver";
+    
+    if("sender" == role)
+    {
+        std::string dest_ip;
+        std::cout << "Enter IP address of receiver:" << std::endl;
+        std::cin >> dest_ip;
+        
+        unsigned short remote_base_port;
+        std::cout << "Enter base port of receiver:" << std::endl;
+        std::cin >> remote_base_port;
+    }
+    else
+    {
+        unsigned short local_base_port;
+        std::cout << "Enter base port of own:" << std::endl;
+        std::cin >> local_base_port;
+    }
+    
     for(int n = 1; n <= UA_NUM; ++n)
     {
         SINGLETON(CScheduleServer).reg_ua(n, inet_addr("127.0.0.1"), 0, 0, UA_MobilePhone);
@@ -54,14 +76,14 @@ SS_Error CScheduleServer::start(std::string path)
 
 	_enalble = true;//·þÎñ¿ÉÓÃ
     
-    _audio_send_thread[0] = new CAudioSendThread(1, 8888);
-    _audio_send_thread[0]->Start();
+    for(unsigned short j = 0; j < UA_NUM; ++j)
+    {
+        _audio_send_thread[j] = new CAudioSendThread(j, 8888 + 10 * j, _rtp_recv_base_port +  + 10 * (j % _rtp_recv_thread_num));
+        _audio_send_thread[j]->Start();
+    }
     
-    _audio_send_thread[1] = new CAudioSendThread(2, 8890);
-    _audio_send_thread[1]->Start();
-    
-     _audio_recv_thread = new CAudioRecvThread();
-     _audio_recv_thread->Start();
+     _audio_mix_thread = new CAudioMixThread();
+     _audio_mix_thread->Start();
      
      std::cout << "audio receiver started!" << std::endl;
 
@@ -73,17 +95,16 @@ SS_Error CScheduleServer::shutdown()
 {
 	_enalble = false;
     
-    _audio_send_thread[0]->Kill();
-    delete _audio_send_thread[0];
-    _audio_send_thread[0] = NULL;
+    for(unsigned short j = 0; j < UA_NUM; ++j)
+    {
+        _audio_send_thread[j]->Kill();
+        delete _audio_send_thread[j];
+        _audio_send_thread[j] = NULL;
+    }
     
-    _audio_send_thread[1]->Kill();
-    delete _audio_send_thread[1];
-    _audio_send_thread[1] = NULL;
-    
-    _audio_recv_thread->Kill();
-    delete _audio_recv_thread;
-    _audio_recv_thread = NULL;
+    _audio_mix_thread->Kill();
+    delete _audio_mix_thread;
+    _audio_mix_thread = NULL;
 
 	//¹Ø±ÕRTP½ÓÊÕ»á»°////////////////////////////////////////////////////////////////////////
 	for(unsigned short i = 0; i < _rtp_recv_thread_num; ++i)
