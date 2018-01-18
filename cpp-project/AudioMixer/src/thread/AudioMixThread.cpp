@@ -37,52 +37,43 @@ void CAudioMixThread::mix()
 							1.0,
 							1);
                             
-        //记录各音源收到混音帧对应语音包的时戳
-        mix_frame_ptr.frame->update_mix_timestamp(clock() / 1000);
-        mix_frame_ptr.frame->available = true;//混音成功一次即表明该语音帧有效
+        CMemPool::free_raw_audio_frame(frame_ptr);
                             
-        std::cout << "========= mix a audio frame at " << clock() << ", " << CLOCKS_PER_SEC << std::endl;
+        //记录各音源收到混音帧对应语音包的时戳
+        //mix_frame_ptr.frame->update_mix_timestamp(clock() / 1000);
+        mix_frame_ptr.frame->available = true;//混音成功一次即表明该语音帧有效
+        
+        std::cout << "========= mix and send a audio frame at " << clock() << ", " << CLOCKS_PER_SEC << std::endl;
     }
     
     //如没有非本人的发言人能提供有效的原始语音包则不创建任务
     if(true == mix_frame_ptr.frame->available)
 	{
-        //play((char*)mix_frame_ptr.frame->payload);
+        ::memset(packet, 0, sizeof(packet));
+        int packet_len = _codec->encode(mix_frame_ptr.frame->payload, packet);
+		if(NULL != _rtp_session) _rtp_session->send_rtp_packet(packet, packet_len, ILBCRTPPacket, true, AUDIO_SAMPLING_RATE, 0);
+#if 0
+        _pcm_player.play(mix_frame_ptr.frame->payload);
+#else
         FILE* f = fopen("./mix.pcm", "ab+");        
         fwrite(mix_frame_ptr.frame->payload, sizeof(short), 480, f);
         fclose(f);
+#endif
 	}
-    
-    
     
     CMemPool::free_raw_audio_frame(mix_frame_ptr);
     
     _next_fetch_audio_frame_timestamp += AUDIO_SAMPLING_RATE * 1000;
-}
-
-void CAudioMixThread::play(char* pcm)
-{
-    int rc = snd_pcm_writei(_snd_handle, pcm, _snd_frames);
     
-    if(-EPIPE == rc)
-    {
-        /* EPIPE means underrun */
-        fprintf(stderr, "underrun occurred\n");
-        snd_pcm_prepare(_snd_handle);
-    }
-    else if(0 > rc)
-    {
-        fprintf(stderr, "error from writei: %s\n", snd_strerror(rc));
-    }
-    else if(rc != (int)_snd_frames)
-    {
-        fprintf(stderr, "short write, write %d frames\n", rc);
-    }
+    //_next_fetch_audio_frame_timestamp += 30 * 1000;
 }
 
 void* CAudioMixThread::Thread()
 {
     JThread::ThreadStarted();
+    
+    _rtp_session = new CRTPRecvSession(31000);
+    _rtp_session->add_dest_addr(_sender_ip.c_str(), 40000);
     
     while(true)
     {

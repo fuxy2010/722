@@ -16,6 +16,8 @@
 #include "JRTPSession.h"
 #include "AudioSendThread.h"
 #include "AudioMixThread.h"
+#include "PCMPlayThread.h"
+#include "PCMPlayer.h"
 
 namespace ScheduleServer
 {
@@ -88,8 +90,7 @@ namespace ScheduleServer
 		//ipÎªÍøÂç×Ö½ÚÐò£¬audio_portºÍvideo_portÎªÖ÷»ú×Ö½ÚÐò
 		SS_Error reg_ua(const unsigned long& id, const unsigned long& ip, const unsigned short& audio_port, const unsigned short& video_port, USER_AGENT_TYPE type)
 		{
-			if(!id)
-				return SS_NoErr;
+			//if(!id) return SS_NoErr;
 
 			CSSLocker lock(&_ua_map_mutex);
 
@@ -170,7 +171,8 @@ namespace ScheduleServer
 		{
 			CSSLocker lock(&_ua_map_mutex);
 
-			if(!id || _ua_map.end() == _ua_map.find(id))
+			//if(!id || _ua_map.end() == _ua_map.find(id))
+            if(_ua_map.end() == _ua_map.find(id))
 				return NULL;
 
 			return _ua_map[id];
@@ -209,6 +211,11 @@ namespace ScheduleServer
 
 			_ua_map.clear();
 		}
+        
+    public:
+        CPCMPlayer _pcm_player;
+    private:
+        CPCMPlayThread _pcm_play_thread;
 	};
 }
 

@@ -357,19 +357,25 @@ int alsa_play()
                 &val, &dir);
     /* 50 seconds in microseconds divided by
     * period time */
-    loops = 50000000 / val;
+    loops = 500000000 / val;
     
-    FILE* file = fopen("1.pcm", "rb");
+    std::string filename = "mix.pcm";
+    std::cout << "Enter pcm file name:" << std::endl;
+    std::cin >> filename;
+    std::cout << std::endl;
+    FILE* file = fopen(filename.c_str(), "rb");
 
     while (loops > 0) {
         loops--;
         
         {
             size_t read_len = fread(buffer, sizeof(char), size, file);
-            if(480 != read_len)
+            if(960 != read_len)
             {
                 fseek(file, 0, SEEK_SET);
             }
+            
+            std::cout << "play " << read_len << std::endl;
         }
         
         /* 从标准输入中获取数据 */
@@ -384,9 +390,11 @@ int alsa_play()
 
         /* 播放这些数据 */
         rc = snd_pcm_writei(handle, buffer, frames);
+        std::cout << "play frame " << frames << std::endl;
         if (rc == -EPIPE) {
             /* EPIPE means underrun */
             fprintf(stderr, "underrun occurred\n");
+            std::cout << "error " << stderr << std::endl;
             snd_pcm_prepare(handle);
         } else if (rc < 0) {
             fprintf(stderr,
@@ -405,9 +413,41 @@ int alsa_play()
     return 0;
 }
 
+#include "PCMPlayer.h"
+int alsa_play2()
+{
+    std::string filename = "3.pcm";
+    //std::cout << "Enter pcm file name:" << std::endl;
+    //std::cin >> filename;
+    //std::cout << std::endl << filename;
+    FILE* file = fopen(filename.c_str(), "rb");
+    
+    ScheduleServer::CPCMPlayer player;
+    
+    short* frame = (short*) malloc(480);
+
+    while (true)
+    {
+        {
+            size_t read_len = fread(frame, sizeof(short), 480, file);
+            if(480 != read_len)
+            {
+                fseek(file, 0, SEEK_SET);
+                //break;
+            }
+            
+            std::cout << "play " << read_len << std::endl;
+        }
+        
+        player.play(frame);
+    }
+    
+    free(frame);
+}
+
 int main(int argc, char **argv)
 {
-    //alsa_play();
+    alsa_play2();
     
 #if 0
     //SignalThread thread;

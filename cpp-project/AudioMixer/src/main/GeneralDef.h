@@ -191,7 +191,7 @@ namespace ScheduleServer
 }
 
 #ifndef UA_NUM
-#define UA_NUM  16
+#define UA_NUM  4
 #endif
 
 #ifndef AUDIO_SAMPLING_RATE

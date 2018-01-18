@@ -18,7 +18,7 @@ void* CAudioSendThread::Thread()
     
     CRTPRecvSession rtp_session(_local_port);
     
-    rtp_session.add_dest_addr("127.0.0.1", _remote_port);
+    rtp_session.add_dest_addr(_remote_ip.c_str(), _remote_port);
     
     char temp[32];
     ::memset(temp, 0 ,sizeof(temp));
@@ -71,7 +71,7 @@ void* CAudioSendThread::Thread()
 		//packet_len = codec1->encode((short*)frame, packet);
 
 		rtp_session.send_rtp_packet(packet, packet_len, ILBCRTPPacket, true, AUDIO_SAMPLING_RATE, _id);
-        std::cout << "send audio packet: " << packet_len << ", " << _next_send_audio_packet_timestamp << ", " << clock() << std::endl;
+        std::cout << "send id: " << _id << " audio packet: " << packet_len << ", " << _next_send_audio_packet_timestamp << ", " << clock() << std::endl;
 
 		_next_send_audio_packet_timestamp += AUDIO_SAMPLING_RATE * 1000;
 	}

@@ -36,56 +36,74 @@ SS_Error CScheduleServer::start(std::string path)
     std::string role;
     std::cout << "If this is sender then press \"yes\", otherwise press \"no\"" << std::endl;
 	std::cin >> role;
+    std::cout << std::endl;
+    
     role = (role == "yes") ? "sender" : "receiver";
     
-    if("sender" == role)
+    _rtp_recv_thread_num = 2;
+    
+    if("receiver" == role)
     {
-        std::string dest_ip;
-        std::cout << "Enter IP address of receiver:" << std::endl;
-        std::cin >> dest_ip;
+        unsigned short local_base_port = 30000;
+        //std::cout << "Enter base port of own:" << std::endl;
+        //std::cin >> local_base_port;
+        //std::cout << std::endl;
         
-        unsigned short remote_base_port;
-        std::cout << "Enter base port of receiver:" << std::endl;
-        std::cin >> remote_base_port;
+        std::string dest_ip = "127.0.0.1";
+        std::cout << "Enter IP address of sender:" << std::endl;
+        std::cin >> dest_ip;
+        std::cout << std::endl;
+        
+        _rtp_recv_base_port = local_base_port;
+
+        _rtp_recv_session = new CRTPRecvSession*[_rtp_recv_thread_num];
+        
+        for(unsigned short i = 0; i < _rtp_recv_thread_num; ++i)
+        {
+            _rtp_recv_session[i] = new CRTPRecvSession(_rtp_recv_base_port + 10 * i);
+            _rtp_recv_session[i]->set_rtp_callback(CScheduleServer::on_recv_rtp_packet);
+        }        
+        
+        for(int n = 1; n <= UA_NUM; ++n)
+        {
+            SINGLETON(CScheduleServer).reg_ua(n, inet_addr("127.0.0.1"), 0, 0, UA_MobilePhone);
+        }
+        
+        _audio_mix_thread = new CAudioMixThread(dest_ip);
+        _audio_mix_thread->Start();
+        
+        std::cout << "audio receiver started!" << std::endl;
     }
     else
     {
-        unsigned short local_base_port;
-        std::cout << "Enter base port of own:" << std::endl;
-        std::cin >> local_base_port;
+        std::string dest_ip = "127.0.0.1";
+        std::cout << "Enter IP address of receiver:" << std::endl;
+        std::cin >> dest_ip;
+        std::cout << std::endl;
+        
+        unsigned short remote_base_port = 30000;
+        //std::cout << "Enter base port of receiver:" << std::endl;
+        //std::cin >> remote_base_port;
+        
+        //add UA whose id is 0 to play received audio
+        SINGLETON(CScheduleServer).reg_ua(0, inet_addr("127.0.0.1"), 0, 0, UA_MobilePhone);
+        
+        for(unsigned short i = 0; i < UA_NUM; ++i)
+        {
+            _audio_send_thread[i] = new CAudioSendThread(i, 8888 + 10 * i, dest_ip, remote_base_port + 10 * (i % _rtp_recv_thread_num));
+            _audio_send_thread[i]->Start();
+        }
+        
+        _rtp_recv_session = new CRTPRecvSession*[1];        
+        _rtp_recv_session[0] = new CRTPRecvSession(40000);
+        _rtp_recv_session[0]->set_rtp_callback(CScheduleServer::on_recv_rtp_packet);
+        
+        _pcm_play_thread.Start();
+        
+        std::cout << "audio sender started!" << std::endl;
     }
-    
-    for(int n = 1; n <= UA_NUM; ++n)
-    {
-        SINGLETON(CScheduleServer).reg_ua(n, inet_addr("127.0.0.1"), 0, 0, UA_MobilePhone);
-    }
-
-	//Æô¶¯RTP½ÓÊÕ»á»°////////////////////////////////////////////////////////////////////////
-	//_rtp_recv_thread_num = !(theSystemInfo.dwNumberOfProcessors) ? 1 : theSystemInfo.dwNumberOfProcessors;
-	//_rtp_recv_thread_num = (1 == _rtp_recv_thread_num) ? 2 : _rtp_recv_thread_num;//±ØÐëÈ·±£ÓÐÁ½¸öÒÔÉÏµÄRTP½ÓÊÕÏß³ÌÒÔ·Ö¿ªÒôÊÓÆµ½ÓÊÕ£¬ÔÚCVirtualUA::invite_uaÖÐ·¢ËÍµÄÒôÊÓÆµ¶Ë¿Ú±ØÐë²»Í¬
-    _rtp_recv_thread_num = 2;
-	_rtp_recv_base_port = 30000;//MiscTools::parse_string_to_type<unsigned short>(SINGLETON(CConfigBox).get_property("MediaRecvBasePort", "30000"));
-
-	_rtp_recv_session = new CRTPRecvSession*[_rtp_recv_thread_num];
-
-	for(unsigned short i = 0; i < _rtp_recv_thread_num; ++i)
-	{
-		_rtp_recv_session[i] = new CRTPRecvSession(_rtp_recv_base_port + 10 * i);
-		_rtp_recv_session[i]->set_rtp_callback(CScheduleServer::on_recv_rtp_packet);
-	}
 
 	_enalble = true;//·þÎñ¿ÉÓÃ
-    
-    for(unsigned short j = 0; j < UA_NUM; ++j)
-    {
-        _audio_send_thread[j] = new CAudioSendThread(j, 8888 + 10 * j, _rtp_recv_base_port +  + 10 * (j % _rtp_recv_thread_num));
-        _audio_send_thread[j]->Start();
-    }
-    
-     _audio_mix_thread = new CAudioMixThread();
-     _audio_mix_thread->Start();
-     
-     std::cout << "audio receiver started!" << std::endl;
 
 	return SS_NoErr;
 
@@ -206,6 +224,19 @@ void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsign
 {
 	//std::cout << "Got packet " << sequence << " from SSRC " << ssrc << " length " << length << " sequence " << sequence << std::endl;
 	//unsigned long start = timeGetTime();
+    
+    if(!ssrc)
+    {
+        std::cout << "--------- play a frame." << std::endl;
+        
+#if 0
+        SINGLETON(CScheduleServer)._pcm_player.play((void*)data);
+#else        
+        CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
+        if(NULL == ua) return;
+        ua->add_audio_frame(data, length, sequence, timestamp);
+#endif
+    }
 
 	if(NULL == data || !length || !ssrc)
 		return;

@@ -9,12 +9,15 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="thread">
+      <File Name="src/thread/PCMPlayThread.cpp"/>
+      <File Name="src/thread/PCMPlayThread.h"/>
       <File Name="src/thread/AudioMixThread.cpp"/>
       <File Name="src/thread/AudioMixThread.h"/>
       <File Name="src/thread/AudioSendThread.h"/>
       <File Name="src/thread/AudioSendThread.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="codec">
+      <File Name="src/codec/PCMPlayer.h"/>
       <File Name="src/codec/PCMCodec.h"/>
       <File Name="src/codec/PCMCodec.cpp"/>
       <File Name="src/codec/iLBCCodec.h"/>
@@ -349,10 +352,12 @@
         <IncludePath Value="./src/ilbc/"/>
         <IncludePath Value="./src/codec/"/>
         <IncludePath Value="./src/thread/"/>
+        <IncludePath Value="/home/fym/722/rtfs/usr/include/"/>
         <Preprocessor Value="WEBRTC_LINUX"/>
         <Preprocessor Value="RTP_SUPPORT_THREAD"/>
       </Compiler>
       <Linker Options="" Required="yes">
+        <LibraryPath Value="/home/fym/722/rtfs/usr/lib"/>
         <Library Value="pthread"/>
         <Library Value="rt"/>
         <Library Value="asound"/>

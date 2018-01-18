@@ -93,6 +93,15 @@ SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned l
 
 			std::cout << ",";//cout << "\nDAF2 " << _info.id;
 		}
+        
+        if(false)
+        //if(0 == _info.id)
+        {
+            FILE* f = fopen("./recv.pcm", "ab+");        
+            fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
+            fclose(f);
+            return SS_NoErr;
+        }
 
 		_raw_audio_frame_list.push_back(frame_ptr);
 
@@ -113,7 +122,8 @@ RAW_AUDIO_FRAME_PTR CUserAgent::fetch_audio_frame()
 		CSSLocker lock(&_raw_audio_frame_list_mutex);
 
 		//为平滑计队列中有3个以上的包才取
-		if(false == _raw_audio_frame_list.empty())
+		//if(false == _raw_audio_frame_list.empty())
+        if(3 < _raw_audio_frame_list.size())
 		{
 			RAW_AUDIO_FRAME_PTR frame_ptr = _raw_audio_frame_list.front();//*(_audio_packet_list.begin());
 			_raw_audio_frame_list.pop_front();
