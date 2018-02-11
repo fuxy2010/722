@@ -10,6 +10,8 @@
 #include "ScheduleServer.h"
 #include "MediaData.h"
 #include "AES.h"
+#include "TestTask.h"
+#include "ConferenceTask.h"
 
 using namespace ScheduleServer;
 
@@ -33,6 +35,7 @@ SS_Error CScheduleServer::start(std::string path)
 {
     _cur_path = path;
     
+#if 0
     std::string role;
     std::cout << "If this is sender then press \"yes\", otherwise press \"no\"" << std::endl;
 	std::cin >> role;
@@ -101,9 +104,70 @@ SS_Error CScheduleServer::start(std::string path)
         _pcm_play_thread.Start();
         
         std::cout << "audio sender started!" << std::endl;
-    }
+    }    
+#endif
 
-	_enalble = true;//·þÎñ¿ÉÓÃ
+    //Audio recv rtp session
+    _rtp_recv_session = new CRTPRecvSession*[1];
+    _rtp_recv_session[0] = new CRTPRecvSession(30000);
+    _rtp_recv_session[0]->set_rtp_callback(CScheduleServer::on_recv_rtp_packet);
+
+    _enalble = true;//·þÎñ¿ÉÓÃ
+
+    //启动任务线程////////////////////////////////////////////////////////////////////////
+	CTaskThreadPool::add_threads(2, this);
+    
+#if 0
+    {
+        TEST_TASK_INFO task_info;
+        
+        task_info.task_id = clock();
+        task_info.conference_id = task_info.task_id;
+        task_info.counter = NULL;//&_generate_task_counter;
+        
+        CTestTask* task = new CTestTask(task_info);
+        
+        if(SS_NoErr != SINGLETON(CScheduleServer).add_task(task, task_info.task_id))
+        {
+            delete task;
+            task = NULL;
+        }
+    }
+#endif
+    
+    //add conference
+    {
+        CONFERENCE_TASK_INFO conference_info;
+        conference_info.conference_id = 1;
+        conference_info.conference_level = 1;
+        conference_info.index = 1;
+        conference_info.sponsor = 2;
+        
+        CConferenceTask* conference = new CCommonConferenceTask(conference_info);
+        
+        if(SS_NoErr != SINGLETON(CScheduleServer).add_task(conference, conference_info.conference_id))
+		{
+			delete conference;
+			conference = NULL;
+		}
+        
+        conference->add_participant(1, true);
+        conference->add_participant(2, true);
+        conference->add_participant(3, true);
+        conference->add_participant(4, true);
+        conference->add_participant(5, false);
+        conference->add_participant(6, false);
+        conference->add_participant(7, false);
+        conference->add_participant(8, false);
+        conference->add_participant(9, false);
+        conference->add_participant(10, false);
+        conference->add_participant(11, false);
+        conference->add_participant(12, false);
+        conference->add_participant(13, false);
+        conference->add_participant(14, false);
+        conference->add_participant(15, false);
+        conference->add_participant(16, false);
+    }
 
 	return SS_NoErr;
 
@@ -195,7 +259,7 @@ void CScheduleServer::console_command(const std::vector<std::string>& cmd)
 	}
 }
 
-/*SS_Error CScheduleServer::add_task(CTask* task, unsigned long index)
+SS_Error CScheduleServer::add_task(CTask* task, unsigned long index)
 {
 	if(false == _enalble)
 		return SS_AddTaskFail;
@@ -214,18 +278,19 @@ void CScheduleServer::console_command(const std::vector<std::string>& cmd)
 	}
 
 	return SS_NoErr;
-}*/
+}
 
 
 //dataÎªº¬°üÍ·µÄRTP°ü£¬lengthÎª¾»ºÉ¼Ó°üÍ·³¤¶È
 void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsigned long& length,
 	const unsigned short& sequence, const unsigned long& timestamp,
-	const unsigned long& ssrc, const unsigned char& payload_type, const bool& mark)
+	const unsigned long& ssrc, const unsigned char& payload_type, const bool& mark,
+    const char* src_ip, const unsigned short src_port)
 {
-	//std::cout << "Got packet " << sequence << " from SSRC " << ssrc << " length " << length << " sequence " << sequence << std::endl;
+    std::cout << "Got packet at " << timestamp << " from SSRC " << ssrc << " length " << length << " sequence " << sequence << " from " << src_ip << ":" << src_port << std::endl;
 	//unsigned long start = timeGetTime();
     
-    if(!ssrc)
+    /*if(!ssrc)
     {
         std::cout << "--------- play a frame." << std::endl;
         
@@ -236,23 +301,28 @@ void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsign
         if(NULL == ua) return;
         ua->add_audio_frame(data, length, sequence, timestamp);
 #endif
-    }
+    }*/
 
 	if(NULL == data || !length || !ssrc)
 		return;
+        
+    //update ua address by reg_ua
+    {
+        SINGLETON(CScheduleServer).reg_ua(ssrc, src_ip, src_port, 0, UA_MobilePhone);
+    }
 
 	CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(ssrc);
 
 	if(NULL == ua)
 		return;
 
-	if(ILBCRTPPacket == payload_type || PCMRTPPacket == payload_type)
+	/*if(ILBCRTPPacket == payload_type || PCMRTPPacket == payload_type)
 	{
         //ua->add_audio_packet(data + sizeof(RTPHeader), length - sizeof(RTPHeader), sequence, ::timeGetTime());
 	}
 	else if(H264RTPPacket == payload_type)
 	{
-	}
+	}*/
     
     ua->add_audio_frame(data, length, sequence, timestamp);
 

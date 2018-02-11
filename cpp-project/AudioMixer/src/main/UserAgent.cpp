@@ -8,6 +8,7 @@
 #include "UserAgent.h"
 #include "MiscTool.h"
 #include "JRTPSession.h"
+#include "ScheduleServer.h"
 
 using namespace ScheduleServer;
 
@@ -24,17 +25,15 @@ _latest_available_audio_packet_timestamp(0),
 _last_audio_packet_sequence(0),
 //_fetch_audio_frame_fail_times(0),
 //_fetch_audio_frame_timestamp(0),
-_next_fetched_audio_sequence(0)
+_next_fetched_audio_sequence(0),
+_rtp_send_session(NULL)
 {
 	remove_all_audio_packet();
 }
 
 CUserAgent::~CUserAgent()
 {
-	delete _audio_codec;
-	_audio_codec = NULL;
-
-	remove_all_audio_packet();
+    remove_all_audio_packet();
 	_next_fetched_audio_sequence = 0;
 
 }
@@ -69,6 +68,14 @@ SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned l
 	frame_ptr.frame->sequence = sequence;
 	frame_ptr.frame->src_timestamp = timestamp;
 	frame_ptr.frame->encoded_size = length;
+    
+    if(false)
+    {
+        player.play(frame_ptr.frame->payload);
+        //FILE* f = fopen("./recv.pcm", "ab+");        
+        //fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
+        //fclose(f);
+    }
 
 	/*if(false)//丢弃静音包
 	{
@@ -91,7 +98,7 @@ SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned l
 			CMemPool::free_raw_audio_frame(_raw_audio_frame_list.front());
 			_raw_audio_frame_list.pop_front();
 
-			std::cout << ",";//cout << "\nDAF2 " << _info.id;
+			//std::cout << ",";//cout << "\nDAF2 " << _info.id;
 		}
         
         if(false)
@@ -170,16 +177,73 @@ SS_Error CUserAgent::remove_slient_audio_packet()
 	return SS_NoErr;
 }
 
+bool CUserAgent::malloc_mix_audio_frame()
+{
+    return CMemPool::malloc_raw_audio_frame(_mix_frame_ptr);
+}
+        
+void CUserAgent::free_mix_audio_frame()
+{
+    CMemPool::free_raw_audio_frame(_mix_frame_ptr);
+}
+        
+bool CUserAgent::add_mix_frame(RAW_AUDIO_FRAME_PTR* frame_ptr)
+{
+    if(NULL == _mix_frame_ptr.frame) return false;
+    
+    if(NULL == frame_ptr->frame) return false;
+    
+    CAudioCodec::mix(_mix_frame_ptr.frame->payload, frame_ptr->frame->payload,
+                    960,//sizeof(mix_frame_ptr.frame->payload),
+                    1.0,
+                    1);
+                    
+    _mix_frame_ptr.frame->available = true;//混音成功一次即表明该语音帧有效
+}
+        
+void CUserAgent::send_mix_frame()
+{
+    if(true == _mix_frame_ptr.frame->available)
+    {
+        ::memset(_mix_audio_packet, 0, sizeof(_mix_audio_packet));
+        int packet_len = _audio_codec->encode(_mix_frame_ptr.frame->payload, _mix_audio_packet);
+        
+        //std::cout << "mix " << packet_len << std::endl;
+        
+        if(NULL != _rtp_send_session) _rtp_send_session->send_rtp_packet(_mix_audio_packet, packet_len, ILBCRTPPacket, true, AUDIO_SAMPLING_RATE, _info.id);
+#if 0
+        _pcm_player.play(mix_frame_ptr.frame->payload);
+#else
+        //FILE* f = fopen("./mix.pcm", "ab+");        
+        //fwrite(mix_frame_ptr.frame->payload, sizeof(short), 480, f);
+        //fclose(f);
+#endif
+    }
+}
+
+void CUserAgent::send_audience_audio_packet(unsigned char* data, unsigned long len)
+{
+    if(NULL != _rtp_send_session) _rtp_send_session->send_rtp_packet(data, len, ILBCRTPPacket, true, AUDIO_SAMPLING_RATE, _info.id);
+}
+
 //Mobile////////////////////////////////////////////////////////////////////////
 CMobileUserAgent::CMobileUserAgent(USER_AGENT_INFO& info)
 {
-	_info = info;
+	_info = info;    
+    memcpy(_info.ip, info.ip, strlen(info.ip));
     
 	_audio_codec = new CiLBCCodec();
+    
+    _rtp_send_session = new CRTPRecvSession(31000 + (_info.id & 0xffff) * 2);
+    
+    _rtp_send_session->add_dest_addr(info.ip, info.audio_port);
 }
 
 CMobileUserAgent::~CMobileUserAgent()
 {
+    delete _rtp_send_session;
+    _rtp_send_session = NULL;
+    
 	delete _audio_codec;
 	_audio_codec = NULL;
 }

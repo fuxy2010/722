@@ -63,7 +63,8 @@ namespace jrtplib
 //data为含包头的RTP包，length为净荷加包头长度
 typedef void (*RTPCallBackFunc)(const unsigned char* data, const unsigned long& length,
                                             const unsigned short& sequence, const unsigned long& timestamp,
-                                            const unsigned long& ssrc, const unsigned char&payload_type, const bool& mark);
+                                            const unsigned long& ssrc, const unsigned char&payload_type, const bool& mark,
+                                            const char* src_ip, const unsigned short src_port);
 typedef void (*RTCPCallBackFunc)();
 
 //sender_ip和sender_port均为主机字节序

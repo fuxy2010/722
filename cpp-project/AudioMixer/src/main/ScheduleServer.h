@@ -18,6 +18,7 @@
 #include "AudioMixThread.h"
 #include "PCMPlayThread.h"
 #include "PCMPlayer.h"
+#include "TaskThread.h"
 
 namespace ScheduleServer
 {
@@ -48,7 +49,8 @@ namespace ScheduleServer
 	public:
         static void on_recv_rtp_packet(const unsigned char* data, const unsigned long& length,
 											const unsigned short& sequence, const unsigned long& timestamp,
-											const unsigned long& ssrc, const unsigned char&payload_type, const bool& mark);
+											const unsigned long& ssrc, const unsigned char&payload_type, const bool& mark,
+                                            const char* src_ip, const unsigned short src_port);
 		static void on_recv_rtcp_packet();
 
 		//½ÓÊÕNATÌ½²â°ü
@@ -83,12 +85,12 @@ namespace ScheduleServer
 	public:
 		//Ôö¼ÓÈÎÎñ
 		//indexÎª0ÔòÊÇËæ»úÑ¡ÔñÈÎÎñÏß³Ì£¬·ñÔòÑ¡ÔñindexÄ£ÈÎÎñÏß³ÌÊýÈ¡ÓàµÄÈÎÎñÏß³Ì
-		//SS_Error add_task(CTask* task, unsigned long index);
+		SS_Error add_task(CTask* task, unsigned long index);
 
 		//UA²Ù×÷////////////////////////////////////////////////////////////////////////
 		//×¢²áUA
 		//ipÎªÍøÂç×Ö½ÚÐò£¬audio_portºÍvideo_portÎªÖ÷»ú×Ö½ÚÐò
-		SS_Error reg_ua(const unsigned long& id, const unsigned long& ip, const unsigned short& audio_port, const unsigned short& video_port, USER_AGENT_TYPE type)
+		SS_Error reg_ua(const unsigned long& id, const char* ip, const unsigned short& audio_port, const unsigned short& video_port, USER_AGENT_TYPE type)
 		{
 			//if(!id) return SS_NoErr;
 
@@ -102,7 +104,9 @@ namespace ScheduleServer
 
 				if(ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
 				{
-					info.ip = ip;
+					//info.ip = ip;
+					memset(info.ip, 0, sizeof(info.ip));
+					memcpy(info.ip, ip, strlen(ip));
 				}
 
 				info.audio_port = (!audio_port) ? info.audio_port : audio_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
@@ -144,7 +148,9 @@ namespace ScheduleServer
 
 				if(ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
 				{
-					ua->_info.ip = ip;
+					//ua->_info.ip = ip;
+					memset(ua->_info.ip, 0, sizeof(ua->_info.ip));
+					memcpy(ua->_info.ip, ip, strlen(ip));
 				}
 
 				ua->_info.audio_port = (!audio_port) ? ua->_info.audio_port : audio_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ

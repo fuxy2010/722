@@ -275,9 +275,10 @@ using namespace ScheduleServer;
 
 void on_recv_rtp_packet(const unsigned char* data, const unsigned long& length,
                         const unsigned short& sequence, const unsigned long& timestamp,
-                        const unsigned long& ssrc, const unsigned char&payload_type, const bool& mark)
+                        const unsigned long& ssrc, const unsigned char&payload_type, const bool& mark,
+                        const char* src_ip, const unsigned short src_port)
 {
-    std::cout << "Got packet at " << timestamp << " from SSRC " << ssrc << " length " << length << " sequence " << sequence << std::endl;
+    std::cout << "Got packet at " << timestamp << " from SSRC " << ssrc << " length " << length << " sequence " << sequence << " from " << src_ip << ":" << src_port << std::endl;
     std::cout << "Data " << data << std::endl;
 }
 
@@ -422,7 +423,9 @@ int alsa_play2()
     //std::cout << std::endl << filename;
     FILE* file = fopen(filename.c_str(), "rb");
     
-    ScheduleServer::CPCMPlayer player;
+    CiLBCCodec codec;
+    
+    //ScheduleServer::CPCMPlayer player;
     
     short* frame = (short*) malloc(480);
 
@@ -439,7 +442,11 @@ int alsa_play2()
             std::cout << "play " << read_len << std::endl;
         }
         
-        player.play(frame);
+        //player.play(frame);
+        unsigned char temp[256];
+        int len = codec.encode(frame, temp);
+        
+        std::cout << "enc " << len << std::endl;
     }
     
     free(frame);
@@ -447,35 +454,39 @@ int alsa_play2()
 
 int main(int argc, char **argv)
 {
-    alsa_play2();
+    //alsa_play2();
     
-#if 0
+#if 1
     //SignalThread thread;
     //thread.Start();
-    SINGLETON(SignalThread).Start();
+    //SINGLETON(SignalThread).Start();
     
     //CAudioRecvThread audio_recv_thread;
     //audio_recv_thread.Start();
     
-    CRTPRecvSession rtp_recv_session(8888);
+    CRTPRecvSession rtp_recv_session1(10000);
+    CRTPRecvSession rtp_recv_session2(20000);
     
-    rtp_recv_session.set_rtp_callback(on_recv_rtp_packet);
+    //rtp_recv_session1.set_rtp_callback(on_recv_rtp_packet);
+    rtp_recv_session2.set_rtp_callback(on_recv_rtp_packet);
     
-    rtp_recv_session.add_dest_addr("127.0.0.1", 8888);
+    //rtp_recv_session1.add_dest_addr("127.0.0.1", 10000);
+    //rtp_recv_session1.add_dest_addr("127.0.0.1", 20000);
     
-    const int num = 20;
+    rtp_recv_session1.add_dest_addr("192.168.1.104", 30000);
+    rtp_recv_session1.add_dest_addr("192.168.1.104", 20000);
+    
+    const int num = 2000;
 	for (int i = 1 ; i <= num ; i++)
 	{
 		printf("\nSending packet %d/%d\n",i,num);
         
-        //rtp_recv_session.send_rtp_packet((const unsigned char*)"1234567890",10);
         unsigned char temp[20];
         ::memset(temp, 'a', sizeof(temp));
-        //rtp_recv_session.add_rtp_header(temp, 20, 1, true, 1, clock(), 1);
         
-        rtp_recv_session.send_rtp_packet(temp, 20, 1, true, 10, 1);
+        rtp_recv_session1.send_rtp_packet(temp, 20, 1, true, 10, 1);
 		
-		RTPTime::Wait(RTPTime(1,0));
+		RTPTime::Wait(RTPTime(1,10));
 	}
 #endif
 

@@ -924,6 +924,10 @@ int RTPUDPv4Transmitter::SendRTPData(const void *data,size_t len)
 	destinations.GotoFirstElement();
 	while (destinations.HasCurrentElement())
 	{
+        //unsigned short port = ((const struct sockaddr_in *)destinations.GetCurrentElement().GetRTPSockAddr())->sin_port;//fym
+        //port = ntohs(port);
+        //std::cout << "send to " << port << std::endl;//fym
+        
 		sendto(rtpsock,(const char *)data,len,0,(const struct sockaddr *)destinations.GetCurrentElement().GetRTPSockAddr(),sizeof(struct sockaddr_in));
 		destinations.GotoNextElement();
 	}
@@ -949,7 +953,7 @@ int RTPUDPv4Transmitter::SendRTCPData(const void *data,size_t len)
 		MAINMUTEX_UNLOCK
 		return ERR_RTP_UDPV4TRANS_SPECIFIEDSIZETOOBIG;
 	}
-	
+    
 	destinations.GotoFirstElement();
 	while (destinations.HasCurrentElement())
 	{

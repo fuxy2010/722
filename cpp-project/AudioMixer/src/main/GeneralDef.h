@@ -142,6 +142,24 @@ namespace ScheduleServer
 		MQTT_THREAD//mqtt thread
 	}
 	THREAD_TYPE;
+    
+    //与会人员角色
+	typedef enum
+	{
+		Speaker = 0,//发言人
+		Audience,//听众
+		Observer//旁观者，例如曾经与会后被剔除者
+	}
+	PARTICIPANT_ROLE;
+
+	//会议类型
+	typedef enum
+	{
+		Common_Conference = 0,//普通会议
+		SOS_Conference,//SOS会议
+		WEB_Conference//PC发起会议
+	}
+	CONFERENCE_TYPE;
 
 	//RTP°üÀàÐÍ
 	typedef enum

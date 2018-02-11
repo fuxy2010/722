@@ -16,6 +16,8 @@
 #include "Locker.h"
 #include "MediaData.h"
 #include "iLBCCodec.h"
+#include "JRTPSession.h"
+#include "PCMPlayer.h"
 
 namespace ScheduleServer
 {
@@ -23,17 +25,19 @@ namespace ScheduleServer
 	typedef struct tagUSER_AGENT_INFO
 	{
 		unsigned long				id;//UAµÄID£¬ÈçUAÎªÊÖ»úÔòÎªSIM¿¨µÄIMSIºÅ
-		unsigned long				ip;//ÍøÂç×Ö½ÚÐòIPµØÖ·
+		//unsigned long				ip;//ÍøÂç×Ö½ÚÐòIPµØÖ·
+		char						ip[16];
 		unsigned short				audio_port;//Ö÷»ú×Ö½ÚÐòÒôÆµÊý¾Ý½ÓÊÕ¶Ë¿Ú£¨¼´ÖÕ¶Ë·¢ËÍÒôÆµsocket°ó¶¨¶Ë¿Ú£©
 		unsigned short				video_port;//Ö÷»ú×Ö½ÚÐòÊÓÆµÊý¾Ý½ÓÊÕ¶Ë¿Ú£¨¼´ÖÕ¶Ë·¢ËÍÊÓÆµsocket°ó¶¨¶Ë¿Ú£©»òICEÐÅÁî½ÓÊÕ¶Ë¿Ú
 		unsigned short				server_audio_port;//µ÷¶È·þÎñÆ÷½ÓÊÕ¸ÃÖÕ¶ËËù·¢ËÍÒôÆµÊý¾ÝµÄ¶Ë¿Ú
 		unsigned short				server_video_port;//µ÷¶È·þÎñÆ÷½ÓÊÕ¸ÃÖÕ¶ËËù·¢ËÍÊÓÆµÊý¾ÝµÄ¶Ë¿Ú
 
 		tagUSER_AGENT_INFO() :
-		id(0), ip(0),
+		id(0),// ip(0),
 		audio_port(0), video_port(0),
 		server_audio_port(0), server_video_port(0)
 		{
+			memset(ip, 0, sizeof(ip));
 		}
 
 		~tagUSER_AGENT_INFO()
@@ -92,6 +96,27 @@ namespace ScheduleServer
 		CAudioCodec* _audio_codec;
 
 		unsigned long _last_audio_packet_sequence;//ÉÏ´ÎÊÕµ½µÄÒôÆµÊý¾Ý°üµÄÐòÁÐºÅ
+        
+    protected:
+        CRTPRecvSession* _rtp_send_session;
+        
+        RAW_AUDIO_FRAME_PTR _mix_frame_ptr;
+        
+        unsigned char _mix_audio_packet[256];
+        
+    public:
+        bool malloc_mix_audio_frame();
+        
+        void free_mix_audio_frame();
+        
+        bool add_mix_frame(RAW_AUDIO_FRAME_PTR* frame_ptr);
+        
+        void send_mix_frame();
+        
+        void send_audience_audio_packet(unsigned char* data, unsigned long len);
+        
+    private:
+        CPCMPlayer player;
 
 	};
     

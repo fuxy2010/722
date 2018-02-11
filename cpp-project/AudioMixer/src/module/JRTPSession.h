@@ -57,6 +57,7 @@ namespace ScheduleServer
 									const unsigned short& sequence, const unsigned long& timestamp, const unsigned long& ssrc);
                                     
         int add_dest_addr(const std::string dest_ip, const unsigned short dest_port);
+        int remove_dest_addr(const std::string dest_ip, const unsigned short dest_port);
                                     
         SS_Error send_rtp_packet(const unsigned char* payload, const unsigned long& length, const unsigned char payload_type, const bool mark, const unsigned long timestamp_inc, const unsigned long SSRC);
         

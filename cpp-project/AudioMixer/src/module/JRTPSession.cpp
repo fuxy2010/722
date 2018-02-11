@@ -56,22 +56,44 @@ void MyRTPSession::ProcessRTPPacket(const RTPSourceData& srcdat,const RTPPacket&
     
     if(NULL == _rtp_call_back_func) return;
     
+    unsigned long src = srcdat.GetSSRC();
+    
+    char src_ip[16];
+    memset(src_ip, 0, sizeof(src_ip));
+    
+    unsigned short src_port = 0;
+    
+    if(RTPAddress::IPv4Address == srcdat.GetRTPDataAddress()->GetAddressType())
+    {
+        const RTPIPv4Address* addr = dynamic_cast<const RTPIPv4Address*>(srcdat.GetRTPDataAddress());
+        
+        unsigned long ip = addr->GetIP();        
+        sprintf(src_ip, "%d.%d.%d.%d", (ip >> 24), (0xff & (ip >> 16)), (0xff & (ip >> 8)), (0xff & ip));
+        
+        src_port = addr->GetPort();
+        
+        //cout << "Addr: " << src_ip << " : " << src_port;
+    }
+    
     (*_rtp_call_back_func)(packet.GetPayloadData(), packet.GetPayloadLength(),//packet.GetPacketData(), packet.GetPacketLength(),
                         packet.GetExtendedSequenceNumber(), packet.GetTimestamp(),
-                        packet.GetSSRC(), packet.GetPayloadType(), packet.HasMarker());
+                        packet.GetSSRC(), packet.GetPayloadType(), packet.HasMarker(),
+                        src_ip, src_port);
 }
 
 CRTPRecvSession::CRTPRecvSession(unsigned short port) :
 _available(false)
 {
+    //port must more than 10000!!!
 	RTPUDPv4TransmissionParams transparams;
 	RTPSessionParams sessparams;
 
-	sessparams.SetOwnTimestampUnit(1.0/10000.0);
+	sessparams.SetOwnTimestampUnit(1.0/100000.0);
 	sessparams.SetAcceptOwnPackets(true);
 	transparams.SetPortbase(port);
 	transparams.SetRTPReceiveBuffer(262144);//Ä¬ÈÏÎª32768
 
+    //RTPSession::Create -> RTPSession::InternalCreate
 	int status = _rtp_session.Create(sessparams, &transparams);
 	
 	if(0 > status)
@@ -113,8 +135,13 @@ SS_Error CRTPRecvSession::add_rtp_header(unsigned char* data, const unsigned lon
 
 int CRTPRecvSession::add_dest_addr(const std::string dest_ip, const unsigned short dest_port)
 {
-    
+    std::cout << "add " << dest_ip << ":" << dest_port << endl;
     return _rtp_session.AddDestination(jrtplib::RTPIPv4Address(ntohl(inet_addr(dest_ip.c_str())), dest_port));
+}
+
+int CRTPRecvSession::remove_dest_addr(const std::string dest_ip, const unsigned short dest_port)
+{
+    return _rtp_session.DeleteDestination(jrtplib::RTPIPv4Address(ntohl(inet_addr(dest_ip.c_str())), dest_port));
 }
 
 SS_Error CRTPRecvSession::send_rtp_packet(const unsigned char* payload, const unsigned long& length, const unsigned char payload_type, const bool mark, const unsigned long timestamp_inc, const unsigned long SSRC)
@@ -135,6 +162,8 @@ SS_Error CRTPRecvSession::send_rtp_packet(const unsigned char* payload, const un
     //int SendPacket(const void *data,size_t len, uint8_t pt,bool mark,uint32_t timestampinc);
     //int status = _rtp_session.SendPacket(packet, length);
     //int status = _rtp_session.SendPacket((void *)"1234567890",10,0,false,10);
+    
+    //std::cout << "send to " << SSRC << " " << length << endl;
     int status = _rtp_session.SendPacket(payload, length, payload_type, mark, timestamp_inc, SSRC);
 
 	return SS_NoErr;
