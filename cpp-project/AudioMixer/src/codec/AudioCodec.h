@@ -1,9 +1,9 @@
 // **********************************************************************
-// ×÷Õß: ¸µÓÓÃú
-// °æ±¾: 1.0
-// ÈÕÆÚ: 2011-01 ~ 2011-11
-// ÐÞ¸ÄÀúÊ·¼ÇÂ¼: 
-// ÈÕÆÚ, ×÷Õß, ±ä¸üÄÚÈÝ
+// Ã—Ã·Ã•ÃŸ: Â¸ÂµÃ“Ã“ÃƒÃº
+// Â°Ã¦Â±Â¾: 1.0
+// ÃˆÃ•Ã†Ãš: 2011-01 ~ 2011-11
+// ÃÃžÂ¸Ã„Ã€ÃºÃŠÂ·Â¼Ã‡Ã‚Â¼: 
+// ÃˆÃ•Ã†Ãš, Ã—Ã·Ã•ÃŸ, Â±Ã¤Â¸Ã¼Ã„ÃšÃˆÃ
 // **********************************************************************
 #ifndef _AUDIO_CODEC_H_
 #define _AUDIO_CODEC_H_
@@ -17,9 +17,9 @@
 #include "Locker.h"
 #include "AES.h"
 
-//Ã¿¸öÒôÆµRTP°üËùº¬ÓïÒôÖ¡¸öÊý
+//ÃƒÂ¿Â¸Ã¶Ã’Ã´Ã†ÂµRTPÂ°Ã¼Ã‹Ã¹ÂºÂ¬Ã“Ã¯Ã’Ã´Ã–Â¡Â¸Ã¶ÃŠÃ½
 #define AUDIO_FRAME_PER_PACKET			3
-//ÓïÒôÖ¡³¤¶È(µ¥Î»short£©
+//Ã“Ã¯Ã’Ã´Ã–Â¡Â³Â¤Â¶Ãˆ(ÂµÂ¥ÃŽÂ»shortÂ£Â©
 #define AUDIO_FRAME_LENGTH				160
 
 #define PKT_SAMPLE_NUM	(AUDIO_FRAME_LENGTH * AUDIO_FRAME_PER_PACKET)
@@ -70,29 +70,26 @@ namespace ScheduleServer
 		}
 
 	public:
-		//±àÂëÈýÖ¡Ô­Ê¼ÓïÒô£¬·µ»Ø±àÂëºóÊý¾Ý×Ö½Ú³¤¶È
-		//frame_lengthÎªÈýÔ­Ê¼ÓïÒôÖ¡×Ö½Ú³¤¶È
+		//Â±Ã Ã‚Ã«ÃˆÃ½Ã–Â¡Ã”Â­ÃŠÂ¼Ã“Ã¯Ã’Ã´Â£Â¬Â·ÂµÂ»Ã˜Â±Ã Ã‚Ã«ÂºÃ³ÃŠÃ½Â¾ÃÃ—Ã–Â½ÃšÂ³Â¤Â¶Ãˆ
+		//frame_lengthÃŽÂªÃˆÃ½Ã”Â­ÃŠÂ¼Ã“Ã¯Ã’Ã´Ã–Â¡Ã—Ã–Â½ÃšÂ³Â¤Â¶Ãˆ
 		virtual int encode(short* frame, unsigned char* bits) = 0;
 
-		//½âÂëÉú³ÉÈýÖ¡Ô­Ê¼ÓïÒô£¬·µ»ØÓÃµôÂëÁ÷µÄ³¤¶È
-		//packet_lengthÎª´ý½âÂëÈýÓïÒôÖ¡×Ö½Ú³¤¶È
+		//Â½Ã¢Ã‚Ã«Ã‰ÃºÂ³Ã‰ÃˆÃ½Ã–Â¡Ã”Â­ÃŠÂ¼Ã“Ã¯Ã’Ã´Â£Â¬Â·ÂµÂ»Ã˜Ã“ÃƒÂµÃ´Ã‚Ã«ÃÃ·ÂµÃ„Â³Â¤Â¶Ãˆ
+		//packet_lengthÃŽÂªÂ´Ã½Â½Ã¢Ã‚Ã«ÃˆÃ½Ã“Ã¯Ã’Ã´Ã–Â¡Ã—Ã–Â½ÃšÂ³Â¤Â¶Ãˆ
 		virtual int decode(unsigned char* bits, short* frame, int crc = 0) = 0;
 
-		virtual int calculate_energy(unsigned char* bits, int len) = 0;//»ñÈ¡Ò»¸ö±àÂëºóÒôÆµÊý¾Ý°ü°üÄÜÁ¿,len ÒÔ×Ö½ÚÎªµ¥Î»
+		virtual int calculate_energy(unsigned char* bits, int len) = 0;//Â»Ã±ÃˆÂ¡Ã’Â»Â¸Ã¶Â±Ã Ã‚Ã«ÂºÃ³Ã’Ã´Ã†ÂµÃŠÃ½Â¾ÃÂ°Ã¼Â°Ã¼Ã„ÃœÃÂ¿,len Ã’Ã”Ã—Ã–Â½ÃšÃŽÂªÂµÂ¥ÃŽÂ»
 
 		
-		//»ìÒôÒ»Â·
-		//mix_buffer-- »ìÒôbuffer£¬»ìµÚÒ»Â·Ê±Ó¦¸ÃÇåÁã
-		//frame£­£­´ý»ìÒô»°Òô
-		//frame_len£­£­£­»°Òô³¤¶È£¬ÒÔ×Ö½ÚÎªµ¥Î»
-		//fscale£­£­¼ÓÈ¨²ÎÊý,ÒÀÂ·Êý±ä»¯£¬Ä¬ÈÏ1.0
-		//energy---ÊäÈëÓïÒôÄÜÁ¿,¿ÉÑ¡,Ä¬ÈÏ0
+		//Â»Ã¬Ã’Ã´Ã’Â»Ã‚Â·
+		//mix_buffer-- Â»Ã¬Ã’Ã´bufferÂ£Â¬Â»Ã¬ÂµÃšÃ’Â»Ã‚Â·ÃŠÂ±Ã“Â¦Â¸ÃƒÃ‡Ã¥ÃÃ£
+		//frameÂ£Â­Â£Â­Â´Ã½Â»Ã¬Ã’Ã´Â»Â°Ã’Ã´
+		//frame_lenÂ£Â­Â£Â­Â£Â­Â»Â°Ã’Ã´Â³Â¤Â¶ÃˆÂ£Â¬Ã’Ã”Ã—Ã–Â½ÃšÃŽÂªÂµÂ¥ÃŽÂ»
+		//fscaleÂ£Â­Â£Â­Â¼Ã“ÃˆÂ¨Â²ÃŽÃŠÃ½,Ã’Ã€Ã‚Â·ÃŠÃ½Â±Ã¤Â»Â¯Â£Â¬Ã„Â¬ÃˆÃ1.0
+		//energy---ÃŠÃ¤ÃˆÃ«Ã“Ã¯Ã’Ã´Ã„ÃœÃÂ¿,Â¿Ã‰Ã‘Â¡,Ã„Â¬ÃˆÃ0
 		static int mix(short* mix_buffer, short *frame, int frame_len, double fscale, int energy)
 		{
-#if 1
-			//return mix_audio(mix_buffer, frame, frame_len * sizeof(char) / sizeof(short), fscale, energy);
-			//int mix_audio(short *mixbuffer,short *aud,int len,double fscale,int enr)
-			{
+            {
 				int i;
 				int temp;
 				int len = frame_len * sizeof(char) / sizeof(short);
@@ -102,22 +99,39 @@ namespace ScheduleServer
 					temp = mix_buffer[i];
 					temp += frame[i]*fscale;
 
-					if(temp>32767) temp=32767;
-					if(temp<-32768) temp=-32768;
+					//if(temp>32767) temp=32767;
+					//if(temp<-32768) temp=-32768;
 					mix_buffer[i] = temp;
 
 				}
 				return 0;
 			}
-#else
-			//::memcpy(mix_buffer, frame, frame_len);
-			//return frame_len;
-#endif
-	}
+        }
+        
+        static int remove(short* mix_buffer, short *frame, int frame_len, double fscale, int energy)
+		{
+            {
+				int i;
+				int temp;
+				int len = frame_len * sizeof(char) / sizeof(short);
+
+				for(i=0;i<len;i++)
+				{
+					temp = mix_buffer[i];
+					temp -= frame[i]*fscale;
+
+					//if(temp>32767) temp=32767;
+					//if(temp<-32768) temp=-32768;
+					mix_buffer[i] = temp;
+
+				}
+				return 0;
+			}
+        }
 	
 	protected:
-		CSSMutex _encode_mutext;//±àÂë»¥³âÁ¿
-		CSSMutex _decode_mutext;//½âÂë»¥³âÁ¿
+		CSSMutex _encode_mutext;//Â±Ã Ã‚Ã«Â»Â¥Â³Ã¢ÃÂ¿
+		CSSMutex _decode_mutext;//Â½Ã¢Ã‚Ã«Â»Â¥Â³Ã¢ÃÂ¿
 
 	};
 }

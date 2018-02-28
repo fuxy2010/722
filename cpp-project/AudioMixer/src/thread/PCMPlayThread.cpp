@@ -46,6 +46,7 @@ int CPCMPlayThread::play()
 void* CPCMPlayThread::Thread()
 {
     JThread::ThreadStarted();
+    
 #if 0
     RTPTime::Wait(RTPTime(3, 5));
     

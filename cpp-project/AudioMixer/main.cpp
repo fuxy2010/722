@@ -415,38 +415,47 @@ int alsa_play()
 }
 
 #include "PCMPlayer.h"
-int alsa_play2()
+
+int alsa_play3()
 {
-    std::string filename = "3.pcm";
+    std::string filename = "1.pcm";
     //std::cout << "Enter pcm file name:" << std::endl;
     //std::cin >> filename;
-    //std::cout << std::endl << filename;
+    //std::cout << std::endl;
     FILE* file = fopen(filename.c_str(), "rb");
     
-    CiLBCCodec codec;
+    ScheduleServer::CPCMPlayer player;
     
-    //ScheduleServer::CPCMPlayer player;
-    
-    short* frame = (short*) malloc(480);
+    short* frame = (short*) malloc(960);
 
-    while (true)
+    int count = 0;
+    struct  timeval  start;
+    struct  timeval  end;
+        
+    while(true)
     {
         {
             size_t read_len = fread(frame, sizeof(short), 480, file);
             if(480 != read_len)
             {
                 fseek(file, 0, SEEK_SET);
-                //break;
+                continue;
             }
             
-            std::cout << "play " << read_len << std::endl;
+            std::cout << "play " << read_len << " " << ++ count << std::endl;
+            
+            //usleep(60000);//RTPTime::Wait(RTPTime(0,60));
+            //usleep(10000);
         }
         
-        //player.play(frame);
-        unsigned char temp[256];
-        int len = codec.encode(frame, temp);
+        gettimeofday(&end,NULL);
+        printf("================== timer = %ld us\n", 1000000 * (end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec);
+        start = end;
         
-        std::cout << "enc " << len << std::endl;
+        player.play(frame);
+        //unsigned char temp[256];
+        //int len = codec.encode(frame, temp);        
+        //std::cout << "enc " << len << std::endl;
     }
     
     free(frame);
@@ -454,9 +463,10 @@ int alsa_play2()
 
 int main(int argc, char **argv)
 {
-    //alsa_play2();
+    //alsa_play3();
+    //return 0;
     
-#if 1
+#if 0
     //SignalThread thread;
     //thread.Start();
     //SINGLETON(SignalThread).Start();
@@ -470,11 +480,11 @@ int main(int argc, char **argv)
     //rtp_recv_session1.set_rtp_callback(on_recv_rtp_packet);
     rtp_recv_session2.set_rtp_callback(on_recv_rtp_packet);
     
-    //rtp_recv_session1.add_dest_addr("127.0.0.1", 10000);
-    //rtp_recv_session1.add_dest_addr("127.0.0.1", 20000);
+    rtp_recv_session1.add_dest_addr("127.0.0.1", 10000);
+    rtp_recv_session1.add_dest_addr("127.0.0.1", 20000);
     
-    rtp_recv_session1.add_dest_addr("192.168.1.104", 30000);
-    rtp_recv_session1.add_dest_addr("192.168.1.104", 20000);
+    //rtp_recv_session1.add_dest_addr("192.168.1.104", 30000);
+    //rtp_recv_session1.add_dest_addr("192.168.1.104", 20000);
     
     const int num = 2000;
 	for (int i = 1 ; i <= num ; i++)
@@ -486,7 +496,7 @@ int main(int argc, char **argv)
         
         rtp_recv_session1.send_rtp_packet(temp, 20, 1, true, 10, 1);
 		
-		RTPTime::Wait(RTPTime(1,10));
+		RTPTime::Wait(RTPTime(0,10));
 	}
 #endif
 

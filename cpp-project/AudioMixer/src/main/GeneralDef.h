@@ -139,7 +139,8 @@ namespace ScheduleServer
 		COMMUNICATOR_THREAD,//ICEÐÅÁî·¢ËÍÏß³Ì
 		WEB_THREAD,//Web²éÑ¯ÏìÓ¦Ïß³Ì
 		MAINTANCE_THREAD,//Î¬»¤Ïß³Ì
-		MQTT_THREAD//mqtt thread
+		MQTT_THREAD,//mqtt thread
+        PLAY_THRED//local pcm play thread
 	}
 	THREAD_TYPE;
     

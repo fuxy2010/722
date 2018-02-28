@@ -14,6 +14,8 @@ void* CBaseThread::Thread()
 {
     JThread::ThreadStarted();
     
+    on_start();
+    
     _joined = false;
     
     while(true)
@@ -24,6 +26,8 @@ void* CBaseThread::Thread()
         
         //if(1000 > clock() - loop_start) usleep(2);
     }
+    
+    on_close();
     
     _joined = true;
 }

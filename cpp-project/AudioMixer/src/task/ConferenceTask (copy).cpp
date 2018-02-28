@@ -102,9 +102,8 @@ SS_Error CConferenceTask::run()
 		break;
 
 	case CConferenceTask_AudioMix://������������
-        //audio_mix_for_speakers();
-        //audio_mix_for_audiences();
-        audio_mix();
+        audio_mix_for_speakers();
+        audio_mix_for_audiences();
 		_status = ConferenceTask_FetchAudioFrame;
 		break;
 
@@ -368,7 +367,7 @@ bool CConferenceTask::fetch_raw_audio_frame()
 	return fetched;
 }
 
-/*void CConferenceTask::audio_mix_for_speakers()
+void CConferenceTask::audio_mix_for_speakers()
 {
 	//CTimeConsuming tc('M', 10.0);
 
@@ -405,91 +404,9 @@ bool CConferenceTask::fetch_raw_audio_frame()
         ua->free_mix_audio_frame();
 	}
     
-}*/
-
-void CConferenceTask::audio_mix()
-{
-	//CTimeConsuming tc('M', 10.0);
-
-	CSSLocker lock(&_participants_mutex);
-    
-    RAW_AUDIO_FRAME_PTR mix_frame_ptr;
-    
-    if(false == CMemPool::malloc_raw_audio_frame(mix_frame_ptr)) return;
-
-	mix_frame_ptr.frame->src_timestamp = clock();
-	mix_frame_ptr.frame->ua_id = 0;
-	mix_frame_ptr.frame->energy = 1;
-	mix_frame_ptr.frame->available = false;
-    
-    unsigned char mix_audio_packet_speaker[256];//for speaker
-    unsigned char mix_audio_packet_audience[256];//for audience
-
-	//�������������֡
-	for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
-	{
-		if(Speaker != iter->second.role) continue;
-            
-        if(NULL == mix_frame_ptr.frame) break;
-        
-        RAW_AUDIO_FRAME_PTR* frame_ptr = iter->second.get_raw_audio_frame();
-        if(NULL == frame_ptr->frame) continue;
-        
-        CAudioCodec::mix(mix_frame_ptr.frame->payload, frame_ptr->frame->payload,
-                        960,//sizeof(mix_frame_ptr.frame->payload),
-                        1.0,
-                        1);
-        
-        mix_frame_ptr.frame->available = true;//混音成功一次即表明该语音帧有效
-	}
-    
-    if(true == mix_frame_ptr.frame->available)
-    {
-        ::memset(mix_audio_packet_audience, 0, sizeof(mix_audio_packet_audience));
-        int audience_packet_len = _audio_codec->encode(mix_frame_ptr.frame->payload, mix_audio_packet_audience);
-                
-        for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
-        {
-            RAW_AUDIO_FRAME_PTR mix_frame_ptr2;    
-            if(false == CMemPool::malloc_raw_audio_frame(mix_frame_ptr2)) continue;
-            
-            mix_frame_ptr2.frame->src_timestamp = clock();
-            mix_frame_ptr2.frame->ua_id = 0;
-            mix_frame_ptr2.frame->energy = 1;
-            mix_frame_ptr2.frame->available = false;
-            memcpy(mix_frame_ptr2.frame->payload, mix_frame_ptr.frame->payload, 960);
-
-            if(Speaker == iter->second.role)
-            {
-                RAW_AUDIO_FRAME_PTR* frame_ptr = iter->second.get_raw_audio_frame();
-            
-                if(NULL == frame_ptr->frame) continue;
-                
-                CAudioCodec::remove(mix_frame_ptr2.frame->payload, frame_ptr->frame->payload,
-                            960,//sizeof(mix_frame_ptr.frame->payload),
-                            1.0,
-                            1);
-                
-                ::memset(mix_audio_packet_speaker, 0, sizeof(mix_audio_packet_speaker));
-                int speaker_packet_len = _audio_codec->encode(mix_frame_ptr2.frame->payload, mix_audio_packet_speaker);
-                
-                CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
-                if(NULL != ua) ua->send_audience_audio_packet(mix_audio_packet_speaker, speaker_packet_len);
-            }
-            else
-            {
-                CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
-                if(NULL != ua) ua->send_audience_audio_packet(mix_audio_packet_audience, audience_packet_len);
-            }
-            
-            CMemPool::free_raw_audio_frame(mix_frame_ptr2);
-        }
-    }
-    
-    CMemPool::free_raw_audio_frame(mix_frame_ptr);
 }
     
-/*void CConferenceTask::audio_mix_for_audiences()
+void CConferenceTask::audio_mix_for_audiences()
 {
     CSSLocker lock(&_participants_mutex);
     
@@ -541,6 +458,6 @@ void CConferenceTask::audio_mix()
         }
     }
     
-    CMemPool::free_raw_audio_frame(mix_frame_ptr);
+    CMemPool::free_raw_audio_frame(mix_frame_ptr);   
     
-}*/
+}

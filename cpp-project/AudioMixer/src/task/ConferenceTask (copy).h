@@ -86,9 +86,8 @@ namespace ScheduleServer
 		virtual CONFERENCE_TYPE get_type() = 0;
         
     private:
-        //void audio_mix_for_speakers();
-        //void audio_mix_for_audiences();
-        void audio_mix();
+        void audio_mix_for_speakers();
+        void audio_mix_for_audiences();
         
 	public:
 		//static const unsigned long _update_participants_info_interval;//¸üÐÂÓë»áUAÐÅÏ¢µÄÊ±¼ä¼ä¸ô£¨ºÁÃë£©
@@ -133,7 +132,7 @@ namespace ScheduleServer
         
     private:
         CAudioCodec* _audio_codec;
-        //unsigned char _mix_audio_packet[256];//for audience
+        unsigned char _mix_audio_packet[256];//for audience
         
         struct timeval _start;
         struct timeval _end;

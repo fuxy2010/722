@@ -19,6 +19,7 @@
 #include "PCMPlayThread.h"
 #include "PCMPlayer.h"
 #include "TaskThread.h"
+#include "LocalPlayThread.h"
 
 namespace ScheduleServer
 {
@@ -126,6 +127,8 @@ namespace ScheduleServer
 				{
 					ua = new CPhoneUserAgent(info);
 				}*/
+                
+                std::cout << "add ua which id: " << info.id << std::endl;
                 ua = new CMobileUserAgent(info);
 
 				if(NULL != ua)
@@ -221,7 +224,19 @@ namespace ScheduleServer
     public:
         CPCMPlayer _pcm_player;
     private:
-        CPCMPlayThread _pcm_play_thread;
+        //CPCMPlayThread _pcm_play_thread;
+        CLocalPlayThread _local_play_thread;
+        
+    private:
+        std::map<unsigned long, CTask*> _conference_map;
+        CSSMutex _conference_map_mutex;
+        
+    public:
+        SS_Error add_conference(unsigned long id);
+        SS_Error close_conference(unsigned long id);
+        SS_Error add_paiticipant(unsigned long conference_id, unsigned long participant_id);
+        SS_Error remove_paiticipant(unsigned long conference_id, unsigned long participant_id);
+        
 	};
 }
 

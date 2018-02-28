@@ -28,7 +28,9 @@ _last_audio_packet_sequence(0),
 _next_fetched_audio_sequence(0),
 _rtp_send_session(NULL)
 {
-	remove_all_audio_packet();
+    remove_all_audio_packet();
+    
+    update_threshold();
 }
 
 CUserAgent::~CUserAgent()
@@ -36,6 +38,11 @@ CUserAgent::~CUserAgent()
     remove_all_audio_packet();
 	_next_fetched_audio_sequence = 0;
 
+}
+
+void CUserAgent::update_threshold()
+{
+    _threshold = 3;
 }
 
 //unsigned long add_count = 0;
@@ -130,7 +137,7 @@ RAW_AUDIO_FRAME_PTR CUserAgent::fetch_audio_frame()
 
 		//为平滑计队列中有3个以上的包才取
 		//if(false == _raw_audio_frame_list.empty())
-        if(3 < _raw_audio_frame_list.size())
+        if(_threshold < _raw_audio_frame_list.size())
 		{
 			RAW_AUDIO_FRAME_PTR frame_ptr = _raw_audio_frame_list.front();//*(_audio_packet_list.begin());
 			_raw_audio_frame_list.pop_front();
@@ -144,9 +151,11 @@ RAW_AUDIO_FRAME_PTR CUserAgent::fetch_audio_frame()
 					remove_slient_audio_packet();
 				}
 			}
+            
+            if(_threshold) --_threshold;
 			
 			return frame_ptr;
-		}
+		}        
 	}
 
 	//如果未取到包则返回一个空数据包

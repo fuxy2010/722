@@ -35,7 +35,7 @@ SS_Error CScheduleServer::start(std::string path)
 {
     _cur_path = path;
     
-#if 0
+/*#if 0
     std::string role;
     std::cout << "If this is sender then press \"yes\", otherwise press \"no\"" << std::endl;
 	std::cin >> role;
@@ -105,7 +105,7 @@ SS_Error CScheduleServer::start(std::string path)
         
         std::cout << "audio sender started!" << std::endl;
     }    
-#endif
+#endif*/
 
     //Audio recv rtp session
     _rtp_recv_session = new CRTPRecvSession*[1];
@@ -116,6 +116,8 @@ SS_Error CScheduleServer::start(std::string path)
 
     //启动任务线程////////////////////////////////////////////////////////////////////////
 	CTaskThreadPool::add_threads(2, this);
+    
+    _local_play_thread.Start();
     
 #if 0
     {
@@ -177,7 +179,7 @@ SS_Error CScheduleServer::shutdown()
 {
 	_enalble = false;
     
-    for(unsigned short j = 0; j < UA_NUM; ++j)
+    /*for(unsigned short j = 0; j < UA_NUM; ++j)
     {
         _audio_send_thread[j]->Kill();
         delete _audio_send_thread[j];
@@ -186,7 +188,7 @@ SS_Error CScheduleServer::shutdown()
     
     _audio_mix_thread->Kill();
     delete _audio_mix_thread;
-    _audio_mix_thread = NULL;
+    _audio_mix_thread = NULL;*/
 
 	//¹Ø±ÕRTP½ÓÊÕ»á»°////////////////////////////////////////////////////////////////////////
 	for(unsigned short i = 0; i < _rtp_recv_thread_num; ++i)
@@ -197,7 +199,10 @@ SS_Error CScheduleServer::shutdown()
 
 	delete[] _rtp_recv_session;
 	_rtp_recv_session = NULL;
-
+    
+    _local_play_thread.Kill();
+    
+    CTaskThreadPool::remove_threads();
 
 	//É¾³ýËùÓÐUA////////////////////////////////////////////////////////////////////////
 	remove_all_ua();
@@ -281,14 +286,32 @@ SS_Error CScheduleServer::add_task(CTask* task, unsigned long index)
 }
 
 
+struct  timeval  ttt;
+struct  timeval  end;      
+
 //dataÎªº¬°üÍ·µÄRTP°ü£¬lengthÎª¾»ºÉ¼Ó°üÍ·³¤¶È
 void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsigned long& length,
 	const unsigned short& sequence, const unsigned long& timestamp,
 	const unsigned long& ssrc, const unsigned char& payload_type, const bool& mark,
     const char* src_ip, const unsigned short src_port)
 {
-    std::cout << "Got packet at " << timestamp << " from SSRC " << ssrc << " length " << length << " sequence " << sequence << " from " << src_ip << ":" << src_port << std::endl;
+    //std::cout << "Got packet at " << timestamp << " from SSRC " << ssrc << " length " << length << " sequence " << sequence << " from " << src_ip << ":" << src_port << std::endl;
 	//unsigned long start = timeGetTime();
+    
+#if 1
+    if(3 == ssrc)
+    {
+        //gettimeofday(&end, NULL);
+        //unsigned long timer = 1000000 * (end.tv_sec - ttt.tv_sec) + end.tv_usec - ttt.tv_usec;
+        //printf("timer = %ld us\n",timer);        
+        //ttt = end;
+        
+        CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
+        if(NULL != ua) ua->add_audio_frame(data, length, sequence, timestamp);
+    }
+    
+    return;
+#endif
     
     /*if(!ssrc)
     {
@@ -398,4 +421,73 @@ void CScheduleServer::test_ilbc()
 
 void CScheduleServer::test()
 {
+}
+
+SS_Error CScheduleServer::add_conference(unsigned long id)
+{
+    CONFERENCE_TASK_INFO conference_info;
+    conference_info.conference_id = id;
+    
+    CConferenceTask* conference = new CCommonConferenceTask(conference_info);
+        
+    if(SS_NoErr != SINGLETON(CScheduleServer).add_task(conference, conference_info.conference_id))
+    {
+        delete conference;
+        conference = NULL;
+        
+        return SS_AddTaskFail;
+    }
+        
+    CSSLocker lock(&_conference_map_mutex);
+    
+    _conference_map[id] = conference;
+    
+    return SS_NoErr;
+}
+
+SS_Error CScheduleServer::close_conference(unsigned long id)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    if(_conference_map.end() == _conference_map.find(id)) return SS_ConferenceControlFail;
+    
+    CConferenceTask* conference = dynamic_cast<CConferenceTask*>(_conference_map[id]);
+    
+    if(NULL == conference) return SS_ConferenceControlFail;;
+    
+    conference->close();
+    
+    _conference_map.erase(id);
+    
+    return SS_NoErr;
+}
+
+SS_Error CScheduleServer::add_paiticipant(unsigned long conference_id, unsigned long participant_id)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    if(_conference_map.end() == _conference_map.find(conference_id)) return SS_ConferenceControlFail;
+    
+    CConferenceTask* conference = dynamic_cast<CConferenceTask*>(_conference_map[conference_id]);
+    
+    if(NULL == conference) return SS_ConferenceControlFail;;
+    
+    conference->add_participant(participant_id, true);
+    
+    return SS_NoErr;
+}
+
+SS_Error CScheduleServer::remove_paiticipant(unsigned long conference_id, unsigned long participant_id)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    if(_conference_map.end() == _conference_map.find(conference_id)) return SS_ConferenceControlFail;
+    
+    CConferenceTask* conference = dynamic_cast<CConferenceTask*>(_conference_map[conference_id]);
+    
+    if(NULL == conference) return SS_ConferenceControlFail;;
+    
+    conference->remove_participant(participant_id);
+    
+    return SS_NoErr;
 }

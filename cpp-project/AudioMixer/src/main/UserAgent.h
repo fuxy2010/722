@@ -74,11 +74,15 @@ namespace ScheduleServer
 	protected:
 		//Ô­Ê¼ÓïÒôÖ¡¶ÓÁÐ
 		std::list<RAW_AUDIO_FRAME_PTR> _raw_audio_frame_list;
-
 		CSSMutex _raw_audio_frame_list_mutex;
+        
+        size_t _threshold;//very important!!!
 		unsigned short _next_fetched_audio_sequence;//ÏÂÒ»´ÎÒªfetchµÄÒôÆµ°üÐòºÅ
 
 		short _predictive_audio_frame[2048];//Ô¤²â²¹³¥¶ª°ü£¬×î¶à²¹³¥3¸ö°ü£¨9Ö¡£©
+        
+    public:
+        void update_threshold();
 
 	public:
 		//UAÐÅÏ¢
