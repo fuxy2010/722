@@ -139,6 +139,21 @@ namespace ScheduleServer
         struct timeval _end;
         struct timeval _now;
         unsigned long _cur_us;
+        
+    protected:
+        bool _idle;
+        
+    public:
+        void pause() { _idle = true; }
+        void resume() { _idle = false; }
+        
+    public:
+        unsigned long get_conference_id() { return _task_info.conference_id; }
+        
+        void query()
+        {
+            
+        }
 	};
     
     //Common////////////////////////////////////////////////////////////////////////

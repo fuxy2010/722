@@ -24,7 +24,7 @@ void CLocalPlayThread::run()
 
 void CLocalPlayThread::on_start()
 {
-    SINGLETON(CScheduleServer).reg_ua(0, "127.0.0.1", 0, 0, UA_MobilePhone);
+    SINGLETON(CScheduleServer).reg_ua(0, "127.0.0.1", 0, 0);//, 0, UA_MobilePhone);
 }
 
 void CLocalPlayThread::on_close()

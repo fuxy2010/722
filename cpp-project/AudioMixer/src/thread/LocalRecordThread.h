@@ -5,8 +5,8 @@
 // ÐÞ¸ÄÀúÊ·¼ÇÂ¼: 
 // ÈÕÆÚ, ×÷Õß, ±ä¸üÄÚÈÝ
 // **********************************************************************
-#ifndef _LOCAL_PLAY_THREAD_H_      
-#define _LOCAL_PLAY_THREAD_H_
+#ifndef _LOCAL_RECORD_THREAD_H_      
+#define _LOCAL_RECORD_THREAD_H_
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 #pragma once
@@ -14,19 +14,16 @@
 
 #include "GeneralDef.h"
 #include "BaseThread.h"
-#include "Task.h"
-#include "PCMPlayer.h"
-//#include "PCMPlayer2.h"
 #include <alsa/asoundlib.h>
 
 namespace ScheduleServer
 {
 	//ÈÎÎñ´¦ÀíÏß³Ì
-	class CLocalPlayThread : public CBaseThread
+	class CLocalRecordThread : public CBaseThread
 	{
 	public:
-		CLocalPlayThread() {};//×î¶à²¢·¢Ö´ÐÐ10ÏîÈÎÎñ
-		virtual ~CLocalPlayThread() {};
+		CLocalRecordThread() {};//×î¶à²¢·¢Ö´ÐÐ10ÏîÈÎÎñ
+		virtual ~CLocalRecordThread() {};
 
 		static void sleep_ms(unsigned long interval);
 
@@ -45,12 +42,19 @@ namespace ScheduleServer
 		virtual void on_close();
 
 	private:
-        int play();
+        int record();
         
     private:
-        CPCMPlayer _pcm_player;
-        //CPCMPlayer2 _pcm_player;
+        //long loops;
+        int _rc;
+        int _size;
+        snd_pcm_t* _handle;
+        snd_pcm_hw_params_t* _params;
+        unsigned int _val;
+        int _dir;
+        snd_pcm_uframes_t _frames;
+        char* _buffer;
 	};
 }
 
-#endif  // _LOCAL_PLAY_THREAD_H_   
+#endif  // _LOCAL_RECORD_THREAD_H_   

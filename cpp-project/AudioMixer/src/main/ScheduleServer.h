@@ -20,6 +20,9 @@
 #include "PCMPlayer.h"
 #include "TaskThread.h"
 #include "LocalPlayThread.h"
+#include "LocalRecordThread.h"
+
+#include "rtpipv4address.h"
 
 namespace ScheduleServer
 {
@@ -71,6 +74,7 @@ namespace ScheduleServer
 		std::string _cur_path;
 
 		std::map<unsigned long, CUserAgent*> _ua_map;
+        //std::map<jrtplib::RTPIPv4Address, CUserAgent*> _ua_map_ex;
 		CSSMutex _ua_map_mutex;
 
 		CRTPRecvSession** _rtp_recv_session;//Ã½Ìå½ÓÊÕRTP SessionµÄÖ¸ÕëÊý×é
@@ -91,7 +95,8 @@ namespace ScheduleServer
 		//UA²Ù×÷////////////////////////////////////////////////////////////////////////
 		//×¢²áUA
 		//ipÎªÍøÂç×Ö½ÚÐò£¬audio_portºÍvideo_portÎªÖ÷»ú×Ö½ÚÐò
-		SS_Error reg_ua(const unsigned long& id, const char* ip, const unsigned short& audio_port, const unsigned short& video_port, USER_AGENT_TYPE type)
+		//SS_Error reg_ua(const unsigned long& id, const char* ip, const unsigned short& audio_port, const unsigned short& video_port, USER_AGENT_TYPE type)
+        SS_Error reg_ua(const unsigned long id, const char* ip, const unsigned short& audio_port, const int codec)
 		{
 			//if(!id) return SS_NoErr;
 
@@ -111,7 +116,7 @@ namespace ScheduleServer
 				}
 
 				info.audio_port = (!audio_port) ? info.audio_port : audio_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
-				info.video_port = (!video_port) ? info.video_port : video_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
+				//info.video_port = (!video_port) ? info.video_port : video_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
 				
 
 				CUserAgent* ua = NULL;
@@ -157,7 +162,7 @@ namespace ScheduleServer
 				}
 
 				ua->_info.audio_port = (!audio_port) ? ua->_info.audio_port : audio_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
-				ua->_info.video_port = (!video_port) ? ua->_info.video_port : video_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
+				//ua->_info.video_port = (!video_port) ? ua->_info.video_port : video_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
 				
 				//ua->update_alive_timestamp();
 			}
@@ -226,16 +231,26 @@ namespace ScheduleServer
     private:
         //CPCMPlayThread _pcm_play_thread;
         CLocalPlayThread _local_play_thread;
+        CLocalRecordThread _local_record_thread;
         
     private:
         std::map<unsigned long, CTask*> _conference_map;
         CSSMutex _conference_map_mutex;
         
     public:
-        SS_Error add_conference(unsigned long id);
+        SS_Error add_conference(unsigned long& id);
         SS_Error close_conference(unsigned long id);
-        SS_Error add_paiticipant(unsigned long conference_id, unsigned long participant_id);
+        //SS_Error add_paiticipant(unsigned long conference_id, unsigned long participant_id);
+        unsigned long add_paiticipant(unsigned long& participant_id, unsigned long conference_id, char* ip, unsigned short, int codec);
         SS_Error remove_paiticipant(unsigned long conference_id, unsigned long participant_id);
+        
+        SS_Error pause_conference(unsigned long conference_id);
+        SS_Error resume_conference(unsigned long conference_id);
+        
+        void query_conference(unsigned long conference_id);
+        
+    private:
+        unsigned long _milestone;
         
 	};
 }

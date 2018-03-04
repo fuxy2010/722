@@ -51,6 +51,9 @@ namespace ScheduleServer
 		std::list<CTask*> _task_queue;
 
 		const unsigned long _parallel_task_num;//²¢·¢Ö´ÐÐÈÎÎñÊýÉÏÏÞ
+        
+    public:
+        void query_conference(unsigned long conference_id);
 
 	public:
 		//CRTPSendSession _rtp_send_session;//RTP·¢ËÍsession
@@ -63,6 +66,8 @@ namespace ScheduleServer
 		static SS_Error add_threads(unsigned long task_thread_num, void* parent);
 
 		static void remove_threads();
+        
+        static void query_conference(unsigned long conference_id);
 
 		static CTaskThread* select_thread(unsigned long index = 0);
 

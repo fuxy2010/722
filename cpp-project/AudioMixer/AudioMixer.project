@@ -8,6 +8,7 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="AudioMixer.h"/>
     <VirtualDirectory Name="task">
       <File Name="src/task/ConferenceTask.cpp"/>
       <File Name="src/task/ConferenceTask.h"/>
@@ -18,6 +19,8 @@
       <File Name="src/task/Task.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="thread">
+      <File Name="src/thread/LocalRecordThread.h"/>
+      <File Name="src/thread/LocalRecordThread.cpp"/>
       <File Name="src/thread/LocalPlayThread.h"/>
       <File Name="src/thread/LocalPlayThread.cpp"/>
       <File Name="src/thread/TaskThread.h"/>
@@ -32,6 +35,7 @@
       <File Name="src/thread/AudioSendThread.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="codec">
+      <File Name="src/codec/PCMPlayer2.h"/>
       <File Name="src/codec/G711Codec.h"/>
       <File Name="src/codec/G711Codec.cpp"/>
       <File Name="src/codec/PCMPlayer.h"/>

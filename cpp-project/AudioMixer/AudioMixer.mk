@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Ubuntu 16.04 LTS
-Date                   :=27/02/18
+Date                   :=04/03/18
 CodeLitePath           :=/home/fym/.codelite
 LinkerName             :=/usr/bin/g++
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -61,27 +61,27 @@ AS       := /usr/bin/as
 ##
 CodeLiteDir:=/usr/share/codelite
 Objects0=$(IntermediateDirectory)/src_ilbc_abs_quant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_auto_correlation.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_construct.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_mem_energy.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_mem_energy_calc.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_search.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_search_core.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_chebyshev.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_complex_bit_reverse.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_copy_set_operations.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_ilbc_create_augmented_vec.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_decode_residual.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_energy_inverse.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_filter_ar_fast_q12.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_filtered_cb_vecs.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_decoder_interpolate_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_filter_ma_fast_q12.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_gain_quant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_get_cd_vec.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_ilbc_get_lsp_poly.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_downsample_fast.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_hp_input.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_hp_output.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_ilbc.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_ilbc_specific_functions.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_index_conv_dec.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_init_encode.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_interpolate_samples.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_ilbc_lsf_check.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_interpolate_to_poly_dec.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_interpolate_to_poly_enc.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_to_lsp.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsp_to_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_min_max_operations.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_main_test.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_my_corr.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_constants.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_poly_to_lsp.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_ilbc_poly_to_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_to_poly.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_real_fft.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtprandomrands.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpsdespacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtprandomurandom.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix) 
+	$(IntermediateDirectory)/src_ilbc_create_augmented_vec.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_decode_residual.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_energy_inverse.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_filter_ar_fast_q12.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_filtered_cb_vecs.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_decoder_interpolate_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_filter_ma_fast_q12.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_gain_quant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_get_cd_vec.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_get_lsp_poly.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_ilbc_downsample_fast.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_hp_input.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_hp_output.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_ilbc.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_ilbc_specific_functions.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_index_conv_dec.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_init_encode.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_interpolate_samples.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_check.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_interpolate_to_poly_dec.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_ilbc_lsf_interpolate_to_poly_enc.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_to_lsp.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsp_to_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_min_max_operations.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_main_test.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_my_corr.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_constants.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_poly_to_lsp.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_poly_to_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lsf_to_poly.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_ilbc_real_fft.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtprandomrands.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpsdespacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtprandomurandom.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_thread_TaskThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix) 
 
-Objects1=$(IntermediateDirectory)/src_thread_TaskThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpudpv4transmitter.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_jrtplib_jmutex.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_enhancer.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_comp_corr.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsourcedata.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_pack_bits.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtptcpaddress.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_main_UserAgent.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_thread_AudioMixThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_nearest_neighbor.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsecuresession.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_misc_AES.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsessionparams.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_update_best_index.c$(ObjectSuffix) $(IntermediateDirectory)/src_task_ConferenceTask.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_codec_PCMCodec.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpabortdescriptors.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cross_correlation.c$(ObjectSuffix) $(IntermediateDirectory)/src_thread_BaseThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_mem_energy_augmentation.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtperrors.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_do_plc.c$(ObjectSuffix) $(IntermediateDirectory)/src_misc_CommandContextParse.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_gain_dequant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_spl_init.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix) \
-	
+Objects1=$(IntermediateDirectory)/src_jrtplib_rtpudpv4transmitter.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_jmutex.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_ilbc_enhancer.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_comp_corr.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsourcedata.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_pack_bits.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtptcpaddress.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main_UserAgent.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_thread_AudioMixThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_nearest_neighbor.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsecuresession.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_misc_AES.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsessionparams.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix) $(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_update_best_index.c$(ObjectSuffix) $(IntermediateDirectory)/src_task_ConferenceTask.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_codec_PCMCodec.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpabortdescriptors.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix) $(IntermediateDirectory)/main.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cross_correlation.c$(ObjectSuffix) $(IntermediateDirectory)/src_thread_BaseThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_cb_mem_energy_augmentation.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtperrors.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_do_plc.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_misc_CommandContextParse.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_gain_dequant.c$(ObjectSuffix) 
 
-Objects2=$(IntermediateDirectory)/src_ilbc_state_construct.c$(ObjectSuffix) $(IntermediateDirectory)/src_misc_MiscTool.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_misc_ConfigBox.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_smooth_out_data.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_vq4.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_frame_classify.c$(ObjectSuffix) $(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_abs_quant_loop.c$(ObjectSuffix) $(IntermediateDirectory)/src_codec_iLBCCodec.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_ilbc_state_search.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtptcptransmitter.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsession.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtplibraryversion.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_enhancer_interface.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpdebug.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_simple_interpolate_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpipv6address.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpscheduler.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lpc_encode.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_jrtplib_rtpipv4destination.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_get_sync_seq.c$(ObjectSuffix) $(IntermediateDirectory)/src_thread_PCMPlayThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpipv4address.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpsrpacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtprandom.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpexternaltransmitter.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_init_decode.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpcollisionlist.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_division_operations.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_vector_scaling_operations.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_levinson_durbin.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcprrpacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_split_vq.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcppacketbuilder.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcppacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpsdesinfo.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_jrtplib_rtcpbyepacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpapppacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_jthread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_thread_AudioSendThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_module_JRTPSession.cpp$(ObjectSuffix) 
+Objects2=$(IntermediateDirectory)/src_ilbc_spl_init.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_state_construct.c$(ObjectSuffix) $(IntermediateDirectory)/src_misc_MiscTool.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_misc_ConfigBox.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_smooth_out_data.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_vq4.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_frame_classify.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_abs_quant_loop.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_codec_iLBCCodec.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_state_search.c$(ObjectSuffix) $(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtptcptransmitter.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpsession.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix) $(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtplibraryversion.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_enhancer_interface.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_jrtplib_rtpdebug.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_simple_interpolate_lsf.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpipv6address.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpscheduler.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_lpc_encode.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpipv4destination.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_get_sync_seq.c$(ObjectSuffix) $(IntermediateDirectory)/src_thread_PCMPlayThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpipv4address.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpsrpacket.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_jrtplib_rtprandom.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpexternaltransmitter.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_init_decode.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtpcollisionlist.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_division_operations.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_vector_scaling_operations.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_levinson_durbin.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcprrpacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_split_vq.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcppacketbuilder.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_jrtplib_rtcppacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpsdesinfo.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtcpbyepacket.cpp$(ObjectSuffix) 
 
-Objects3=$(IntermediateDirectory)/src_ilbc_enh_upsample.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_window32_w32.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtppacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_vq3.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_unpack_bits.c$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_ilbc_spl_sqrt_floor.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_swap_bytes.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_index_conv_enc.c$(ObjectSuffix) $(IntermediateDirectory)/src_thread_LocalPlayThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_smooth.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_simple_lsf_quant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_simple_lsf_dequant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_xcorr_coef.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_simple_lpc_analysis.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix) \
-	
+Objects3=$(IntermediateDirectory)/src_jrtplib_rtcpapppacket.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_jthread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_thread_AudioSendThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_module_JRTPSession.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_enh_upsample.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_window32_w32.c$(ObjectSuffix) $(IntermediateDirectory)/src_jrtplib_rtppacket.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_ilbc_vq3.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_unpack_bits.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_spl_sqrt_floor.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_swap_bytes.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_index_conv_enc.c$(ObjectSuffix) $(IntermediateDirectory)/src_thread_LocalPlayThread.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_smooth.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_simple_lsf_quant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_simple_lsf_dequant.c$(ObjectSuffix) $(IntermediateDirectory)/src_ilbc_xcorr_coef.c$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_ilbc_simple_lpc_analysis.c$(ObjectSuffix) 
 
 
 
@@ -202,14 +202,6 @@ $(IntermediateDirectory)/src_ilbc_create_augmented_vec.c$(DependSuffix): src/ilb
 
 $(IntermediateDirectory)/src_ilbc_create_augmented_vec.c$(PreprocessSuffix): src/ilbc/create_augmented_vec.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_create_augmented_vec.c$(PreprocessSuffix) src/ilbc/create_augmented_vec.c
-
-$(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix): src/ilbc/decode.c $(IntermediateDirectory)/src_ilbc_decode.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/decode.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_decode.c$(DependSuffix): src/ilbc/decode.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_decode.c$(DependSuffix) -MM src/ilbc/decode.c
-
-$(IntermediateDirectory)/src_ilbc_decode.c$(PreprocessSuffix): src/ilbc/decode.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_decode.c$(PreprocessSuffix) src/ilbc/decode.c
 
 $(IntermediateDirectory)/src_ilbc_decode_residual.c$(ObjectSuffix): src/ilbc/decode_residual.c $(IntermediateDirectory)/src_ilbc_decode_residual.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/decode_residual.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_decode_residual.c$(ObjectSuffix) $(IncludePath)
@@ -339,14 +331,6 @@ $(IntermediateDirectory)/src_ilbc_init_encode.c$(DependSuffix): src/ilbc/init_en
 $(IntermediateDirectory)/src_ilbc_init_encode.c$(PreprocessSuffix): src/ilbc/init_encode.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_init_encode.c$(PreprocessSuffix) src/ilbc/init_encode.c
 
-$(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix): src/ilbc/interpolate.c $(IntermediateDirectory)/src_ilbc_interpolate.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/interpolate.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_interpolate.c$(DependSuffix): src/ilbc/interpolate.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_interpolate.c$(DependSuffix) -MM src/ilbc/interpolate.c
-
-$(IntermediateDirectory)/src_ilbc_interpolate.c$(PreprocessSuffix): src/ilbc/interpolate.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_interpolate.c$(PreprocessSuffix) src/ilbc/interpolate.c
-
 $(IntermediateDirectory)/src_ilbc_interpolate_samples.c$(ObjectSuffix): src/ilbc/interpolate_samples.c $(IntermediateDirectory)/src_ilbc_interpolate_samples.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/interpolate_samples.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_interpolate_samples.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_ilbc_interpolate_samples.c$(DependSuffix): src/ilbc/interpolate_samples.c
@@ -459,13 +443,13 @@ $(IntermediateDirectory)/src_ilbc_real_fft.c$(DependSuffix): src/ilbc/real_fft.c
 $(IntermediateDirectory)/src_ilbc_real_fft.c$(PreprocessSuffix): src/ilbc/real_fft.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_real_fft.c$(PreprocessSuffix) src/ilbc/real_fft.c
 
-$(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix): src/ilbc/complex_fft.c $(IntermediateDirectory)/src_ilbc_complex_fft.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/complex_fft.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_complex_fft.c$(DependSuffix): src/ilbc/complex_fft.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_complex_fft.c$(DependSuffix) -MM src/ilbc/complex_fft.c
+$(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix): src/ilbc/refiner.c $(IntermediateDirectory)/src_ilbc_refiner.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/refiner.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_refiner.c$(DependSuffix): src/ilbc/refiner.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_refiner.c$(DependSuffix) -MM src/ilbc/refiner.c
 
-$(IntermediateDirectory)/src_ilbc_complex_fft.c$(PreprocessSuffix): src/ilbc/complex_fft.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_complex_fft.c$(PreprocessSuffix) src/ilbc/complex_fft.c
+$(IntermediateDirectory)/src_ilbc_refiner.c$(PreprocessSuffix): src/ilbc/refiner.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_refiner.c$(PreprocessSuffix) src/ilbc/refiner.c
 
 $(IntermediateDirectory)/src_jrtplib_rtprandomrands.cpp$(ObjectSuffix): src/jrtplib/rtprandomrands.cpp $(IntermediateDirectory)/src_jrtplib_rtprandomrands.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtprandomrands.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtprandomrands.cpp$(ObjectSuffix) $(IncludePath)
@@ -491,14 +475,6 @@ $(IntermediateDirectory)/src_jrtplib_rtprandomurandom.cpp$(DependSuffix): src/jr
 $(IntermediateDirectory)/src_jrtplib_rtprandomurandom.cpp$(PreprocessSuffix): src/jrtplib/rtprandomurandom.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtprandomurandom.cpp$(PreprocessSuffix) src/jrtplib/rtprandomurandom.cpp
 
-$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix): src/jrtplib/rtptimeutilities.cpp $(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtptimeutilities.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(DependSuffix): src/jrtplib/rtptimeutilities.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(DependSuffix) -MM src/jrtplib/rtptimeutilities.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(PreprocessSuffix): src/jrtplib/rtptimeutilities.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(PreprocessSuffix) src/jrtplib/rtptimeutilities.cpp
-
 $(IntermediateDirectory)/src_thread_TaskThread.cpp$(ObjectSuffix): src/thread/TaskThread.cpp $(IntermediateDirectory)/src_thread_TaskThread.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/thread/TaskThread.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_thread_TaskThread.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_thread_TaskThread.cpp$(DependSuffix): src/thread/TaskThread.cpp
@@ -506,6 +482,22 @@ $(IntermediateDirectory)/src_thread_TaskThread.cpp$(DependSuffix): src/thread/Ta
 
 $(IntermediateDirectory)/src_thread_TaskThread.cpp$(PreprocessSuffix): src/thread/TaskThread.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_thread_TaskThread.cpp$(PreprocessSuffix) src/thread/TaskThread.cpp
+
+$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix): src/ilbc/dot_product_with_scale.c $(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/dot_product_with_scale.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(DependSuffix): src/ilbc/dot_product_with_scale.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(DependSuffix) -MM src/ilbc/dot_product_with_scale.c
+
+$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(PreprocessSuffix): src/ilbc/dot_product_with_scale.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(PreprocessSuffix) src/ilbc/dot_product_with_scale.c
+
+$(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix): src/ilbc/sort_sq.c $(IntermediateDirectory)/src_ilbc_sort_sq.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/sort_sq.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_sort_sq.c$(DependSuffix): src/ilbc/sort_sq.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_sort_sq.c$(DependSuffix) -MM src/ilbc/sort_sq.c
+
+$(IntermediateDirectory)/src_ilbc_sort_sq.c$(PreprocessSuffix): src/ilbc/sort_sq.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_sort_sq.c$(PreprocessSuffix) src/ilbc/sort_sq.c
 
 $(IntermediateDirectory)/src_jrtplib_rtpudpv4transmitter.cpp$(ObjectSuffix): src/jrtplib/rtpudpv4transmitter.cpp $(IntermediateDirectory)/src_jrtplib_rtpudpv4transmitter.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpudpv4transmitter.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpudpv4transmitter.cpp$(ObjectSuffix) $(IncludePath)
@@ -563,37 +555,13 @@ $(IntermediateDirectory)/src_jrtplib_rtptcpaddress.cpp$(DependSuffix): src/jrtpl
 $(IntermediateDirectory)/src_jrtplib_rtptcpaddress.cpp$(PreprocessSuffix): src/jrtplib/rtptcpaddress.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtptcpaddress.cpp$(PreprocessSuffix) src/jrtplib/rtptcpaddress.cpp
 
-$(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix): src/task/TestTask.cpp $(IntermediateDirectory)/src_task_TestTask.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/task/TestTask.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_task_TestTask.cpp$(DependSuffix): src/task/TestTask.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_task_TestTask.cpp$(DependSuffix) -MM src/task/TestTask.cpp
+$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix): src/jrtplib/rtptimeutilities.cpp $(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtptimeutilities.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(DependSuffix): src/jrtplib/rtptimeutilities.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(DependSuffix) -MM src/jrtplib/rtptimeutilities.cpp
 
-$(IntermediateDirectory)/src_task_TestTask.cpp$(PreprocessSuffix): src/task/TestTask.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_task_TestTask.cpp$(PreprocessSuffix) src/task/TestTask.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix): src/jrtplib/rtprandomrand48.cpp $(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtprandomrand48.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(DependSuffix): src/jrtplib/rtprandomrand48.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(DependSuffix) -MM src/jrtplib/rtprandomrand48.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(PreprocessSuffix): src/jrtplib/rtprandomrand48.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(PreprocessSuffix) src/jrtplib/rtprandomrand48.cpp
-
-$(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix): src/ilbc/bw_expand.c $(IntermediateDirectory)/src_ilbc_bw_expand.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/bw_expand.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_bw_expand.c$(DependSuffix): src/ilbc/bw_expand.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_bw_expand.c$(DependSuffix) -MM src/ilbc/bw_expand.c
-
-$(IntermediateDirectory)/src_ilbc_bw_expand.c$(PreprocessSuffix): src/ilbc/bw_expand.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_bw_expand.c$(PreprocessSuffix) src/ilbc/bw_expand.c
-
-$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix): src/jrtplib/rtpipv6destination.cpp $(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpipv6destination.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(DependSuffix): src/jrtplib/rtpipv6destination.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(DependSuffix) -MM src/jrtplib/rtpipv6destination.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(PreprocessSuffix): src/jrtplib/rtpipv6destination.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(PreprocessSuffix) src/jrtplib/rtpipv6destination.cpp
+$(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(PreprocessSuffix): src/jrtplib/rtptimeutilities.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtptimeutilities.cpp$(PreprocessSuffix) src/jrtplib/rtptimeutilities.cpp
 
 $(IntermediateDirectory)/src_main_UserAgent.cpp$(ObjectSuffix): src/main/UserAgent.cpp $(IntermediateDirectory)/src_main_UserAgent.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/main/UserAgent.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main_UserAgent.cpp$(ObjectSuffix) $(IncludePath)
@@ -602,6 +570,38 @@ $(IntermediateDirectory)/src_main_UserAgent.cpp$(DependSuffix): src/main/UserAge
 
 $(IntermediateDirectory)/src_main_UserAgent.cpp$(PreprocessSuffix): src/main/UserAgent.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main_UserAgent.cpp$(PreprocessSuffix) src/main/UserAgent.cpp
+
+$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix): src/ilbc/ilbc_interface.c $(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/ilbc_interface.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(DependSuffix): src/ilbc/ilbc_interface.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(DependSuffix) -MM src/ilbc/ilbc_interface.c
+
+$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(PreprocessSuffix): src/ilbc/ilbc_interface.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(PreprocessSuffix) src/ilbc/ilbc_interface.c
+
+$(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix): src/ilbc/encode.c $(IntermediateDirectory)/src_ilbc_encode.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/encode.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_encode.c$(DependSuffix): src/ilbc/encode.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_encode.c$(DependSuffix) -MM src/ilbc/encode.c
+
+$(IntermediateDirectory)/src_ilbc_encode.c$(PreprocessSuffix): src/ilbc/encode.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_encode.c$(PreprocessSuffix) src/ilbc/encode.c
+
+$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix): src/jrtplib/rtppollthread.cpp $(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtppollthread.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(DependSuffix): src/jrtplib/rtppollthread.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(DependSuffix) -MM src/jrtplib/rtppollthread.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(PreprocessSuffix): src/jrtplib/rtppollthread.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(PreprocessSuffix) src/jrtplib/rtppollthread.cpp
+
+$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix): src/main/ScheduleServer.cpp $(IntermediateDirectory)/src_main_ScheduleServer.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/main/ScheduleServer.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(DependSuffix): src/main/ScheduleServer.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(DependSuffix) -MM src/main/ScheduleServer.cpp
+
+$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(PreprocessSuffix): src/main/ScheduleServer.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main_ScheduleServer.cpp$(PreprocessSuffix) src/main/ScheduleServer.cpp
 
 $(IntermediateDirectory)/src_thread_AudioMixThread.cpp$(ObjectSuffix): src/thread/AudioMixThread.cpp $(IntermediateDirectory)/src_thread_AudioMixThread.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/thread/AudioMixThread.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_thread_AudioMixThread.cpp$(ObjectSuffix) $(IncludePath)
@@ -643,6 +643,54 @@ $(IntermediateDirectory)/src_jrtplib_rtpsessionparams.cpp$(DependSuffix): src/jr
 $(IntermediateDirectory)/src_jrtplib_rtpsessionparams.cpp$(PreprocessSuffix): src/jrtplib/rtpsessionparams.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpsessionparams.cpp$(PreprocessSuffix) src/jrtplib/rtpsessionparams.cpp
 
+$(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix): src/ilbc/decode.c $(IntermediateDirectory)/src_ilbc_decode.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/decode.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_decode.c$(DependSuffix): src/ilbc/decode.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_decode.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_decode.c$(DependSuffix) -MM src/ilbc/decode.c
+
+$(IntermediateDirectory)/src_ilbc_decode.c$(PreprocessSuffix): src/ilbc/decode.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_decode.c$(PreprocessSuffix) src/ilbc/decode.c
+
+$(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(ObjectSuffix): src/thread/LocalRecordThread.cpp $(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/thread/LocalRecordThread.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(DependSuffix): src/thread/LocalRecordThread.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(DependSuffix) -MM src/thread/LocalRecordThread.cpp
+
+$(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(PreprocessSuffix): src/thread/LocalRecordThread.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_thread_LocalRecordThread.cpp$(PreprocessSuffix) src/thread/LocalRecordThread.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix): src/jrtplib/rtpsessionsources.cpp $(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpsessionsources.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(DependSuffix): src/jrtplib/rtpsessionsources.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(DependSuffix) -MM src/jrtplib/rtpsessionsources.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(PreprocessSuffix): src/jrtplib/rtpsessionsources.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(PreprocessSuffix) src/jrtplib/rtpsessionsources.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix): src/jrtplib/rtpbyteaddress.cpp $(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpbyteaddress.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(DependSuffix): src/jrtplib/rtpbyteaddress.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(DependSuffix) -MM src/jrtplib/rtpbyteaddress.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(PreprocessSuffix): src/jrtplib/rtpbyteaddress.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(PreprocessSuffix) src/jrtplib/rtpbyteaddress.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix): src/jrtplib/rtcpcompoundpacketbuilder.cpp $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtcpcompoundpacketbuilder.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(DependSuffix): src/jrtplib/rtcpcompoundpacketbuilder.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(DependSuffix) -MM src/jrtplib/rtcpcompoundpacketbuilder.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(PreprocessSuffix): src/jrtplib/rtcpcompoundpacketbuilder.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(PreprocessSuffix) src/jrtplib/rtcpcompoundpacketbuilder.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix): src/jrtplib/rtpudpv6transmitter.cpp $(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpudpv6transmitter.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(DependSuffix): src/jrtplib/rtpudpv6transmitter.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(DependSuffix) -MM src/jrtplib/rtpudpv6transmitter.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(PreprocessSuffix): src/jrtplib/rtpudpv6transmitter.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(PreprocessSuffix) src/jrtplib/rtpudpv6transmitter.cpp
+
 $(IntermediateDirectory)/src_ilbc_cb_update_best_index.c$(ObjectSuffix): src/ilbc/cb_update_best_index.c $(IntermediateDirectory)/src_ilbc_cb_update_best_index.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/cb_update_best_index.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_cb_update_best_index.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_ilbc_cb_update_best_index.c$(DependSuffix): src/ilbc/cb_update_best_index.c
@@ -658,22 +706,6 @@ $(IntermediateDirectory)/src_task_ConferenceTask.cpp$(DependSuffix): src/task/Co
 
 $(IntermediateDirectory)/src_task_ConferenceTask.cpp$(PreprocessSuffix): src/task/ConferenceTask.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_task_ConferenceTask.cpp$(PreprocessSuffix) src/task/ConferenceTask.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix): src/jrtplib/rtppollthread.cpp $(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtppollthread.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(DependSuffix): src/jrtplib/rtppollthread.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(DependSuffix) -MM src/jrtplib/rtppollthread.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(PreprocessSuffix): src/jrtplib/rtppollthread.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtppollthread.cpp$(PreprocessSuffix) src/jrtplib/rtppollthread.cpp
-
-$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix): src/main/ScheduleServer.cpp $(IntermediateDirectory)/src_main_ScheduleServer.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/main/ScheduleServer.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(DependSuffix): src/main/ScheduleServer.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(DependSuffix) -MM src/main/ScheduleServer.cpp
-
-$(IntermediateDirectory)/src_main_ScheduleServer.cpp$(PreprocessSuffix): src/main/ScheduleServer.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_main_ScheduleServer.cpp$(PreprocessSuffix) src/main/ScheduleServer.cpp
 
 $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacket.cpp$(ObjectSuffix): src/jrtplib/rtcpcompoundpacket.cpp $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacket.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtcpcompoundpacket.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacket.cpp$(ObjectSuffix) $(IncludePath)
@@ -699,29 +731,29 @@ $(IntermediateDirectory)/src_jrtplib_rtpabortdescriptors.cpp$(DependSuffix): src
 $(IntermediateDirectory)/src_jrtplib_rtpabortdescriptors.cpp$(PreprocessSuffix): src/jrtplib/rtpabortdescriptors.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpabortdescriptors.cpp$(PreprocessSuffix) src/jrtplib/rtpabortdescriptors.cpp
 
-$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix): src/ilbc/ilbc_interface.c $(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/ilbc_interface.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(DependSuffix): src/ilbc/ilbc_interface.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(DependSuffix) -MM src/ilbc/ilbc_interface.c
+$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix): src/ilbc/augmented_cb_corr.c $(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/augmented_cb_corr.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(DependSuffix): src/ilbc/augmented_cb_corr.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(DependSuffix) -MM src/ilbc/augmented_cb_corr.c
 
-$(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(PreprocessSuffix): src/ilbc/ilbc_interface.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_ilbc_interface.c$(PreprocessSuffix) src/ilbc/ilbc_interface.c
+$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(PreprocessSuffix): src/ilbc/augmented_cb_corr.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(PreprocessSuffix) src/ilbc/augmented_cb_corr.c
 
-$(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix): src/ilbc/encode.c $(IntermediateDirectory)/src_ilbc_encode.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/encode.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_encode.c$(DependSuffix): src/ilbc/encode.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_encode.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_encode.c$(DependSuffix) -MM src/ilbc/encode.c
+$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix): src/jrtplib/rtppacketbuilder.cpp $(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtppacketbuilder.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(DependSuffix): src/jrtplib/rtppacketbuilder.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(DependSuffix) -MM src/jrtplib/rtppacketbuilder.cpp
 
-$(IntermediateDirectory)/src_ilbc_encode.c$(PreprocessSuffix): src/ilbc/encode.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_encode.c$(PreprocessSuffix) src/ilbc/encode.c
+$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(PreprocessSuffix): src/jrtplib/rtppacketbuilder.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(PreprocessSuffix) src/jrtplib/rtppacketbuilder.cpp
 
-$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix): src/jrtplib/rtpudpv6transmitter.cpp $(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpudpv6transmitter.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(DependSuffix): src/jrtplib/rtpudpv6transmitter.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(DependSuffix) -MM src/jrtplib/rtpudpv6transmitter.cpp
+$(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
 
-$(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(PreprocessSuffix): src/jrtplib/rtpudpv6transmitter.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpudpv6transmitter.cpp$(PreprocessSuffix) src/jrtplib/rtpudpv6transmitter.cpp
+$(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) main.cpp
 
 $(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(ObjectSuffix): src/jrtplib/rtpsources.cpp $(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpsources.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(ObjectSuffix) $(IncludePath)
@@ -730,6 +762,14 @@ $(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(DependSuffix): src/jrtplib/
 
 $(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(PreprocessSuffix): src/jrtplib/rtpsources.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpsources.cpp$(PreprocessSuffix) src/jrtplib/rtpsources.cpp
+
+$(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix): src/ilbc/interpolate.c $(IntermediateDirectory)/src_ilbc_interpolate.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/interpolate.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_interpolate.c$(DependSuffix): src/ilbc/interpolate.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_interpolate.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_interpolate.c$(DependSuffix) -MM src/ilbc/interpolate.c
+
+$(IntermediateDirectory)/src_ilbc_interpolate.c$(PreprocessSuffix): src/ilbc/interpolate.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_interpolate.c$(PreprocessSuffix) src/ilbc/interpolate.c
 
 $(IntermediateDirectory)/src_ilbc_cross_correlation.c$(ObjectSuffix): src/ilbc/cross_correlation.c $(IntermediateDirectory)/src_ilbc_cross_correlation.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/cross_correlation.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_cross_correlation.c$(ObjectSuffix) $(IncludePath)
@@ -747,22 +787,6 @@ $(IntermediateDirectory)/src_thread_BaseThread.cpp$(DependSuffix): src/thread/Ba
 $(IntermediateDirectory)/src_thread_BaseThread.cpp$(PreprocessSuffix): src/thread/BaseThread.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_thread_BaseThread.cpp$(PreprocessSuffix) src/thread/BaseThread.cpp
 
-$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix): src/ilbc/dot_product_with_scale.c $(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/dot_product_with_scale.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(DependSuffix): src/ilbc/dot_product_with_scale.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(DependSuffix) -MM src/ilbc/dot_product_with_scale.c
-
-$(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(PreprocessSuffix): src/ilbc/dot_product_with_scale.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_dot_product_with_scale.c$(PreprocessSuffix) src/ilbc/dot_product_with_scale.c
-
-$(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix): src/ilbc/sort_sq.c $(IntermediateDirectory)/src_ilbc_sort_sq.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/sort_sq.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_sort_sq.c$(DependSuffix): src/ilbc/sort_sq.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_sort_sq.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_sort_sq.c$(DependSuffix) -MM src/ilbc/sort_sq.c
-
-$(IntermediateDirectory)/src_ilbc_sort_sq.c$(PreprocessSuffix): src/ilbc/sort_sq.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_sort_sq.c$(PreprocessSuffix) src/ilbc/sort_sq.c
-
 $(IntermediateDirectory)/src_ilbc_cb_mem_energy_augmentation.c$(ObjectSuffix): src/ilbc/cb_mem_energy_augmentation.c $(IntermediateDirectory)/src_ilbc_cb_mem_energy_augmentation.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/cb_mem_energy_augmentation.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_cb_mem_energy_augmentation.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_ilbc_cb_mem_energy_augmentation.c$(DependSuffix): src/ilbc/cb_mem_energy_augmentation.c
@@ -778,6 +802,30 @@ $(IntermediateDirectory)/src_jrtplib_rtperrors.cpp$(DependSuffix): src/jrtplib/r
 
 $(IntermediateDirectory)/src_jrtplib_rtperrors.cpp$(PreprocessSuffix): src/jrtplib/rtperrors.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtperrors.cpp$(PreprocessSuffix) src/jrtplib/rtperrors.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix): src/jrtplib/rtprandomrand48.cpp $(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtprandomrand48.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(DependSuffix): src/jrtplib/rtprandomrand48.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(DependSuffix) -MM src/jrtplib/rtprandomrand48.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(PreprocessSuffix): src/jrtplib/rtprandomrand48.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtprandomrand48.cpp$(PreprocessSuffix) src/jrtplib/rtprandomrand48.cpp
+
+$(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix): src/ilbc/bw_expand.c $(IntermediateDirectory)/src_ilbc_bw_expand.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/bw_expand.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_bw_expand.c$(DependSuffix): src/ilbc/bw_expand.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_bw_expand.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_bw_expand.c$(DependSuffix) -MM src/ilbc/bw_expand.c
+
+$(IntermediateDirectory)/src_ilbc_bw_expand.c$(PreprocessSuffix): src/ilbc/bw_expand.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_bw_expand.c$(PreprocessSuffix) src/ilbc/bw_expand.c
+
+$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix): src/jrtplib/rtpipv6destination.cpp $(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpipv6destination.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(DependSuffix): src/jrtplib/rtpipv6destination.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(DependSuffix) -MM src/jrtplib/rtpipv6destination.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(PreprocessSuffix): src/jrtplib/rtpipv6destination.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpipv6destination.cpp$(PreprocessSuffix) src/jrtplib/rtpipv6destination.cpp
 
 $(IntermediateDirectory)/src_ilbc_do_plc.c$(ObjectSuffix): src/ilbc/do_plc.c $(IntermediateDirectory)/src_ilbc_do_plc.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/do_plc.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_do_plc.c$(ObjectSuffix) $(IncludePath)
@@ -810,30 +858,6 @@ $(IntermediateDirectory)/src_ilbc_spl_init.c$(DependSuffix): src/ilbc/spl_init.c
 
 $(IntermediateDirectory)/src_ilbc_spl_init.c$(PreprocessSuffix): src/ilbc/spl_init.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_spl_init.c$(PreprocessSuffix) src/ilbc/spl_init.c
-
-$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix): src/ilbc/augmented_cb_corr.c $(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/augmented_cb_corr.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(DependSuffix): src/ilbc/augmented_cb_corr.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(DependSuffix) -MM src/ilbc/augmented_cb_corr.c
-
-$(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(PreprocessSuffix): src/ilbc/augmented_cb_corr.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_augmented_cb_corr.c$(PreprocessSuffix) src/ilbc/augmented_cb_corr.c
-
-$(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM main.cpp
-
-$(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) main.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix): src/jrtplib/rtppacketbuilder.cpp $(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtppacketbuilder.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(DependSuffix): src/jrtplib/rtppacketbuilder.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(DependSuffix) -MM src/jrtplib/rtppacketbuilder.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(PreprocessSuffix): src/jrtplib/rtppacketbuilder.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtppacketbuilder.cpp$(PreprocessSuffix) src/jrtplib/rtppacketbuilder.cpp
 
 $(IntermediateDirectory)/src_ilbc_state_construct.c$(ObjectSuffix): src/ilbc/state_construct.c $(IntermediateDirectory)/src_ilbc_state_construct.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/state_construct.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_state_construct.c$(ObjectSuffix) $(IncludePath)
@@ -883,22 +907,6 @@ $(IntermediateDirectory)/src_ilbc_frame_classify.c$(DependSuffix): src/ilbc/fram
 $(IntermediateDirectory)/src_ilbc_frame_classify.c$(PreprocessSuffix): src/ilbc/frame_classify.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_frame_classify.c$(PreprocessSuffix) src/ilbc/frame_classify.c
 
-$(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix): src/codec/G711Codec.cpp $(IntermediateDirectory)/src_codec_G711Codec.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/codec/G711Codec.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_codec_G711Codec.cpp$(DependSuffix): src/codec/G711Codec.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_codec_G711Codec.cpp$(DependSuffix) -MM src/codec/G711Codec.cpp
-
-$(IntermediateDirectory)/src_codec_G711Codec.cpp$(PreprocessSuffix): src/codec/G711Codec.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_codec_G711Codec.cpp$(PreprocessSuffix) src/codec/G711Codec.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix): src/jrtplib/rtpinternalsourcedata.cpp $(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpinternalsourcedata.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(DependSuffix): src/jrtplib/rtpinternalsourcedata.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(DependSuffix) -MM src/jrtplib/rtpinternalsourcedata.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(PreprocessSuffix): src/jrtplib/rtpinternalsourcedata.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(PreprocessSuffix) src/jrtplib/rtpinternalsourcedata.cpp
-
 $(IntermediateDirectory)/src_ilbc_abs_quant_loop.c$(ObjectSuffix): src/ilbc/abs_quant_loop.c $(IntermediateDirectory)/src_ilbc_abs_quant_loop.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/abs_quant_loop.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_abs_quant_loop.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_ilbc_abs_quant_loop.c$(DependSuffix): src/ilbc/abs_quant_loop.c
@@ -923,6 +931,22 @@ $(IntermediateDirectory)/src_ilbc_state_search.c$(DependSuffix): src/ilbc/state_
 $(IntermediateDirectory)/src_ilbc_state_search.c$(PreprocessSuffix): src/ilbc/state_search.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_state_search.c$(PreprocessSuffix) src/ilbc/state_search.c
 
+$(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix): src/codec/G711Codec.cpp $(IntermediateDirectory)/src_codec_G711Codec.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/codec/G711Codec.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_codec_G711Codec.cpp$(DependSuffix): src/codec/G711Codec.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_codec_G711Codec.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_codec_G711Codec.cpp$(DependSuffix) -MM src/codec/G711Codec.cpp
+
+$(IntermediateDirectory)/src_codec_G711Codec.cpp$(PreprocessSuffix): src/codec/G711Codec.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_codec_G711Codec.cpp$(PreprocessSuffix) src/codec/G711Codec.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix): src/jrtplib/rtpinternalsourcedata.cpp $(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpinternalsourcedata.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(DependSuffix): src/jrtplib/rtpinternalsourcedata.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(DependSuffix) -MM src/jrtplib/rtpinternalsourcedata.cpp
+
+$(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(PreprocessSuffix): src/jrtplib/rtpinternalsourcedata.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpinternalsourcedata.cpp$(PreprocessSuffix) src/jrtplib/rtpinternalsourcedata.cpp
+
 $(IntermediateDirectory)/src_jrtplib_rtptcptransmitter.cpp$(ObjectSuffix): src/jrtplib/rtptcptransmitter.cpp $(IntermediateDirectory)/src_jrtplib_rtptcptransmitter.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtptcptransmitter.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtptcptransmitter.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_jrtplib_rtptcptransmitter.cpp$(DependSuffix): src/jrtplib/rtptcptransmitter.cpp
@@ -938,6 +962,22 @@ $(IntermediateDirectory)/src_jrtplib_rtpsession.cpp$(DependSuffix): src/jrtplib/
 
 $(IntermediateDirectory)/src_jrtplib_rtpsession.cpp$(PreprocessSuffix): src/jrtplib/rtpsession.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpsession.cpp$(PreprocessSuffix) src/jrtplib/rtpsession.cpp
+
+$(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix): src/ilbc/complex_fft.c $(IntermediateDirectory)/src_ilbc_complex_fft.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/complex_fft.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_ilbc_complex_fft.c$(DependSuffix): src/ilbc/complex_fft.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_complex_fft.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_complex_fft.c$(DependSuffix) -MM src/ilbc/complex_fft.c
+
+$(IntermediateDirectory)/src_ilbc_complex_fft.c$(PreprocessSuffix): src/ilbc/complex_fft.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_complex_fft.c$(PreprocessSuffix) src/ilbc/complex_fft.c
+
+$(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix): src/task/TestTask.cpp $(IntermediateDirectory)/src_task_TestTask.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/task/TestTask.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_task_TestTask.cpp$(DependSuffix): src/task/TestTask.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_task_TestTask.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_task_TestTask.cpp$(DependSuffix) -MM src/task/TestTask.cpp
+
+$(IntermediateDirectory)/src_task_TestTask.cpp$(PreprocessSuffix): src/task/TestTask.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_task_TestTask.cpp$(PreprocessSuffix) src/task/TestTask.cpp
 
 $(IntermediateDirectory)/src_jrtplib_rtplibraryversion.cpp$(ObjectSuffix): src/jrtplib/rtplibraryversion.cpp $(IntermediateDirectory)/src_jrtplib_rtplibraryversion.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtplibraryversion.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtplibraryversion.cpp$(ObjectSuffix) $(IncludePath)
@@ -1066,30 +1106,6 @@ $(IntermediateDirectory)/src_jrtplib_rtpcollisionlist.cpp$(DependSuffix): src/jr
 
 $(IntermediateDirectory)/src_jrtplib_rtpcollisionlist.cpp$(PreprocessSuffix): src/jrtplib/rtpcollisionlist.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpcollisionlist.cpp$(PreprocessSuffix) src/jrtplib/rtpcollisionlist.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix): src/jrtplib/rtpsessionsources.cpp $(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpsessionsources.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(DependSuffix): src/jrtplib/rtpsessionsources.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(DependSuffix) -MM src/jrtplib/rtpsessionsources.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(PreprocessSuffix): src/jrtplib/rtpsessionsources.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpsessionsources.cpp$(PreprocessSuffix) src/jrtplib/rtpsessionsources.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix): src/jrtplib/rtpbyteaddress.cpp $(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtpbyteaddress.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(DependSuffix): src/jrtplib/rtpbyteaddress.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(DependSuffix) -MM src/jrtplib/rtpbyteaddress.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(PreprocessSuffix): src/jrtplib/rtpbyteaddress.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtpbyteaddress.cpp$(PreprocessSuffix) src/jrtplib/rtpbyteaddress.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix): src/jrtplib/rtcpcompoundpacketbuilder.cpp $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/jrtplib/rtcpcompoundpacketbuilder.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(DependSuffix): src/jrtplib/rtcpcompoundpacketbuilder.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(DependSuffix) -MM src/jrtplib/rtcpcompoundpacketbuilder.cpp
-
-$(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(PreprocessSuffix): src/jrtplib/rtcpcompoundpacketbuilder.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_jrtplib_rtcpcompoundpacketbuilder.cpp$(PreprocessSuffix) src/jrtplib/rtcpcompoundpacketbuilder.cpp
 
 $(IntermediateDirectory)/src_ilbc_division_operations.c$(ObjectSuffix): src/ilbc/division_operations.c $(IntermediateDirectory)/src_ilbc_division_operations.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/division_operations.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_division_operations.c$(ObjectSuffix) $(IncludePath)
@@ -1306,14 +1322,6 @@ $(IntermediateDirectory)/src_ilbc_simple_lpc_analysis.c$(DependSuffix): src/ilbc
 
 $(IntermediateDirectory)/src_ilbc_simple_lpc_analysis.c$(PreprocessSuffix): src/ilbc/simple_lpc_analysis.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_simple_lpc_analysis.c$(PreprocessSuffix) src/ilbc/simple_lpc_analysis.c
-
-$(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix): src/ilbc/refiner.c $(IntermediateDirectory)/src_ilbc_refiner.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/fym/722/cpp-project/AudioMixer/src/ilbc/refiner.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_ilbc_refiner.c$(DependSuffix): src/ilbc/refiner.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_ilbc_refiner.c$(ObjectSuffix) -MF$(IntermediateDirectory)/src_ilbc_refiner.c$(DependSuffix) -MM src/ilbc/refiner.c
-
-$(IntermediateDirectory)/src_ilbc_refiner.c$(PreprocessSuffix): src/ilbc/refiner.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_ilbc_refiner.c$(PreprocessSuffix) src/ilbc/refiner.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

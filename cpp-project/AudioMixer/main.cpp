@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include "AudioMixer.h"
 
 using namespace jthread;
 using namespace jrtplib;
@@ -445,12 +446,12 @@ int alsa_play3()
             std::cout << "play " << read_len << " " << ++ count << std::endl;
             
             //usleep(60000);//RTPTime::Wait(RTPTime(0,60));
-            //usleep(10000);
+            usleep(100);
         }
         
-        gettimeofday(&end,NULL);
-        printf("================== timer = %ld us\n", 1000000 * (end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec);
-        start = end;
+        //gettimeofday(&end,NULL);
+        //printf("================== timer = %ld us\n", 1000000 * (end.tv_sec-start.tv_sec)+ end.tv_usec-start.tv_usec);
+        //start = end;
         
         player.play(frame);
         //unsigned char temp[256];
@@ -461,10 +462,334 @@ int alsa_play3()
     free(frame);
 }
 
+int alsa_play5()
+{  
+    int i;  
+    int ret;  
+    //int buf[1024];  
+    unsigned int val;  
+    int dir=0;  
+    char *buffer;  
+    int framesize;  
+    snd_pcm_uframes_t frames;  
+    snd_pcm_uframes_t periodsize;  
+    snd_pcm_t *playback_handle;//PCM设备句柄pcm.h  
+    snd_pcm_hw_params_t *hw_params;//硬件信息和PCM流配置  
+    
+    FILE *fp = fopen("1.pcm", "rb");  
+    if(fp == NULL)  
+    return 0;  
+    fseek(fp, 100, SEEK_SET);  
+       
+    //1. 打开PCM，最后一个参数为0意味着标准配置  
+    ret = snd_pcm_open(&playback_handle, "default", SND_PCM_STREAM_PLAYBACK, 0);  
+    if (ret < 0) {  
+        perror("snd_pcm_open");  
+        exit(1);  
+    }  
+       
+    //2. 分配snd_pcm_hw_params_t结构体  
+    ret = snd_pcm_hw_params_malloc(&hw_params);  
+    if (ret < 0) {  
+        perror("snd_pcm_hw_params_malloc");  
+        exit(1);  
+    }  
+    //3. 初始化hw_params  
+    ret = snd_pcm_hw_params_any(playback_handle, hw_params);  
+    if (ret < 0) {  
+        perror("snd_pcm_hw_params_any");  
+        exit(1);  
+    }  
+    //4. 初始化访问权限  
+    ret = snd_pcm_hw_params_set_access(playback_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED);  
+    if (ret < 0) {  
+        perror("snd_pcm_hw_params_set_access");  
+        exit(1);  
+    }  
+    //5. 初始化采样格式SND_PCM_FORMAT_U8,8位  
+    ret = snd_pcm_hw_params_set_format(playback_handle, hw_params, SND_PCM_FORMAT_S16_LE);  
+    if (ret < 0) {  
+        perror("snd_pcm_hw_params_set_format");  
+        exit(1);  
+    }  
+    //6. 设置采样率，如果硬件不支持我们设置的采样率，将使用最接近的  
+    //val = 44100,有些录音采样频率固定为8KHz  
+       
+   
+    val = 8000;  
+    ret = snd_pcm_hw_params_set_rate_near(playback_handle, hw_params, &val, &dir); 
+    if (ret < 0) {  
+        perror("snd_pcm_hw_params_set_rate_near");  
+        exit(1);  
+    }
+    
+    std::cout << "snd_pcm_hw_params_set_rate_near " << val << ", " << dir << std::endl;
+    
+    //7. 设置通道数量  
+    ret = snd_pcm_hw_params_set_channels(playback_handle, hw_params, 1);  
+    if (ret < 0) {  
+        perror("snd_pcm_hw_params_set_channels");  
+        exit(1);  
+    }  
+       
+    /* Set period size to 32 frames. */  
+    frames = 480;
+    periodsize = frames * 2;  
+    ret = 1;//snd_pcm_hw_params_set_buffer_size_near(playback_handle, hw_params, &periodsize);  
+    if (ret < 0)   
+    {  
+         printf("Unable to set buffer size %li : %s\n", frames * 2, snd_strerror(ret));  
+            
+    }
+    
+    std::cout << "snd_pcm_hw_params_set_buffer_size_near " << frames << ", " << periodsize << std::endl;
+    
+    periodsize /= 2;  
+   
+    ret = snd_pcm_hw_params_set_period_size_near(playback_handle, hw_params, &periodsize, 0);  
+    if (ret < 0)   
+    {  
+        printf("Unable to set period size %li : %s\n", periodsize,  snd_strerror(ret));  
+    }  
+                                     
+    //8. 设置hw_params  
+    ret = snd_pcm_hw_params(playback_handle, hw_params);  
+    if (ret < 0) {  
+        perror("snd_pcm_hw_params");  
+        exit(1);  
+    }  
+       
+     /* Use a buffer large enough to hold one period */  
+    snd_pcm_hw_params_get_period_size(hw_params, &frames, &dir);  
+    
+    std::cout << "snd_pcm_hw_params_get_period_size " << frames << ", " << periodsize << std::endl;
+                                   
+    framesize = frames * 2; /* 2 bytes/sample, 2 channels */  
+    buffer = (char *) malloc(framesize);  
+    fprintf(stderr,  
+            "size = %d\n",  
+            framesize);  
+       
+    while (1)   
+    {  
+        ret = fread(buffer, 1, framesize, fp);  
+        std::cout << "read: " << framesize << std::endl;
+        if(ret == 0)   
+        {  
+              fprintf(stderr, "end of file on input\n");  
+              break;  
+        }   
+        else if (ret != framesize)   
+        {  
+        }  
+        //9. 写音频数据到PCM设备  
+        while(ret = snd_pcm_writei(playback_handle, buffer, frames)<0)  
+        {  
+            std::cout << "play: " << frames << ", " << ret << std::endl;
+            
+            usleep(2000);
+            if (ret == -EPIPE)  
+            {  
+                  /* EPIPE means underrun */  
+                  fprintf(stderr, "underrun occurred\n");  
+                  //完成硬件参数设置，使设备准备好  
+                  snd_pcm_prepare(playback_handle);  
+            }   
+            else if (ret < 0)   
+            {  
+                  fprintf(stderr,  
+                      "error from writei: %s\n",  
+                      snd_strerror(ret));  
+            }
+            
+            //break;
+        }  
+           
+    }         
+    //10. 关闭PCM设备句柄  
+    snd_pcm_close(playback_handle);  
+       
+    return 0;  
+}
+
+int alsa_check()
+{
+    int val;
+
+    printf("ALSA library version: %s\n",
+              SND_LIB_VERSION_STR);
+
+    printf("\nPCM stream types:\n");
+    for (val = 0; val <= SND_PCM_STREAM_LAST; val++)
+        printf(" %s\n",
+          snd_pcm_stream_name((snd_pcm_stream_t)val));
+
+    printf("\nPCM access types:\n");
+    for (val = 0; val <= SND_PCM_ACCESS_LAST; val++)
+        printf(" %s\n",
+          snd_pcm_access_name((snd_pcm_access_t)val));
+
+    printf("\nPCM formats:\n");
+    for (val = 0; val <= SND_PCM_FORMAT_LAST; val++)
+        if (snd_pcm_format_name((snd_pcm_format_t)val)
+          != NULL)
+          printf(" %s (%s)\n",
+            snd_pcm_format_name((snd_pcm_format_t)val),
+            snd_pcm_format_description(
+                               (snd_pcm_format_t)val));
+
+    printf("\nPCM subformats:\n");
+    for (val = 0; val <= SND_PCM_SUBFORMAT_LAST;
+           val++)
+        printf(" %s (%s)\n",
+          snd_pcm_subformat_name((
+            snd_pcm_subformat_t)val),
+          snd_pcm_subformat_description((
+            snd_pcm_subformat_t)val));
+
+    printf("\nPCM states:\n");
+    for (val = 0; val <= SND_PCM_STATE_LAST; val++)
+        printf(" %s\n",
+               snd_pcm_state_name((snd_pcm_state_t)val));
+
+    return 0;
+}
+
+int alsa_record()
+{
+    long loops;
+    int rc;
+    int size;
+    snd_pcm_t *handle;
+    snd_pcm_hw_params_t *params;
+    unsigned int val;
+    int dir;
+    snd_pcm_uframes_t frames;
+    char *buffer;
+
+    /* Open PCM device for recording (capture). */
+    /* 打开 PCM capture 捕获设备 */
+    rc = snd_pcm_open(&handle, "default",
+                        SND_PCM_STREAM_CAPTURE, 0);
+    if (rc < 0) {
+        fprintf(stderr,
+                "unable to open pcm device: %s\n",
+                snd_strerror(rc));
+        exit(1);
+    }
+
+    /* Allocate a hardware parameters object. */
+    /* 分配一个硬件参数结构体 */
+    snd_pcm_hw_params_alloca(&params);
+
+    /* Fill it in with default values. */
+    /* 使用默认参数 */
+    snd_pcm_hw_params_any(handle, params);
+
+    /* Set the desired hardware parameters. */
+
+    /* Interleaved mode */
+    snd_pcm_hw_params_set_access(handle, params,
+                          SND_PCM_ACCESS_RW_INTERLEAVED);
+
+    /* Signed 16-bit little-endian format */
+    /* 16位 小端 */
+    snd_pcm_hw_params_set_format(handle, params,
+                                  SND_PCM_FORMAT_S16_LE);
+
+    /* Two channels (stereo) */
+    /* 双通道 */
+    snd_pcm_hw_params_set_channels(handle, params, 1);
+
+    /* 44100 bits/second sampling rate (CD quality) */
+    /* 采样率 */
+    val = 8000;
+    snd_pcm_hw_params_set_rate_near(handle, params,
+                                      &val, &dir);
+
+    /* Set period size to 32 frames. */
+    /* 一个周期有 32 帧 */
+    frames = 480;
+    snd_pcm_hw_params_set_period_size_near(handle,
+                                  params, &frames, &dir);
+
+    /* Write the parameters to the driver */
+    /* 参数生效 */
+    rc = snd_pcm_hw_params(handle, params);
+    if (rc < 0) {
+        fprintf(stderr,
+                "unable to set hw parameters: %s\n",
+                snd_strerror(rc));
+        exit(1);
+    }
+
+    /* Use a buffer large enough to hold one period */
+    /* 得到一个周期的数据大小 */
+    snd_pcm_hw_params_get_period_size(params,
+                                          &frames, &dir);
+    /* 16位 双通道，所以要 *4 */
+    size = frames * 2; /* 2 bytes/sample, 2 channels */
+    buffer = (char *) malloc(size);
+
+    /* We want to loop for 5 seconds */
+    /* 等到一个周期的时间长度 */
+    snd_pcm_hw_params_get_period_time(params,
+                                             &val, &dir);
+    loops = 10000000 / val;
+
+    while (loops > 0)
+    {
+        loops--;
+        
+        std::cout << "snd_pcm_readi " << frames << ", " << size << std::endl;
+        
+        /* 捕获数据 */
+        rc = snd_pcm_readi(handle, buffer, frames);
+        if (rc == -EPIPE) {
+            /* EPIPE means overrun */
+            fprintf(stderr, "overrun occurred\n");
+            snd_pcm_prepare(handle);
+        } else if (rc < 0) {
+            fprintf(stderr,
+                  "error from read: %s\n",
+                  snd_strerror(rc));
+        } else if (rc != (int)frames) {
+            fprintf(stderr, "short read, read %d frames\n", rc);
+        }
+        
+        if(true)
+        {
+            FILE* f = fopen("./record.pcm", "ab+");
+            fwrite(buffer, sizeof(short), size, f);
+            fclose(f);
+        }
+
+        /* 写入到标准输出中去 */
+        /*rc = write(1, buffer, size);
+        if (rc != size)
+          fprintf(stderr,
+                  "short write: wrote %d bytes\n", rc);*/
+    }
+
+    snd_pcm_drain(handle);
+    snd_pcm_close(handle);
+    free(buffer);
+
+    return 0;
+}
+
 int main(int argc, char **argv)
 {
+    alsa_check();
+    
     //alsa_play3();
+    //alsa_play5();
     //return 0;
+    
+    //alsa_record();
+    //return 0;
+    
+    //inet_addr("123.123.123.123");
     
 #if 0
     //SignalThread thread;
@@ -527,4 +852,168 @@ int main(int argc, char **argv)
 	}
     
 	return 0;
+}
+
+//1 创建会议室
+CID conf_room_new()
+{
+    CID id = 0;
+    
+    if(SS_NoErr != SINGLETON(CScheduleServer).add_conference(id)) id = -1;
+    
+    return id;
+}
+
+//2 删除会议室
+void conf_room_rm(CID cid)
+{
+    SINGLETON(CScheduleServer).close_conference(cid);
+}
+
+//3 开始会议室混音及rtp收发等处理
+int conf_room_start(CID cid)
+{
+    if(SS_NoErr != SINGLETON(CScheduleServer).resume_conference(cid)) return -1;
+    
+    return 0;
+}
+
+//4 停止会议室混音及rtp收发等处理
+int conf_room_stop(CID cid)
+{
+    if(SS_NoErr != SINGLETON(CScheduleServer).pause_conference(cid)) return -1;
+    
+    return 0;
+}
+
+//5 暂停整个会议室的音频处理，包括其中所有成员
+int conf_room_hold(CID cid)
+{
+    if(SS_NoErr != SINGLETON(CScheduleServer).pause_conference(cid)) return -1;
+    
+    return 0;
+}
+
+//6 恢复整个会议室音频处理
+int conf_room_recover(CID cid)
+{
+    if(SS_NoErr != SINGLETON(CScheduleServer).resume_conference(cid)) return -1;
+    
+    return 0;
+}
+
+//7 添加成员到会议室
+MID conf_room_add_member(CID cid, int codec, int mode, int lport, int rport, char* rip)
+{
+    MID mid;
+    
+    if(SS_NoErr != SINGLETON(CScheduleServer).add_paiticipant(mid, cid, rip, rport, codec)) return -1;
+    
+    return mid;
+}
+
+//8 删除会议室成员
+void conf_room_rm_member(MID mid, CID cid)
+{
+    SINGLETON(CScheduleServer).remove_paiticipant(cid, mid);
+}
+
+//9 打开成员的音频发送
+int conf_enable_member_send(MID mid)
+{
+    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(mid);
+    
+    if(NULL != ua) return -1;
+    
+    ua->resume_send();
+    
+    return 0;
+}
+
+//10 关闭成员的音频发送
+int conf_disable_member_send(MID mid)
+{
+    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(mid);
+    
+    if(NULL != ua) return -1;
+    
+    ua->pause_send();
+    
+    return 0;
+}
+
+//11 打开成员的音频接收
+int conf_enable_member_recv(MID mid)
+{
+    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(mid);
+    
+    if(NULL != ua) return -1;
+    
+    ua->resume_recv();
+    
+    return 0;
+}
+
+//12 关闭成员的音频接收
+int conf_disable_member_recv(MID mid)
+{
+    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(mid);
+    
+    if(NULL != ua) return -1;
+    
+    ua->pause_recv();
+    
+    return 0;
+}
+
+//13 更新成员编解码及收发模式
+int conf_update_member_codec(MID mid, int codec, int mode)
+{
+    return 0;
+}
+
+//14 更新成员本地地址信息
+int conf_update_member_laddr(MID mid, int port, char* ip)
+{
+    return 0;
+}
+
+//15 更新成员对端地址信息
+int conf_update_member_raddr(MID mid, int port, char* ip)
+{
+    return 0;
+}
+
+//16 开始对单个成员播放文件
+int conf_member_start_fileplay(MID mid, char* fname, int times)
+{
+    return 0;
+}
+
+//17 停止对单个成员播放文件
+int conf_member_stop_fileplay(MID mid)
+{
+    return 0;
+}
+
+//18 查看会议室情况
+void conf_room_show(CID cid)
+{
+    SINGLETON(CScheduleServer).query_conference(cid);
+}
+
+//19 启动混音模块
+int conf_init(char* cfg)
+{
+    if(SS_NoErr != SINGLETON(CScheduleServer).start("./")) return -1;
+    
+    return 0;
+}
+
+//20 停止混音模块
+int conf_uninit()
+{
+    SINGLETON(CScheduleServer).shutdown();
+    
+    return 0;
 }

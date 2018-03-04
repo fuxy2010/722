@@ -22,7 +22,8 @@ _cur_path(""),
 _enalble(false),
 _rtp_recv_session(NULL),
 _rtp_recv_thread_num(0),
-_rtp_recv_base_port(0)
+_rtp_recv_base_port(0),
+_milestone(0)
 {
 	_ua_map.clear();
 }
@@ -33,6 +34,10 @@ CScheduleServer::~CScheduleServer()
 
 SS_Error CScheduleServer::start(std::string path)
 {
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    _milestone = 1000000 * time.tv_sec + time.tv_usec;
+    
     _cur_path = path;
     
 /*#if 0
@@ -118,6 +123,7 @@ SS_Error CScheduleServer::start(std::string path)
 	CTaskThreadPool::add_threads(2, this);
     
     _local_play_thread.Start();
+    _local_record_thread.Start();
     
 #if 0
     {
@@ -200,6 +206,7 @@ SS_Error CScheduleServer::shutdown()
 	delete[] _rtp_recv_session;
 	_rtp_recv_session = NULL;
     
+    _local_record_thread.Kill();
     _local_play_thread.Kill();
     
     CTaskThreadPool::remove_threads();
@@ -299,12 +306,12 @@ void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsign
 	//unsigned long start = timeGetTime();
     
 #if 1
-    if(3 == ssrc)
+    if(1 == ssrc)
     {
-        //gettimeofday(&end, NULL);
-        //unsigned long timer = 1000000 * (end.tv_sec - ttt.tv_sec) + end.tv_usec - ttt.tv_usec;
-        //printf("timer = %ld us\n",timer);        
-        //ttt = end;
+        gettimeofday(&end, NULL);
+        unsigned long timer = 1000000 * (end.tv_sec - ttt.tv_sec) + end.tv_usec - ttt.tv_usec;
+        printf("timer = %ld us\n",timer);        
+        ttt = end;
         
         CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
         if(NULL != ua) ua->add_audio_frame(data, length, sequence, timestamp);
@@ -331,7 +338,7 @@ void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsign
         
     //update ua address by reg_ua
     {
-        SINGLETON(CScheduleServer).reg_ua(ssrc, src_ip, src_port, 0, UA_MobilePhone);
+        //SINGLETON(CScheduleServer).reg_ua(ssrc, src_ip, src_port, 0, UA_MobilePhone);
     }
 
 	CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(ssrc);
@@ -423,8 +430,13 @@ void CScheduleServer::test()
 {
 }
 
-SS_Error CScheduleServer::add_conference(unsigned long id)
+SS_Error CScheduleServer::add_conference(unsigned long& id)
 {
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    id = 1000000 * time.tv_sec + time.tv_usec;
+    id -= _milestone;
+    
     CONFERENCE_TASK_INFO conference_info;
     conference_info.conference_id = id;
     
@@ -462,17 +474,27 @@ SS_Error CScheduleServer::close_conference(unsigned long id)
     return SS_NoErr;
 }
 
-SS_Error CScheduleServer::add_paiticipant(unsigned long conference_id, unsigned long participant_id)
+//SS_Error CScheduleServer::add_paiticipant(unsigned long conference_id, unsigned long participant_id)
+unsigned long CScheduleServer::add_paiticipant(unsigned long& participant_id, unsigned long conference_id, char* ip, unsigned short port, int codec)
 {
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    unsigned long id = 1000000 * time.tv_sec + time.tv_usec;
+    id -= _milestone;
+    
     CSSLocker lock(&_conference_map_mutex);
     
     if(_conference_map.end() == _conference_map.find(conference_id)) return SS_ConferenceControlFail;
     
     CConferenceTask* conference = dynamic_cast<CConferenceTask*>(_conference_map[conference_id]);
     
-    if(NULL == conference) return SS_ConferenceControlFail;;
+    if(NULL == conference) return SS_ConferenceControlFail;
     
-    conference->add_participant(participant_id, true);
+    reg_ua(id, (const char*)ip, port, codec);
+    
+    conference->add_participant(id, true);
+    
+    participant_id = id;
     
     return SS_NoErr;
 }
@@ -490,4 +512,39 @@ SS_Error CScheduleServer::remove_paiticipant(unsigned long conference_id, unsign
     conference->remove_participant(participant_id);
     
     return SS_NoErr;
+}
+
+SS_Error CScheduleServer::pause_conference(unsigned long conference_id)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    if(_conference_map.end() == _conference_map.find(conference_id)) return SS_ConferenceControlFail;
+    
+    CConferenceTask* conference = dynamic_cast<CConferenceTask*>(_conference_map[conference_id]);
+    
+    if(NULL == conference) return SS_ConferenceControlFail;;
+    
+    conference->pause();
+    
+    return SS_NoErr;
+}
+
+SS_Error CScheduleServer::resume_conference(unsigned long conference_id)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    if(_conference_map.end() == _conference_map.find(conference_id)) return SS_ConferenceControlFail;
+    
+    CConferenceTask* conference = dynamic_cast<CConferenceTask*>(_conference_map[conference_id]);
+    
+    if(NULL == conference) return SS_ConferenceControlFail;;
+    
+    conference->resume();
+    
+    return SS_NoErr;
+}
+
+void CScheduleServer::query_conference(unsigned long conference_id)
+{
+    CTaskThreadPool::query_conference(conference_id);
 }

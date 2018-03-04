@@ -26,7 +26,9 @@ _last_audio_packet_sequence(0),
 //_fetch_audio_frame_fail_times(0),
 //_fetch_audio_frame_timestamp(0),
 _next_fetched_audio_sequence(0),
-_rtp_send_session(NULL)
+_rtp_send_session(NULL),
+_send_idle(false),
+_recv_idle(false)
 {
     remove_all_audio_packet();
     
@@ -52,6 +54,8 @@ void CUserAgent::update_threshold()
 SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned long& length, const unsigned short& sequence, const unsigned long& timestamp)
 {
     _latest_audio_packet_timestamp = clock() / 1000;
+    
+    if(true == _recv_idle) return SS_NoErr;
 
 	//解码
 	RAW_AUDIO_FRAME_PTR frame_ptr;
@@ -125,6 +129,81 @@ SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned l
 		}
 
 		_last_audio_packet_sequence = sequence;
+	}
+    
+	return SS_NoErr;
+}
+
+SS_Error CUserAgent::add_raw_audio_frame(const short* data, const unsigned long& length)
+{
+    _latest_audio_packet_timestamp = clock() / 1000;
+    
+    if(true == _recv_idle) return SS_NoErr;
+
+	//解码
+	RAW_AUDIO_FRAME_PTR frame_ptr;
+	if(false == CMemPool::malloc_raw_audio_frame(frame_ptr))
+	{
+		return SS_NoErr;
+	}
+
+	//解码成功
+	frame_ptr.frame->energy = 1;
+	frame_ptr.frame->available = true;
+	frame_ptr.frame->sequence = 1;
+	frame_ptr.frame->src_timestamp = 0;
+	frame_ptr.frame->encoded_size = length;
+    memcpy(frame_ptr.frame->payload, data, length * sizeof(short));
+    
+    if(false)
+    {
+        player.play(frame_ptr.frame->payload);
+        //FILE* f = fopen("./recv.pcm", "ab+");        
+        //fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
+        //fclose(f);
+    }
+
+	/*if(false)//丢弃静音包
+	{
+		if(true == SINGLETON(VAD::CVAD).vad(frame_ptr.frame->payload, 8000, 160) &&
+			2000 >= (timeGetTime() - _latest_available_audio_packet_timestamp))//避免因静音检测长时间不发包，最多允许2000ms内不编码
+		{
+			//std::cout << "#";
+			CMemPool::free_raw_audio_frame(frame_ptr);
+			return SS_NoErr;
+		}
+
+		_latest_available_audio_packet_timestamp = timeGetTime();
+	}*/
+    
+    {
+        CSSLocker lock(&_raw_audio_frame_list_mutex);
+
+		if(_max_audio_packet_num < _raw_audio_frame_list.size())
+		{
+			CMemPool::free_raw_audio_frame(_raw_audio_frame_list.front());
+			_raw_audio_frame_list.pop_front();
+
+			//std::cout << ",";//cout << "\nDAF2 " << _info.id;
+		}
+        
+        if(false)
+        //if(0 == _info.id)
+        {
+            FILE* f = fopen("./recv.pcm", "ab+");        
+            fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
+            fclose(f);
+            return SS_NoErr;
+        }
+
+		_raw_audio_frame_list.push_back(frame_ptr);
+
+		/*if(sequence < _last_audio_packet_sequence)
+		{
+			_raw_audio_frame_list.sort();
+		}*/
+
+		_last_audio_packet_sequence = 0;//sequence;
 	}
     
 	return SS_NoErr;
@@ -212,6 +291,8 @@ bool CUserAgent::add_mix_frame(RAW_AUDIO_FRAME_PTR* frame_ptr)
         
 void CUserAgent::send_mix_frame()
 {
+    if(true == _send_idle) return;
+    
     if(true == _mix_frame_ptr.frame->available)
     {
         ::memset(_mix_audio_packet, 0, sizeof(_mix_audio_packet));
@@ -232,6 +313,8 @@ void CUserAgent::send_mix_frame()
 
 void CUserAgent::send_audience_audio_packet(unsigned char* data, unsigned long len)
 {
+    if(true == _send_idle) return;
+    
     if(NULL != _rtp_send_session) _rtp_send_session->send_rtp_packet(data, len, ILBCRTPPacket, true, AUDIO_SAMPLING_RATE, _info.id);
 }
 

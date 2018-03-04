@@ -30,7 +30,8 @@ _to_be_ended(false),
 //_add_audio_mux_task_timestamp(0),
 //_start_timestamp(clock()),
 //_already_done_misc_task(false)
-_next_fetch_audio_frame_timestamp(0)
+_next_fetch_audio_frame_timestamp(0),
+_idle(true)
 {
 	_task_info = task_info;
 
@@ -65,6 +66,12 @@ CConferenceTask::~CConferenceTask()
 SS_Error CConferenceTask::run()
 {
 	//CTimeConsuming tc('R', 10.0);
+    
+    if(true == _idle)
+    {
+        usleep(100);
+        return SS_NoErr;
+    }
 
 	CSSLocker control_lock(&_conference_control_mutext);
     

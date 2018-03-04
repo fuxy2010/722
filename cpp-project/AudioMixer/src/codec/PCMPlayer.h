@@ -28,7 +28,7 @@ namespace ScheduleServer
         _snd_params(NULL)
         {
             //打开 PCM playback 设备
-            int rc = snd_pcm_open(&_snd_handle, "default", SND_PCM_STREAM_PLAYBACK, 0);
+            int rc = snd_pcm_open(&_snd_handle, "default", SND_PCM_STREAM_PLAYBACK, 0);;
             if(0 > rc)
             {
                 std::cout << "unable to open pcm device: " << snd_strerror(rc) << std::endl;
@@ -36,7 +36,8 @@ namespace ScheduleServer
             }
             
             //分配一个硬件参数结构体
-            snd_pcm_hw_params_alloca(&_snd_params);
+            //snd_pcm_hw_params_alloca(&_snd_params);
+            snd_pcm_hw_params_malloc(&_snd_params);
 
             //使用默认参数
             snd_pcm_hw_params_any(_snd_handle, _snd_params);
@@ -55,10 +56,12 @@ namespace ScheduleServer
 
             //设置一个周期为480帧, 60ms
             _snd_frames = 480;
-            snd_pcm_uframes_t periodsize = _snd_frames * 2;
+            snd_pcm_uframes_t periodsize = _snd_frames;// * 2;
             //snd_pcm_hw_params_set_buffer_size_near(_snd_handle, _snd_params, &periodsize);
             
-            periodsize /= 2;
+            std::cout << "snd_pcm_hw_params_set_buffer_size_near " << _snd_frames << ", " << periodsize << std::endl;
+            
+            //periodsize /= 2;
             
             snd_pcm_hw_params_set_period_size_near(_snd_handle, _snd_params, &periodsize, &dir);
             
@@ -73,7 +76,9 @@ namespace ScheduleServer
             }
             
             //得到一个周期的数据长度
-            snd_pcm_hw_params_get_period_size(_snd_params, &_snd_frames, &dir);
+            //snd_pcm_hw_params_get_period_size(_snd_params, &_snd_frames, &dir);
+            
+            std::cout << "snd_pcm_hw_params_get_period_size " << _snd_frames << ", " << periodsize << std::endl;
         };
         
 		virtual ~CPCMPlayer()
@@ -86,7 +91,7 @@ namespace ScheduleServer
         int play(void* pcm)
         {
             int rc = snd_pcm_writei(_snd_handle, pcm, _snd_frames);
-            //std::cout << "play frame " << _snd_frames << std::endl;
+            std::cout << "play frame " << _snd_frames << std::endl;
             
             if(-EPIPE == rc)
             {

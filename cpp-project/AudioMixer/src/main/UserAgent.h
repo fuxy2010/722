@@ -28,14 +28,14 @@ namespace ScheduleServer
 		//unsigned long				ip;//ÍøÂç×Ö½ÚÐòIPµØÖ·
 		char						ip[16];
 		unsigned short				audio_port;//Ö÷»ú×Ö½ÚÐòÒôÆµÊý¾Ý½ÓÊÕ¶Ë¿Ú£¨¼´ÖÕ¶Ë·¢ËÍÒôÆµsocket°ó¶¨¶Ë¿Ú£©
-		unsigned short				video_port;//Ö÷»ú×Ö½ÚÐòÊÓÆµÊý¾Ý½ÓÊÕ¶Ë¿Ú£¨¼´ÖÕ¶Ë·¢ËÍÊÓÆµsocket°ó¶¨¶Ë¿Ú£©»òICEÐÅÁî½ÓÊÕ¶Ë¿Ú
+		//unsigned short				video_port;//Ö÷»ú×Ö½ÚÐòÊÓÆµÊý¾Ý½ÓÊÕ¶Ë¿Ú£¨¼´ÖÕ¶Ë·¢ËÍÊÓÆµsocket°ó¶¨¶Ë¿Ú£©»òICEÐÅÁî½ÓÊÕ¶Ë¿Ú
 		unsigned short				server_audio_port;//µ÷¶È·þÎñÆ÷½ÓÊÕ¸ÃÖÕ¶ËËù·¢ËÍÒôÆµÊý¾ÝµÄ¶Ë¿Ú
-		unsigned short				server_video_port;//µ÷¶È·þÎñÆ÷½ÓÊÕ¸ÃÖÕ¶ËËù·¢ËÍÊÓÆµÊý¾ÝµÄ¶Ë¿Ú
+		//unsigned short				server_video_port;//µ÷¶È·þÎñÆ÷½ÓÊÕ¸ÃÖÕ¶ËËù·¢ËÍÊÓÆµÊý¾ÝµÄ¶Ë¿Ú
 
 		tagUSER_AGENT_INFO() :
 		id(0),// ip(0),
-		audio_port(0), video_port(0),
-		server_audio_port(0), server_video_port(0)
+		audio_port(0),// video_port(0),
+		server_audio_port(0)//, server_video_port(0)
 		{
 			memset(ip, 0, sizeof(ip));
 		}
@@ -55,6 +55,8 @@ namespace ScheduleServer
 
 	public:
 		SS_Error add_audio_frame(const unsigned char* data, const unsigned long& length, const unsigned short& sequence, const unsigned long& timestamp);
+        
+        SS_Error add_raw_audio_frame(const short* data, const unsigned long& length);
 
 		//È¡×îÔçµÄÒôÆµÊý¾Ý°ü
 		//AUDIO_PACKET_PTR fetch_audio_packet();
@@ -119,8 +121,19 @@ namespace ScheduleServer
         
         void send_audience_audio_packet(unsigned char* data, unsigned long len);
         
-    private:
+    protected:
         CPCMPlayer player;
+        
+    protected:
+        bool _send_idle;
+        bool _recv_idle;
+        
+    public:
+        void pause_send() { _send_idle = true; }
+        void resume_send() { _send_idle = false; }
+        
+        void pause_recv() { _recv_idle = true; }
+        void resume_recv() { _recv_idle = false; }
 
 	};
     
