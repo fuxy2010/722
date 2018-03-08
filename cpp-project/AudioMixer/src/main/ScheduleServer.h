@@ -33,9 +33,11 @@ namespace ScheduleServer
 
 		~CScheduleServer();
 
-		SS_Error start(std::string path);
-
+		SS_Error start(RUNNING_MODE mode);
 		SS_Error shutdown();
+        
+        SS_Error start_mixer(unsigned short local_recv_port);
+		SS_Error shutdown_mixer();
 
 		void write_log(std::string& log, int level, bool show_on_screen);
 
@@ -74,7 +76,7 @@ namespace ScheduleServer
 		std::string _cur_path;
 
 		std::map<unsigned long, CUserAgent*> _ua_map;
-        //std::map<jrtplib::RTPIPv4Address, CUserAgent*> _ua_map_ex;
+        std::map<jrtplib::RTPIPv4Address, unsigned long> _ua_id_map;
 		CSSMutex _ua_map_mutex;
 
 		CRTPRecvSession** _rtp_recv_session;//Ã½Ìå½ÓÊÕRTP SessionµÄÖ¸ÕëÊý×é
@@ -108,7 +110,7 @@ namespace ScheduleServer
 				USER_AGENT_INFO info;
 				info.id = id;
 
-				if(ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
+				if(NULL != ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
 				{
 					//info.ip = ip;
 					memset(info.ip, 0, sizeof(info.ip));
@@ -154,7 +156,7 @@ namespace ScheduleServer
 				if(NULL == ua)
 					return SS_NoErr;
 
-				if(ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
+				if(NULL != ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
 				{
 					//ua->_info.ip = ip;
 					memset(ua->_info.ip, 0, sizeof(ua->_info.ip));
@@ -166,6 +168,8 @@ namespace ScheduleServer
 				
 				//ua->update_alive_timestamp();
 			}
+            
+            _ua_id_map[jrtplib::RTPIPv4Address(ntohl(inet_addr(ip)), audio_port)] = id;
 
 			return SS_NoErr;
 		}
@@ -186,8 +190,20 @@ namespace ScheduleServer
 			CSSLocker lock(&_ua_map_mutex);
 
 			//if(!id || _ua_map.end() == _ua_map.find(id))
-            if(_ua_map.end() == _ua_map.find(id))
-				return NULL;
+            if(_ua_map.end() == _ua_map.find(id)) return NULL;
+
+			return _ua_map[id];
+		}
+        
+        inline CUserAgent* fetch_ua(const char* ip, const unsigned short port)
+		{
+			CSSLocker lock(&_ua_map_mutex);
+            
+            if(_ua_id_map.end() == _ua_id_map.find(jrtplib::RTPIPv4Address(ntohl(inet_addr(ip)), port))) return NULL;
+            
+            unsigned long id = _ua_id_map[jrtplib::RTPIPv4Address(ntohl(inet_addr(ip)), port)];
+
+			if(_ua_map.end() == _ua_map.find(id)) return NULL;
 
 			return _ua_map[id];
 		}
@@ -251,6 +267,12 @@ namespace ScheduleServer
         
     private:
         unsigned long _milestone;
+        
+    protected:
+        RUNNING_MODE _mode;
+        
+    public:
+        RUNNING_MODE get_mode() { return  _mode; }
         
 	};
 }

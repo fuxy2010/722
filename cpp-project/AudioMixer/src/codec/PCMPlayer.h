@@ -15,6 +15,7 @@
 #include "GeneralDef.h"
 #include <alsa/asoundlib.h>
 #include <iostream>
+#include <sys/time.h>
 
 namespace ScheduleServer
 {
@@ -90,8 +91,13 @@ namespace ScheduleServer
     public:        
         int play(void* pcm)
         {
+            gettimeofday(&t2, NULL);
+            unsigned long timer = 1000000 * (t2.tv_sec - t1.tv_sec) + t2.tv_usec - t1.tv_usec;
+            //printf("timer = %ld us\n",timer);
+            t1 = t2;
+        
             int rc = snd_pcm_writei(_snd_handle, pcm, _snd_frames);
-            std::cout << "play frame " << _snd_frames << std::endl;
+            //std::cout << "play frame " << _snd_frames << std::endl;
             
             if(-EPIPE == rc)
             {
@@ -125,6 +131,10 @@ namespace ScheduleServer
         snd_pcm_t* _snd_handle;
         snd_pcm_hw_params_t* _snd_params;
         snd_pcm_uframes_t _snd_frames;
+        
+    private:
+        struct  timeval  t1;
+        struct  timeval  t2; 
 	};
 }
 

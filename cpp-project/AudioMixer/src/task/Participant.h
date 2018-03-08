@@ -83,7 +83,7 @@ namespace ScheduleServer
 				}*/
 			}
 
-			audio_codec = new CiLBCCodec();
+			audio_codec = new CG711Codec();//new CiLBCCodec();
 
 			return audio_codec;
 		}

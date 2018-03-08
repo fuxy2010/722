@@ -133,7 +133,8 @@ namespace ScheduleServer
         
     private:
         CAudioCodec* _audio_codec;
-        //unsigned char _mix_audio_packet[256];//for audience
+        CAudioCodec* _audio_codec2;
+        //unsigned char _mix_audio_packet[1024];//for audience
         
         struct timeval _start;
         struct timeval _end;
@@ -152,7 +153,15 @@ namespace ScheduleServer
         
         void query()
         {
-            
+            for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
+            {
+                CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
+
+                if(NULL != ua)
+                {
+                    std::cout << "participant: " << ua->_info.id << ", " << ua->_info.ip << " : " << ua->_info.audio_port << std::endl;
+                }
+            }
         }
 	};
     

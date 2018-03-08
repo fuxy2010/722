@@ -24,6 +24,14 @@ namespace ScheduleServer
 {
 	//²ÎÊýÉÏÏÂÎÄÀàÐÍ¶¨Òå
 	typedef std::map<std::string, std::string> SS_CTX;
+    
+    typedef enum
+	{
+		MODE_BROADCAST = 0,//
+        MODE_RELAY,
+        MODE_CONFERENCE
+	}
+	RUNNING_MODE;
 
 	//Éè±¸ÀàÐÍ¶¨Òå
 	typedef enum

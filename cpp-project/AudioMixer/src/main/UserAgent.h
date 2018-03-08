@@ -16,6 +16,7 @@
 #include "Locker.h"
 #include "MediaData.h"
 #include "iLBCCodec.h"
+#include "G711Codec.h"
 #include "JRTPSession.h"
 #include "PCMPlayer.h"
 
@@ -134,6 +135,10 @@ namespace ScheduleServer
         
         void pause_recv() { _recv_idle = true; }
         void resume_recv() { _recv_idle = false; }
+        
+    public:
+        void update_codec(int codec) {}
+        void update_mode(int mode) {}
 
 	};
     

@@ -144,6 +144,16 @@ private:
 	uint32_t ip;
 	uint16_t port;
 	uint16_t rtcpsendport;
+    
+public://fym
+    bool operator < (RTPIPv4Address const& _addr) const
+	{
+		if(ip < _addr.ip)
+			return true;
+		else return port < _addr.port;
+
+		return false;
+	}
 };
 
 } // end namespace

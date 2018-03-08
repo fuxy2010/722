@@ -2,7 +2,7 @@
 <CodeLite_Project Name="AudioMixer" Version="10.0.0" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00010001N0005Debug000000000000]]>
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
     </Plugin>
   </Plugins>
   <Description/>
@@ -353,7 +353,7 @@
     </VirtualDirectory>
     <File Name="main.cpp"/>
   </VirtualDirectory>
-  <Settings Type="Executable">
+  <Settings Type="Static Library">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
         <IncludePath Value="."/>
@@ -418,14 +418,27 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Release" CompilerType="Cross GCC ( arm-fsl-linux-gnueabi )" DebuggerType="GNU gdb debugger" Type="Static Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
-        <IncludePath Value="."/>
+        <IncludePath Value="./"/>
+        <IncludePath Value="./src/jrtplib/"/>
+        <IncludePath Value="./src/module/"/>
+        <IncludePath Value="./src/main/"/>
+        <IncludePath Value="./src/misc/"/>
+        <IncludePath Value="./src/ilbc/"/>
+        <IncludePath Value="./src/codec/"/>
+        <IncludePath Value="./src/thread/"/>
+        <IncludePath Value="./src/task/"/>
+        <IncludePath Value="/home/fym/722/rtfs/usr/include/"/>
+        <Preprocessor Value="WEBRTC_LINUX"/>
+        <Preprocessor Value="RTP_SUPPORT_THREAD"/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
-      <Linker Options="" Required="yes"/>
+      <Linker Options="" Required="yes">
+        <LibraryPath Value="/home/fym/722/rtfs/usr/lib"/>
+      </Linker>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(IntermediateDirectory)/lib$(ProjectName).a" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
@@ -436,7 +449,12 @@
         <StartupCommands/>
       </Debugger>
       <PreBuild/>
-      <PostBuild/>
+      <PostBuild>
+        <Command Enabled="yes">cp $(IntermediateDirectory)/lib$(ProjectName).a ../AudioMixerDemo/</Command>
+        <Command Enabled="yes">cp AudioMixer.h ../AudioMixerDemo/</Command>
+        <Command Enabled="yes">cp $(IntermediateDirectory)/lib$(ProjectName).a ../AudioMixerCDemo/</Command>
+        <Command Enabled="yes">cp AudioMixer.h ../AudioMixerCDemo/</Command>
+      </PostBuild>
       <CustomBuild Enabled="no">
         <RebuildCommand/>
         <CleanCommand/>

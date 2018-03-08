@@ -11,6 +11,11 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+
+#ifndef __cplusplus
+#define __cplusplus
+#endif
+
 #include "AudioMixer.h"
 
 using namespace jthread;
@@ -778,7 +783,7 @@ int alsa_record()
     return 0;
 }
 
-int main(int argc, char **argv)
+int main2(int argc, char **argv)
 {
     alsa_check();
     
@@ -831,7 +836,7 @@ int main(int argc, char **argv)
 	//启动服务
 	try
 	{
-		if(SS_NoErr != SINGLETON(CScheduleServer).start("./"))//启动服务
+		if(SS_NoErr != SINGLETON(CScheduleServer).start(MODE_CONFERENCE))//启动服务
 		{
 			std::cout << "<FAIL> ScheduleServer failed in starting, please press any key to exit!" << std::endl;
 			std::cin.get();
@@ -903,7 +908,8 @@ int conf_room_recover(CID cid)
 }
 
 //7 添加成员到会议室
-MID conf_room_add_member(CID cid, int codec, int mode, int lport, int rport, char* rip)
+//MID conf_room_add_member(CID cid, int codec, int mode, int lport, int rport, char* rip)
+MID conf_room_add_member(CID cid, CODEC codec, int mode, int rport, char* rip)
 {
     MID mid;
     
@@ -967,20 +973,35 @@ int conf_disable_member_recv(MID mid)
 }
 
 //13 更新成员编解码及收发模式
-int conf_update_member_codec(MID mid, int codec, int mode)
+int conf_update_member_codec(MID mid, CODEC codec, int mode)
 {
+    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(mid);
+    
+    if(NULL != ua) return -1;
+    
+    ua->update_codec(codec);
+    ua->update_mode(mode);
+    
     return 0;
 }
 
 //14 更新成员本地地址信息
-int conf_update_member_laddr(MID mid, int port, char* ip)
+//int conf_update_member_laddr(MID mid, int port)
+int conf_set_local_laddr(int port, char* ip)
 {
+    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(1);//1--local ua for record
+    
+    if(NULL != ua) return -1;
+    
+    //ua->set_loacl_addr(int port);
+    
     return 0;
 }
 
 //15 更新成员对端地址信息
 int conf_update_member_raddr(MID mid, int port, char* ip)
 {
+    SINGLETON(CScheduleServer).reg_ua(mid, ip, port, 0);
     return 0;
 }
 
@@ -1003,9 +1024,10 @@ void conf_room_show(CID cid)
 }
 
 //19 启动混音模块
-int conf_init(char* cfg)
+int conf_init(unsigned short local_port)
 {
-    if(SS_NoErr != SINGLETON(CScheduleServer).start("./")) return -1;
+    //if(SS_NoErr != SINGLETON(CScheduleServer).start()) return -1;
+    if(SS_NoErr != SINGLETON(CScheduleServer).start_mixer(local_port)) return -1;
     
     return 0;
 }
@@ -1013,7 +1035,68 @@ int conf_init(char* cfg)
 //20 停止混音模块
 int conf_uninit()
 {
-    SINGLETON(CScheduleServer).shutdown();
+    SINGLETON(CScheduleServer).shutdown_mixer();
     
     return 0;
+}
+
+#ifdef NDEBUG
+int main3(int argc, char **argv)
+#else
+int main(int argc, char **argv)
+#endif
+{
+    alsa_check();
+    
+    if(0 != conf_init(30000))//启动服务
+    {
+        std::cout << "<FAIL> ScheduleServer failed in starting, please press any key to exit!" << std::endl;
+        std::cin.get();
+        
+        conf_uninit();
+    }
+    
+    //start conference/////////
+    CID cid = 0;
+#if 1
+    cid = conf_room_new();
+        
+    conf_room_start(cid);
+    
+    //MID mid1 = conf_room_add_member(cid, 0, 0, 22000, "172.16.24.127");
+    //MID mid2 = conf_room_add_member(cid, 0, 0, 22010, "172.16.24.127");
+    //MID mid3 = conf_room_add_member(cid, 0, 0, 22020, "172.16.24.127");
+    
+    MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.1.101");
+    MID mid2 = conf_room_add_member(cid, G711, 0, 23000, "192.168.1.101");
+    MID mid3 = conf_room_add_member(cid, G711, 0, 24000, "192.168.1.101");
+#endif
+    ///////////////////////////
+    
+    std::string input_str("");    
+	while (true)
+	{
+        std::cin >> input_str;
+        
+        input_str.erase(0, input_str.find_first_not_of(" \t\n\r"));
+		input_str.erase(input_str.find_last_not_of(" \t\n\r") + 1);
+
+		if (input_str.empty()) continue;
+
+		if("quit" == input_str || "exit" == input_str)
+        {
+            conf_room_rm(cid);
+            break;
+        }
+        
+        if("query" == input_str)
+        {
+            
+            conf_room_show(cid);
+        }
+	}
+    
+    conf_uninit();
+    
+	return 0;
 }

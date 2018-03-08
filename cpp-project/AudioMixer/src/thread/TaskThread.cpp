@@ -242,15 +242,14 @@ void CTaskThreadPool::remove_threads()
 {
 	for(unsigned short x = 0; x < _task_thread_num; ++x)
 	{
-		//_task_thread_array[x]->shutdown();
         _task_thread_array[x]->Kill();
 	}
-
-	for(unsigned short y = 0; y < _task_thread_num; ++y)
+ 
+	/*for(unsigned short y = 0; y < _task_thread_num; ++y)
 	{
 		delete _task_thread_array[y];
 		_task_thread_array[y] = NULL;
-	}
+	}*/
 
 	delete[] _task_thread_array;
 	_task_thread_array = NULL;

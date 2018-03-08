@@ -79,14 +79,6 @@ SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned l
 	frame_ptr.frame->sequence = sequence;
 	frame_ptr.frame->src_timestamp = timestamp;
 	frame_ptr.frame->encoded_size = length;
-    
-    if(false)
-    {
-        player.play(frame_ptr.frame->payload);
-        //FILE* f = fopen("./recv.pcm", "ab+");        
-        //fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
-        //fclose(f);
-    }
 
 	/*if(false)//丢弃静音包
 	{
@@ -324,7 +316,7 @@ CMobileUserAgent::CMobileUserAgent(USER_AGENT_INFO& info)
 	_info = info;    
     memcpy(_info.ip, info.ip, strlen(info.ip));
     
-	_audio_codec = new CiLBCCodec();
+	_audio_codec = new CG711Codec();//new CiLBCCodec();
     
     _rtp_send_session = new CRTPRecvSession(31000 + (_info.id & 0xffff) * 2);
     
