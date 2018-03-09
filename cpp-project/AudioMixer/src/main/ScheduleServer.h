@@ -21,6 +21,7 @@
 #include "TaskThread.h"
 #include "LocalPlayThread.h"
 #include "LocalRecordThread.h"
+#include "BroadcastThread.h"
 
 #include "rtpipv4address.h"
 
@@ -39,8 +40,9 @@ namespace ScheduleServer
         SS_Error start_mixer(unsigned short local_recv_port);
 		SS_Error shutdown_mixer();
         
-        SS_Error start_broadcast(unsigned short local_recv_port);
+        SS_Error start_broadcast();
 		SS_Error shutdown_broadcast();
+        SS_Error add_broadcast_receiver(char* ip, unsigned short port, int codec);
 
 		void write_log(std::string& log, int level, bool show_on_screen);
 
@@ -251,6 +253,7 @@ namespace ScheduleServer
         //CPCMPlayThread _pcm_play_thread;
         CLocalPlayThread _local_play_thread;
         CLocalRecordThread _local_record_thread;
+        CBroadcastThread _broadcast_thread;
         
     private:
         std::map<unsigned long, CTask*> _conference_map;

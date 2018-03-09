@@ -19,6 +19,8 @@
       <File Name="src/task/Task.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="thread">
+      <File Name="src/thread/BroadcastThread.h"/>
+      <File Name="src/thread/BroadcastThread.cpp"/>
       <File Name="src/thread/LocalRecordThread.h"/>
       <File Name="src/thread/LocalRecordThread.cpp"/>
       <File Name="src/thread/LocalPlayThread.h"/>

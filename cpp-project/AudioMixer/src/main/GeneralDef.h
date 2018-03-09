@@ -183,6 +183,7 @@ namespace ScheduleServer
 	{
 		AMRNBRTPPacket = 0,//ÒôÆµ°ü
         ILBCRTPPacket,
+        G711RTPPacket,
 		PCMRTPPacket,//ÒôÆµ°ü
 		H264RTPPacket,//ÊÓÆµ°ü
 		UnknownRTPPacket//Î´Öª

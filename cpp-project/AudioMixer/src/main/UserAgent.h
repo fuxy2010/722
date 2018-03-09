@@ -111,7 +111,7 @@ namespace ScheduleServer
         
         RAW_AUDIO_FRAME_PTR _mix_frame_ptr;
         
-        unsigned char _mix_audio_packet[256];
+        unsigned char _mix_audio_packet[1024];
         
     public:
         bool malloc_mix_audio_frame();

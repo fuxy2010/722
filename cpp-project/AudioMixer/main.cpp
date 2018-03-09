@@ -1040,14 +1040,8 @@ int conf_uninit()
     return 0;
 }
 
-#ifdef NDEBUG
-int main3(int argc, char **argv)
-#else
-int main(int argc, char **argv)
-#endif
+void conference()
 {
-    alsa_check();
-    
     if(0 != conf_init(30000))//启动服务
     {
         std::cout << "<FAIL> ScheduleServer failed in starting, please press any key to exit!" << std::endl;
@@ -1097,6 +1091,83 @@ int main(int argc, char **argv)
 	}
     
     conf_uninit();
+}
+
+int broadcast_start()
+{
+    if(SS_NoErr != SINGLETON(CScheduleServer).start_broadcast()) return -1;
+    
+    return 0;
+}
+
+int broadcast_shutown()
+{
+    SINGLETON(CScheduleServer).shutdown_broadcast();
+    
+    return 0;
+}
+
+int broadcast_add_dest(char* ip, int port, CODEC codec)
+{
+    SINGLETON(CScheduleServer).add_broadcast_receiver(ip, port, codec);
+    
+    return 0;
+}
+
+int broadcast_remove_dest(char* ip, int port)
+{
+    return 0;
+}
+
+void broadcast()
+{
+    if(0 != broadcast_start())//启动服务
+    {
+        std::cout << "<FAIL> ScheduleServer failed in starting, please press any key to exit!" << std::endl;
+        std::cin.get();
+        
+        broadcast_shutown();
+    }
+    
+    broadcast_add_dest("192.168.3.80", 22000, G711);
+    broadcast_add_dest("192.168.3.80", 22010, G711);
+    broadcast_add_dest("192.168.3.80", 22020, G711);
+    
+    std::string input_str("");    
+	while (true)
+	{
+        std::cin >> input_str;
+        
+        input_str.erase(0, input_str.find_first_not_of(" \t\n\r"));
+		input_str.erase(input_str.find_last_not_of(" \t\n\r") + 1);
+
+		if (input_str.empty()) continue;
+
+		if("quit" == input_str || "exit" == input_str)
+        {
+            broadcast_shutown();
+            break;
+        }
+	}
+    
+    broadcast_shutown();
+}
+
+void realay()
+{
+    
+}
+
+#ifdef NDEBUG
+int main3(int argc, char **argv)
+#else
+int main(int argc, char **argv)
+#endif
+{
+    alsa_check();
+    
+    //conference();
+    broadcast();
     
 	return 0;
 }

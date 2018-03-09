@@ -27,7 +27,7 @@ namespace ScheduleServer
     class CRTPRecvSession
 	{
 	public:
-		CRTPRecvSession(unsigned short port);
+		CRTPRecvSession(unsigned short port = 0);
 		virtual ~CRTPRecvSession();
 
 	public:

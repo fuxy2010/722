@@ -18,7 +18,7 @@ CODEC;
 
 //////////////////////////////////////////////////////
 //半双工会议
-extern int broadcast_start(unsigned short local_port);
+extern int broadcast_start();
 extern int broadcast_shutown();
 extern int broadcast_add_dest(char* ip, int port, CODEC codec);
 extern int broadcast_remove_dest(char* ip, int port);
@@ -76,7 +76,7 @@ extern int conf_set_local_laddr(int port);
 extern int conf_set_local_raddr(int port, char* ip);
 
 //15 更新成员对端地址信息
-extern int conf_update_member_raddr(MID mid, int port, char* ip);
+extern int conf_update_member_raddr(MID mid, unsigned short port, char* ip);
 
 //16 开始对单个成员播放文件
 extern int conf_member_start_fileplay(MID mid, char* fname, int times);
