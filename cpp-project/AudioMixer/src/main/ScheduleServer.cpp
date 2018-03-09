@@ -273,6 +273,60 @@ SS_Error CScheduleServer::shutdown_mixer()
 	return SS_NoErr;
 }
 
+SS_Error CScheduleServer::start_broadcast(unsigned short local_recv_port)
+{
+    _mode = MODE_BROADCAST;
+    
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    _milestone = 1000000 * time.tv_sec + time.tv_usec;
+    
+    //_cur_path = path;
+
+    //Audio recv rtp session
+    _rtp_recv_thread_num = 1;
+    _rtp_recv_session = new CRTPRecvSession*[1];
+    _rtp_recv_session[0] = new CRTPRecvSession(local_recv_port);
+    _rtp_recv_session[0]->set_rtp_callback(CScheduleServer::on_recv_rtp_packet);
+
+    _enalble = true;//·þÎñ¿ÉÓÃ
+
+    //启动任务线程////////////////////////////////////////////////////////////////////////
+	CTaskThreadPool::add_threads(2, this);
+    
+    _local_play_thread.Start();
+    //_local_record_thread.Start();
+
+	return SS_NoErr;
+}
+
+SS_Error CScheduleServer::shutdown_broadcast()
+{
+    _enalble = false;
+
+	//¹Ø±ÕRTP½ÓÊÕ»á»°////////////////////////////////////////////////////////////////////////
+	for(unsigned short i = 0; i < _rtp_recv_thread_num; ++i)
+	{
+		delete _rtp_recv_session[i];
+		_rtp_recv_session[i] = NULL;
+	}
+
+    delete _rtp_recv_session[0];
+    _rtp_recv_session[0] = NULL;
+	delete[] _rtp_recv_session;
+	_rtp_recv_session = NULL;
+    
+    //_local_record_thread.Kill();
+    _local_play_thread.Kill();
+    
+    CTaskThreadPool::remove_threads();
+
+	//É¾³ýËùÓÐUA////////////////////////////////////////////////////////////////////////
+	remove_all_ua();
+
+	return SS_NoErr;
+}
+
 void CScheduleServer::wait_for_shutdown()
 {
 	//LOG_WRITE("CScheduleServer::wait_for_shutdown()", 1, false);

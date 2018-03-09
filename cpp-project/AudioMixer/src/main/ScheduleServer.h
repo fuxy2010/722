@@ -38,6 +38,9 @@ namespace ScheduleServer
         
         SS_Error start_mixer(unsigned short local_recv_port);
 		SS_Error shutdown_mixer();
+        
+        SS_Error start_broadcast(unsigned short local_recv_port);
+		SS_Error shutdown_broadcast();
 
 		void write_log(std::string& log, int level, bool show_on_screen);
 

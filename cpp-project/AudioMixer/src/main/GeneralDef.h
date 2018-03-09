@@ -32,6 +32,13 @@ namespace ScheduleServer
         MODE_CONFERENCE
 	}
 	RUNNING_MODE;
+    
+    typedef enum
+	{
+		G711_CODEC = 0,
+        ILBC_CODEC
+	}
+	AUDIO_CODEC_TYPE;
 
 	//Éè±¸ÀàÐÍ¶¨Òå
 	typedef enum
