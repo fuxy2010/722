@@ -4,15 +4,19 @@
   <Project Name="RTSPServerConsole" Path="RTSPServer/RTSPServerConsole.project" Active="No"/>
   <Project Name="RTSPServerLib" Path="RTSPServer/RTSPServerLib.project" Active="No"/>
   <Project Name="RTSPServerDemo" Path="RTSPServerDemo/RTSPServerDemo.project" Active="No"/>
-  <Project Name="AudioMixer" Path="AudioMixer/AudioMixer.project" Active="Yes"/>
+  <Project Name="AudioMixer" Path="AudioMixer/AudioMixer.project" Active="No"/>
+  <Project Name="AudioMixerDemo" Path="AudioMixerDemo/AudioMixerDemo.project" Active="No"/>
+  <Project Name="AudioMixerCDemo" Path="AudioMixerCDemo/AudioMixerCDemo.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="test" ConfigName="Debug"/>
       <Project Name="RTSPServerConsole" ConfigName="Debug"/>
       <Project Name="RTSPServerLib" ConfigName="Debug"/>
       <Project Name="RTSPServerDemo" ConfigName="Debug"/>
       <Project Name="AudioMixer" ConfigName="Debug"/>
+      <Project Name="AudioMixerDemo" ConfigName="Debug"/>
+      <Project Name="AudioMixerCDemo" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
@@ -21,6 +25,8 @@
       <Project Name="RTSPServerLib" ConfigName="Release"/>
       <Project Name="RTSPServerDemo" ConfigName="Release"/>
       <Project Name="AudioMixer" ConfigName="Release"/>
+      <Project Name="AudioMixerDemo" ConfigName="Release"/>
+      <Project Name="AudioMixerCDemo" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

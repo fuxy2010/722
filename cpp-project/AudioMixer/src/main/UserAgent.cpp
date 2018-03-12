@@ -257,7 +257,7 @@ SS_Error CUserAgent::remove_slient_audio_packet()
 	return SS_NoErr;
 }
 
-bool CUserAgent::malloc_mix_audio_frame()
+/*bool CUserAgent::malloc_mix_audio_frame()
 {
     return CMemPool::malloc_raw_audio_frame(_mix_frame_ptr);
 }
@@ -301,13 +301,23 @@ void CUserAgent::send_mix_frame()
         //fclose(f);
 #endif
     }
-}
+}*/
 
-void CUserAgent::send_audience_audio_packet(unsigned char* data, unsigned long len)
+void CUserAgent::send_audio_packet(unsigned char* data, unsigned long len)
 {
     if(true == _send_idle) return;
     
-    if(NULL != _rtp_send_session) _rtp_send_session->send_rtp_packet(data, len, ILBCRTPPacket, true, AUDIO_SAMPLING_RATE, _info.id);
+    if(NULL != _rtp_send_session) _rtp_send_session->send_rtp_packet(data, len, G711RTPPacket, true, AUDIO_SAMPLING_RATE, _info.id);
+}
+
+void CUserAgent::remove_addr()
+{
+    if(NULL != _rtp_send_session) _rtp_send_session->remove_dest_addr(_info.ip, _info.audio_port);
+}
+
+void CUserAgent::add_addr()
+{
+    if(NULL != _rtp_send_session) _rtp_send_session->add_dest_addr(_info.ip, _info.audio_port);
 }
 
 //Mobile////////////////////////////////////////////////////////////////////////
@@ -320,7 +330,7 @@ CMobileUserAgent::CMobileUserAgent(USER_AGENT_INFO& info)
     
     _rtp_send_session = new CRTPRecvSession(31000 + (_info.id & 0xffff) * 2);
     
-    _rtp_send_session->add_dest_addr(info.ip, info.audio_port);
+    //_rtp_send_session->add_dest_addr(info.ip, info.audio_port);
 }
 
 CMobileUserAgent::~CMobileUserAgent()
@@ -331,3 +341,4 @@ CMobileUserAgent::~CMobileUserAgent()
 	delete _audio_codec;
 	_audio_codec = NULL;
 }
+

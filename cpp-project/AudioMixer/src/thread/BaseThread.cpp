@@ -7,6 +7,7 @@
 // **********************************************************************
 #include "GeneralDef.h"
 #include "BaseThread.h"
+#include "sys/time.h"
 
 using namespace ScheduleServer;
 
@@ -20,11 +21,17 @@ void* CBaseThread::Thread()
     
     while(true)
     {
-        clock_t loop_start = clock();
+        struct  timeval  t1;
+        gettimeofday(&t1, NULL);
         
         run();
         
-        //if(1000 > clock() - loop_start) usleep(2);
+        struct  timeval  t2;
+        gettimeofday(&t2, NULL);
+        
+        //std::cout << "D " << 1000000 * (t2.tv_sec - t1.tv_sec) + t2.tv_usec - t1.tv_usec << std::endl;
+        
+        if( 10 > 1000000 * (t2.tv_sec - t1.tv_sec) + t2.tv_usec - t1.tv_usec) usleep(200);
     }
     
     on_close();

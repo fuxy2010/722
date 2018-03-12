@@ -181,9 +181,9 @@ namespace ScheduleServer
 	//RTP°üÀàÐÍ
 	typedef enum
 	{
-		AMRNBRTPPacket = 0,//ÒôÆµ°ü
-        ILBCRTPPacket,
-        G711RTPPacket,
+        G711RTPPacket = 0,
+		AMRNBRTPPacket,//ÒôÆµ°ü
+        ILBCRTPPacket,        
 		PCMRTPPacket,//ÒôÆµ°ü
 		H264RTPPacket,//ÊÓÆµ°ü
 		UnknownRTPPacket//Î´Öª

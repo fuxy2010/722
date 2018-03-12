@@ -407,7 +407,7 @@ void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsign
     //return;
     
 #if 0
-    if(22010 == ssrc)
+    if(0 == ssrc)
     {
         gettimeofday(&end, NULL);
         unsigned long timer = 1000000 * (end.tv_sec - ttt.tv_sec) + end.tv_usec - ttt.tv_usec;
@@ -469,30 +469,7 @@ void CScheduleServer::on_recv_rtp_packet(const unsigned char* data, const unsign
     }*/
 
 	if(NULL == data || !length || !ssrc)
-		return;
-        
-    //update ua address by reg_ua
-    {
-        //SINGLETON(CScheduleServer).reg_ua(ssrc, src_ip, src_port, 0, UA_MobilePhone);
-    }
-
-	CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(ssrc);
-
-	if(NULL == ua)
-		return;
-
-	/*if(ILBCRTPPacket == payload_type || PCMRTPPacket == payload_type)
-	{
-        //ua->add_audio_packet(data + sizeof(RTPHeader), length - sizeof(RTPHeader), sequence, ::timeGetTime());
-	}
-	else if(H264RTPPacket == payload_type)
-	{
-	}*/
-    
-    ua->add_audio_frame(data, length, sequence, timestamp);
-
-	//cout << "<R " << timeGetTime() - start << "> ";
-	
+		return;	
 }
 
 void CScheduleServer::on_recv_rtcp_packet()
@@ -681,5 +658,31 @@ SS_Error CScheduleServer::resume_conference(unsigned long conference_id)
 
 void CScheduleServer::query_conference(unsigned long conference_id)
 {
-    CTaskThreadPool::query_conference(conference_id);
+    CSSLocker lock(&_conference_map_mutex);
+    
+    for(map<unsigned long, CTask*>::iterator iter = _conference_map.begin(); iter != _conference_map.end(); ++iter)
+    {
+        CConferenceTask* task  = dynamic_cast<CConferenceTask*>(iter->second);
+        
+        if(NULL == task) continue;
+        
+        if(conference_id != task->get_conference_id()) continue;
+        
+        task->query();
+    }
+}
+
+void CScheduleServer::play_conference(unsigned long conference_id)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    for(map<unsigned long, CTask*>::iterator iter = _conference_map.begin(); iter != _conference_map.end(); ++iter)
+    {
+        CConferenceTask* task  = dynamic_cast<CConferenceTask*>(iter->second);
+        
+        if(NULL == task) continue;
+        
+        if(conference_id != task->get_conference_id()) task->mute();
+        else  task->play();
+    }
 }

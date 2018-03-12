@@ -143,6 +143,7 @@ namespace ScheduleServer
         
     protected:
         bool _idle;
+        bool _local_mute;
         
     public:
         void pause() { _idle = true; }
@@ -153,16 +154,27 @@ namespace ScheduleServer
         
         void query()
         {
+            std::cout << "====================================" << std::endl;
+            std::cout << "Conference ID: " << _task_info.conference_id << std::endl;
+            
             for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
             {
+                if(Observer == iter->second.role) continue;
+                
                 CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
 
                 if(NULL != ua)
                 {
-                    std::cout << "participant: " << ua->_info.id << ", " << ua->_info.ip << " : " << ua->_info.audio_port << std::endl;
+                    if(Speaker == iter->second.role)
+                        std::cout << "participant(Speaker): " << ua->_info.id << ", " << ua->_info.ip << ":" << ua->_info.audio_port << std::endl;
+                    else if(Audience == iter->second.role)
+                        std::cout << "participant(Audience): " << ua->_info.id << ", " << ua->_info.ip << ":" << ua->_info.audio_port << std::endl;
                 }
             }
         }
+        
+        void play() { _local_mute = false; }
+        void mute() { _local_mute = true; }
 	};
     
     //Common////////////////////////////////////////////////////////////////////////

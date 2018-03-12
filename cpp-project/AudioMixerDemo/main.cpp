@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 #include "AudioMixer.h"
 
 int main(int argc, char **argv)
@@ -16,9 +17,9 @@ int main(int argc, char **argv)
         
     conf_room_start(cid);
     
-    MID mid1 = conf_room_add_member(cid, 0, 0, 22000, "172.16.24.248");
-    MID mid2 = conf_room_add_member(cid, 0, 0, 22010, "172.16.24.248");
-    MID mid3 = conf_room_add_member(cid, 0, 0, 22020, "172.16.24.248");
+    MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "172.16.24.248");
+    MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "172.16.24.248");
+    MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "172.16.24.248");
     ///////////////////////////
     
     std::string input_str("");    

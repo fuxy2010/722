@@ -175,26 +175,6 @@ void CTaskThread::run()
 	//if(timeGetTime() == start) Sleep(1);
 }
 
-#include "ConferenceTask.h"
-void CTaskThread::query_conference(unsigned long conference_id)
-{
-    CSSLocker lock(&_mutex);
-    
-    for(std::list<CTask*>::iterator iter = _task_queue.begin(); iter != _task_queue.end(); iter++)
-    {
-        CConferenceTask* task = dynamic_cast<CConferenceTask*>(*iter);
-        
-        if(NULL == task) continue;
-        
-        if(conference_id == task->get_conference_id())
-        {
-            task->query();
-            return;
-        }
-    }
-    
-}
-
 void CTaskThread::on_start()
 {
 	_task_queue.clear();
@@ -255,14 +235,6 @@ void CTaskThreadPool::remove_threads()
 	_task_thread_array = NULL;
 
 	_task_thread_num = 0;
-}
-
-void CTaskThreadPool::query_conference(unsigned long conference_id)
-{
-	for(unsigned short x = 0; x < _task_thread_num; ++x)
-	{
-		_task_thread_array[x]->query_conference(conference_id);
-	}
 }
 
 CTaskThread* CTaskThreadPool::select_thread(unsigned long index)

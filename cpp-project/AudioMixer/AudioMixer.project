@@ -8,6 +8,7 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="interface.cpp"/>
     <File Name="AudioMixer.h"/>
     <VirtualDirectory Name="task">
       <File Name="src/task/ConferenceTask.cpp"/>

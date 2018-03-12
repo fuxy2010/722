@@ -111,9 +111,9 @@ namespace ScheduleServer
 
 			if(_ua_map.end() == _ua_map.find(id))
 			{
-				//µÚÒ»´Î×¢²á
-				USER_AGENT_INFO info;
+                USER_AGENT_INFO info;
 				info.id = id;
+                info.codec = codec;
 
 				if(NULL != ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
 				{
@@ -151,6 +151,8 @@ namespace ScheduleServer
 					//_ua_video_packet_sequence[id] = 0;
 
 					//ua->update_alive_timestamp();
+                    
+                    ua->add_addr();
 				}
 			}
 			else
@@ -160,6 +162,9 @@ namespace ScheduleServer
 
 				if(NULL == ua)
 					return SS_NoErr;
+                    
+                _ua_id_map.erase(jrtplib::RTPIPv4Address(ntohl(inet_addr(ua->_info.ip)), ua->_info.audio_port));
+                ua->remove_addr();
 
 				if(NULL != ip)//TCPÌ½²â°üIP×Ö¶ÎÎª0£¬²»Ó¦¸üÐÂ
 				{
@@ -172,6 +177,8 @@ namespace ScheduleServer
 				//ua->_info.video_port = (!video_port) ? ua->_info.video_port : video_port;//ÊäÈë¶Ë¿ÚÎª0Ôò²»¸üÐÂ
 				
 				//ua->update_alive_timestamp();
+                
+                ua->add_addr();
 			}
             
             _ua_id_map[jrtplib::RTPIPv4Address(ntohl(inet_addr(ip)), audio_port)] = id;
@@ -270,6 +277,7 @@ namespace ScheduleServer
         SS_Error resume_conference(unsigned long conference_id);
         
         void query_conference(unsigned long conference_id);
+        void play_conference(unsigned long conference_id);
         
     private:
         unsigned long _milestone;

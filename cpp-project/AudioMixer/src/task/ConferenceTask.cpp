@@ -31,7 +31,8 @@ _to_be_ended(false),
 //_start_timestamp(clock()),
 //_already_done_misc_task(false)
 _next_fetch_audio_frame_timestamp(0),
-_idle(true)
+_idle(true),
+_local_mute(true)
 {
 	_task_info = task_info;
 
@@ -337,6 +338,8 @@ bool CConferenceTask::fetch_raw_audio_frame()
 
 	for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
 	{
+        if(Observer == iter->second.role) continue;
+        
         //audience
 		if(Speaker != iter->second.role)
 		{
@@ -437,6 +440,8 @@ void CConferenceTask::audio_mix()
 	//�������������֡
 	for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
 	{
+        if(Observer == iter->second.role) continue;
+        
 		if(Speaker != iter->second.role) continue;
             
         if(NULL == mix_frame_ptr.frame) break;
@@ -462,7 +467,7 @@ void CConferenceTask::audio_mix()
             //fwrite(mix_frame_ptr.frame->payload, sizeof(short), 480, f);
             //fclose(f);
         }
-        else
+        else if(false == _local_mute)
         {
             //send to self
             CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
@@ -480,6 +485,8 @@ void CConferenceTask::audio_mix()
         
         for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
         {
+            if(Observer == iter->second.role) continue;
+            
             RAW_AUDIO_FRAME_PTR mix_frame_ptr2;    
             if(false == CMemPool::malloc_raw_audio_frame(mix_frame_ptr2)) continue;
             
@@ -511,12 +518,12 @@ void CConferenceTask::audio_mix()
                 //printf("========= enc = %ld us\n", enc_timer);
                 
                 CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
-                if(NULL != ua) ua->send_audience_audio_packet(mix_audio_packet_speaker, speaker_packet_len);
+                if(NULL != ua) ua->send_audio_packet(mix_audio_packet_speaker, speaker_packet_len);
             }
             else
             {
                 CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
-                if(NULL != ua) ua->send_audience_audio_packet(mix_audio_packet_audience, audience_packet_len);
+                if(NULL != ua) ua->send_audio_packet(mix_audio_packet_audience, audience_packet_len);
             }
             
             CMemPool::free_raw_audio_frame(mix_frame_ptr2);

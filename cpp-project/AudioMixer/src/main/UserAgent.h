@@ -32,7 +32,8 @@ namespace ScheduleServer
 		//unsigned short			video_port;//Ö÷»ú×Ö½ÚÐòÊÓÆµÊý¾Ý½ÓÊÕ¶Ë¿Ú£¨¼´ÖÕ¶Ë·¢ËÍÊÓÆµsocket°ó¶¨¶Ë¿Ú£©»òICEÐÅÁî½ÓÊÕ¶Ë¿Ú
 		unsigned short				server_audio_port;//µ÷¶È·þÎñÆ÷½ÓÊÕ¸ÃÖÕ¶ËËù·¢ËÍÒôÆµÊý¾ÝµÄ¶Ë¿Ú
 		//unsigned short			server_video_port;//µ÷¶È·þÎñÆ÷½ÓÊÕ¸ÃÖÕ¶ËËù·¢ËÍÊÓÆµÊý¾ÝµÄ¶Ë¿Ú
-        AUDIO_CODEC_TYPE            codec;
+        //AUDIO_CODEC_TYPE            codec;
+        int                         codec;
 
 		tagUSER_AGENT_INFO() :
 		id(0),// ip(0),
@@ -114,15 +115,15 @@ namespace ScheduleServer
         unsigned char _mix_audio_packet[1024];
         
     public:
-        bool malloc_mix_audio_frame();
+        //bool malloc_mix_audio_frame();
         
-        void free_mix_audio_frame();
+        //void free_mix_audio_frame();
         
-        bool add_mix_frame(RAW_AUDIO_FRAME_PTR* frame_ptr);
+        //bool add_mix_frame(RAW_AUDIO_FRAME_PTR* frame_ptr);
         
-        void send_mix_frame();
+        //void send_mix_frame();
         
-        void send_audience_audio_packet(unsigned char* data, unsigned long len);
+        void send_audio_packet(unsigned char* data, unsigned long len);
         
     protected:
         CPCMPlayer player;
@@ -141,7 +142,8 @@ namespace ScheduleServer
     public:
         void update_codec(int codec) {}
         void update_mode(int mode) {}
-
+        void remove_addr();
+        void add_addr();
 	};
     
     //Mobile////////////////////////////////////////////////////////////////////////
