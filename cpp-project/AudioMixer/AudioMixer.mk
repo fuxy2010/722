@@ -2,21 +2,21 @@
 ## Auto Generated makefile by CodeLite IDE
 ## any manual changes will be erased      
 ##
-## Release
+## Debug
 ProjectName            :=AudioMixer
-ConfigurationName      :=Release
+ConfigurationName      :=Debug
 WorkspacePath          :=/home/fym/722/cpp-project
 ProjectPath            :=/home/fym/722/cpp-project/AudioMixer
-IntermediateDirectory  :=./Release
+IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Ubuntu 16.04 LTS
-Date                   :=12/03/18
+Date                   :=16/03/18
 CodeLitePath           :=/home/fym/.codelite
-LinkerName             :=/home/fym/722/gcc-4.6.2-glibc-2.13-linaro-multilib-2011.12/fsl-linaro-toolchain/bin/arm-fsl-linux-gnueabi-g++
-SharedObjectLinkerName :=/home/fym/722/gcc-4.6.2-glibc-2.13-linaro-multilib-2011.12/fsl-linaro-toolchain/bin/arm-fsl-linux-gnueabi-g++ -shared -fPIC
+LinkerName             :=/usr/bin/g++
+SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
 ObjectSuffix           :=.o
 DependSuffix           :=.o.d
 PreprocessSuffix       :=.i
@@ -27,8 +27,8 @@ OutputSwitch           :=-o
 LibraryPathSwitch      :=-L
 PreprocessorSwitch     :=-D
 SourceSwitch           :=-c 
-OutputFile             :=$(IntermediateDirectory)/lib$(ProjectName).a
-Preprocessors          :=$(PreprocessorSwitch)WEBRTC_LINUX $(PreprocessorSwitch)RTP_SUPPORT_THREAD $(PreprocessorSwitch)NDEBUG 
+OutputFile             :=$(IntermediateDirectory)/$(ProjectName)
+Preprocessors          :=$(PreprocessorSwitch)WEBRTC_LINUX $(PreprocessorSwitch)RTP_SUPPORT_THREAD 
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
@@ -39,21 +39,21 @@ LinkOptions            :=
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch)./ $(IncludeSwitch)./src/jrtplib/ $(IncludeSwitch)./src/module/ $(IncludeSwitch)./src/main/ $(IncludeSwitch)./src/misc/ $(IncludeSwitch)./src/ilbc/ $(IncludeSwitch)./src/codec/ $(IncludeSwitch)./src/thread/ $(IncludeSwitch)./src/task/ $(IncludeSwitch)/home/fym/722/rtfs/usr/include/ 
 IncludePCH             := 
 RcIncludePath          := 
-Libs                   := 
-ArLibs                 :=  
+Libs                   := $(LibrarySwitch)pthread $(LibrarySwitch)rt $(LibrarySwitch)asound 
+ArLibs                 :=  "pthread" "rt" "asound" 
 LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)/home/fym/722/rtfs/usr/lib 
 
 ##
 ## Common variables
 ## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
 ##
-AR       := /home/fym/722/gcc-4.6.2-glibc-2.13-linaro-multilib-2011.12/fsl-linaro-toolchain/bin/arm-fsl-linux-gnueabi-ar rcu
-CXX      := /home/fym/722/gcc-4.6.2-glibc-2.13-linaro-multilib-2011.12/fsl-linaro-toolchain/bin/arm-fsl-linux-gnueabi-g++
-CC       := /home/fym/722/gcc-4.6.2-glibc-2.13-linaro-multilib-2011.12/fsl-linaro-toolchain/bin/arm-fsl-linux-gnueabi-gcc
-CXXFLAGS :=  -O2 -Wall $(Preprocessors)
-CFLAGS   :=  -O2 -Wall $(Preprocessors)
+AR       := /usr/bin/ar rcu
+CXX      := /usr/bin/g++
+CC       := /usr/bin/gcc
+CXXFLAGS :=  -g -O0 -Wall $(Preprocessors)
+CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
-AS       := /home/fym/722/gcc-4.6.2-glibc-2.13-linaro-multilib-2011.12/fsl-linaro-toolchain/bin/arm-fsl-linux-gnueabi-as
+AS       := /usr/bin/as
 
 
 ##
@@ -91,33 +91,23 @@ Objects=$(Objects0) $(Objects1) $(Objects2) $(Objects3)
 ## Main Build Targets 
 ##
 .PHONY: all clean PreBuild PrePreBuild PostBuild MakeIntermediateDirs
-all: $(IntermediateDirectory) $(OutputFile)
+all: $(OutputFile)
 
-$(OutputFile): $(Objects)
+$(OutputFile): $(IntermediateDirectory)/.d $(Objects) 
 	@$(MakeDirCommand) $(@D)
 	@echo "" > $(IntermediateDirectory)/.d
 	@echo $(Objects0)  > $(ObjectsFileList)
 	@echo $(Objects1) >> $(ObjectsFileList)
 	@echo $(Objects2) >> $(ObjectsFileList)
 	@echo $(Objects3) >> $(ObjectsFileList)
-	$(AR) $(ArchiveOutputSwitch)$(OutputFile) @$(ObjectsFileList) $(ArLibs)
-	@$(MakeDirCommand) "/home/fym/722/cpp-project/.build-release"
-	@echo rebuilt > "/home/fym/722/cpp-project/.build-release/AudioMixer"
-
-PostBuild:
-	@echo Executing Post Build commands ...
-	cp ./Release/libAudioMixer.a ../AudioMixerDemo/
-	cp AudioMixer.h ../AudioMixerDemo/
-	cp ./Release/libAudioMixer.a ../AudioMixerCDemo/
-	cp AudioMixer.h ../AudioMixerCDemo/
-	@echo Done
+	$(LinkerName) $(OutputSwitch)$(OutputFile) @$(ObjectsFileList) $(LibPath) $(Libs) $(LinkOptions)
 
 MakeIntermediateDirs:
-	@test -d ./Release || $(MakeDirCommand) ./Release
+	@test -d ./Debug || $(MakeDirCommand) ./Debug
 
 
-./Release:
-	@test -d ./Release || $(MakeDirCommand) ./Release
+$(IntermediateDirectory)/.d:
+	@test -d ./Debug || $(MakeDirCommand) ./Debug
 
 PreBuild:
 
@@ -1355,6 +1345,6 @@ $(IntermediateDirectory)/src_ilbc_simple_lsf_dequant.c$(PreprocessSuffix): src/i
 ## Clean
 ##
 clean:
-	$(RM) -r ./Release/
+	$(RM) -r ./Debug/
 
 

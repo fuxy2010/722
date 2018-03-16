@@ -278,6 +278,7 @@ namespace ScheduleServer
         
         void query_conference(unsigned long conference_id);
         void play_conference(unsigned long conference_id);
+        void add_self(unsigned long conference_id);
         
     private:
         unsigned long _milestone;

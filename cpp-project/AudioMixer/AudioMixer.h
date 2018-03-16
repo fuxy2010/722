@@ -92,6 +92,9 @@ extern int relay_remove_dest(char* ip, unsigned short port);
 //cid为0则停止播放所有会议室音频
 extern int conf_play(CID cid);
 
+//将本机作为发言人添加到指定会议中
+extern int conf_add_self(CID cid);
+
 #ifdef __cplusplus
 }// extern "C"
 #endif

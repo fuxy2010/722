@@ -46,31 +46,6 @@ int CPCMPlayThread::play()
 void* CPCMPlayThread::Thread()
 {
     JThread::ThreadStarted();
-    
-#if 0
-    RTPTime::Wait(RTPTime(3, 5));
-    
-    FILE* file = fopen("recv.pcm", "rb");
-    
-    short* frame = (short*) malloc(480);
-
-    while (true)
-    {
-        {
-            size_t read_len = fread(frame, sizeof(short), 480, file);
-            if(480 != read_len)
-            {
-                fseek(file, 0, SEEK_SET);
-            }
-            
-            std::cout << "play " << read_len << std::endl;
-        }
-        
-        _pcm_player.play(frame);
-    }
-    
-    free(frame);
-#else    
     while(true)
     {
         //clock_t loop_start = clock();
@@ -81,5 +56,4 @@ void* CPCMPlayThread::Thread()
         
         //if(1000 > clock() - loop_start) usleep(2);
     }
-#endif
 }

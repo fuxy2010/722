@@ -162,9 +162,14 @@ void conf_room_show(CID cid)
 }
 
 //本地播放指定会议室音频
-extern int conf_play(CID cid)
+int conf_play(CID cid)
 {
     SINGLETON(CScheduleServer).play_conference(cid);
+}
+
+int conf_add_self(CID cid)
+{
+    SINGLETON(CScheduleServer).add_self(cid);
 }
 
 //19 启动混音模块

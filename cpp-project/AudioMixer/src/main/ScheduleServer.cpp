@@ -686,3 +686,18 @@ void CScheduleServer::play_conference(unsigned long conference_id)
         else  task->play();
     }
 }
+
+void CScheduleServer::add_self(unsigned long conference_id)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    for(map<unsigned long, CTask*>::iterator iter = _conference_map.begin(); iter != _conference_map.end(); ++iter)
+    {
+        CConferenceTask* task  = dynamic_cast<CConferenceTask*>(iter->second);
+        
+        if(NULL == task) continue;
+        
+        //if(conference_id != task->get_conference_id()) task->remove_self();
+        //else  task->add_self();
+    }
+}

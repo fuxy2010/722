@@ -231,7 +231,18 @@ namespace ScheduleServer
 #endif
 
 #ifndef AUDIO_SAMPLING_RATE
-#define AUDIO_SAMPLING_RATE 60
+//#define AUDIO_SAMPLING_RATE 60
+#define AUDIO_SAMPLING_RATE 20
+#endif
+
+#ifndef FRAME_LENGTH_IN_SHORT
+//#define FRAME_LENGTH_IN_SHORT 480
+#define FRAME_LENGTH_IN_SHORT 160
+#endif
+
+#ifndef FRAME_LENGTH_IN_BYTE
+//#define FRAME_LENGTH_IN_BYTE 960
+#define FRAME_LENGTH_IN_BYTE 320
 #endif
 
 #endif // _GENERAL_DEF_H_

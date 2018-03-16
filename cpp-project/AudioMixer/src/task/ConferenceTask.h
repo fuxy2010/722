@@ -175,6 +175,9 @@ namespace ScheduleServer
         
         void play() { _local_mute = false; }
         void mute() { _local_mute = true; }
+        
+        void add_self();
+        void remove_self();
 	};
     
     //Common////////////////////////////////////////////////////////////////////////

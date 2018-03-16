@@ -53,8 +53,8 @@ namespace ScheduleServer
 		const unsigned long _parallel_task_num;//²¢·¢Ö´ÐÐÈÎÎñÊýÉÏÏÞ
         
     public:
-        void query_conference(unsigned long conference_id);
-        void play_conference(unsigned long conference_id);
+        //void query_conference(unsigned long conference_id);
+        //void play_conference(unsigned long conference_id);
 
 	public:
 		//CRTPSendSession _rtp_send_session;//RTP·¢ËÍsession
