@@ -57,11 +57,11 @@ void* CAudioSendThread::Thread()
 		::memset(frame, 0, sizeof(frame));
 
         //60ms
-		size_t read_len = fread(frame, sizeof(short), 480, file);
+		size_t read_len = fread(frame, sizeof(short), FRAME_LENGTH_IN_SHORT, file);
         //std::cout << "read audio frame: " << read_len << std::endl;
 
 		//read from the head of music file again
-		if(480 != read_len)
+		if(FRAME_LENGTH_IN_SHORT != read_len)
 		{
 			fseek(file, 0, SEEK_SET);
 		}

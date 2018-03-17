@@ -33,7 +33,7 @@ void CAudioMixThread::mix()
         if(NULL == frame_ptr.frame) continue;
         
         CAudioCodec::mix(mix_frame_ptr.frame->payload, frame_ptr.frame->payload,
-							960,//sizeof(mix_frame_ptr.frame->payload),
+							FRAME_LENGTH_IN_BYTE,//sizeof(mix_frame_ptr.frame->payload),
 							1.0,
 							1);
                             
@@ -56,7 +56,7 @@ void CAudioMixThread::mix()
         _pcm_player.play(mix_frame_ptr.frame->payload);
 #else
         FILE* f = fopen("./mix.pcm", "ab+");        
-        fwrite(mix_frame_ptr.frame->payload, sizeof(short), 480, f);
+        fwrite(mix_frame_ptr.frame->payload, sizeof(short), FRAME_LENGTH_IN_SHORT, f);
         fclose(f);
 #endif
 	}

@@ -73,7 +73,7 @@ namespace ScheduleServer
             }  
                
             /* Set period size to 32 frames. */  
-            frames = 480;  
+            frames = FRAME_LENGTH_IN_SHORT;  
             periodsize = frames * 2;  
             ret = snd_pcm_hw_params_set_buffer_size_near(playback_handle, hw_params, &periodsize);  
             if (ret < 0)   

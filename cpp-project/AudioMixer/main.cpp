@@ -297,7 +297,7 @@ int alsa_play3()
     
     ScheduleServer::CPCMPlayer player;
     
-    short* frame = (short*) malloc(960);
+    short* frame = (short*) malloc(FRAME_LENGTH_IN_BYTE);
 
     int count = 0;
     struct  timeval  start;
@@ -306,8 +306,8 @@ int alsa_play3()
     while(true)
     {
         {
-            size_t read_len = fread(frame, sizeof(short), 480, file);
-            if(480 != read_len)
+            size_t read_len = fread(frame, sizeof(short), FRAME_LENGTH_IN_SHORT, file);
+            if(FRAME_LENGTH_IN_SHORT != read_len)
             {
                 fseek(file, 0, SEEK_SET);
                 continue;

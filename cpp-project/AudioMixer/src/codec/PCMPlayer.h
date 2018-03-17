@@ -55,8 +55,8 @@ namespace ScheduleServer
             int dir;
             snd_pcm_hw_params_set_rate_near(_snd_handle, _snd_params, &val, &dir);
 
-            //设置一个周期为480帧, 60ms
-            _snd_frames = 480;
+            //设置一个周期为160帧, 20ms
+            _snd_frames = FRAME_LENGTH_IN_SHORT;
             snd_pcm_uframes_t periodsize = _snd_frames;// * 2;
             //snd_pcm_hw_params_set_buffer_size_near(_snd_handle, _snd_params, &periodsize);
             

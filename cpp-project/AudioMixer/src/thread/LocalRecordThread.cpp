@@ -62,14 +62,14 @@ void CLocalRecordThread::on_start()
     _val = 8000;
     snd_pcm_hw_params_set_rate_near(_handle, _params, &_val, &_dir);
 
-    /* Set period size to 480 frames. */
-    /* 一个周期有 480 帧 */
-    _frames = 480;
+    /* Set period size to FRAME_LENGTH_IN_SHORT frames. */
+    /* 一个周期有 FRAME_LENGTH_IN_SHORT 帧 */
+    _frames = FRAME_LENGTH_IN_SHORT;
     //snd_pcm_hw_params_set_period_size_near(_handle, _params, &_frames, &_dir);
 
     /* Write the parameters to the driver */
     /* 参数生效 */
-    _frames = 480;
+    _frames = FRAME_LENGTH_IN_SHORT;
     std::cout << "@@@@@@@@@ redord frame: " << _frames << ", " << _size << std::endl;
     _rc = snd_pcm_hw_params(_handle, _params);
     if(_rc < 0)

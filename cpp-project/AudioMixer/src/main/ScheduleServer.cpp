@@ -512,10 +512,10 @@ void CScheduleServer::test_ilbc()
 		//·¢ËÍÒôÆµ
 		::memset(frame, 0, sizeof(frame));
 
-		size_t read_len = fread(frame, 1, 960, file);
+		size_t read_len = fread(frame, 1, FRAME_LENGTH_IN_BYTE, file);
 
 		//read from the head of music file again
-		if(960 != read_len)
+		if(FRAME_LENGTH_IN_BYTE != read_len)
 		{
 			fseek(file, 0, SEEK_SET);
 		}

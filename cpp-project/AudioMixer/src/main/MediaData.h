@@ -23,7 +23,8 @@
 #endif
 
 #ifdef USE_ILBC
-#define AUDIO_SAMPLING_RATE	60
+//#define AUDIO_SAMPLING_RATE	60
+#define AUDIO_SAMPLING_RATE	20
 #endif
 
 //ÒôÆµÊý¾Ý±àÂëºóRTP°ü×î´ó³¤¶È(º¬RTP°üÍ·³¤¶È12£©,µ¥Î»×Ö½Ú

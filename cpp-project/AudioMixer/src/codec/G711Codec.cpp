@@ -41,7 +41,7 @@ int CG711Codec::encode(short* frame, unsigned char* bits)
     if(NULL == frame || NULL == bits)
 		return 0;
 
-	int encoded_frame_len = 480;//60ms/frame
+	int encoded_frame_len = FRAME_LENGTH_IN_SHORT;//20ms/frame
     
     ::memset(bits, 0, sizeof(unsigned char) * encoded_frame_len);
 
@@ -62,7 +62,7 @@ int CG711Codec::decode(unsigned char* bits, short* frame, int crc)
 		return 0;
         
         
-    int decoded_frame_len = 480;//60ms/frame
+    int decoded_frame_len = FRAME_LENGTH_IN_SHORT;//20ms/frame
     
     ::memset(frame, 0, sizeof(short) * decoded_frame_len);
     

@@ -44,7 +44,8 @@ CUserAgent::~CUserAgent()
 
 void CUserAgent::update_threshold()
 {
-    _threshold = 3;
+    //60ms _threshold = 3
+    _threshold = 9;//20ms
 }
 
 //unsigned long add_count = 0;
@@ -108,7 +109,7 @@ SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned l
         //if(0 == _info.id)
         {
             FILE* f = fopen("./recv.pcm", "ab+");        
-            fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
+            fwrite(frame_ptr.frame->payload, sizeof(short), FRAME_LENGTH_IN_SHORT, f);
             fclose(f);
             return SS_NoErr;
         }
@@ -151,7 +152,7 @@ SS_Error CUserAgent::add_raw_audio_frame(const short* data, const unsigned long&
     {
         player.play(frame_ptr.frame->payload);
         //FILE* f = fopen("./recv.pcm", "ab+");        
-        //fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
+        //fwrite(frame_ptr.frame->payload, sizeof(short), FRAME_LENGTH_IN_SHORT, f);
         //fclose(f);
     }
 
@@ -183,7 +184,7 @@ SS_Error CUserAgent::add_raw_audio_frame(const short* data, const unsigned long&
         //if(0 == _info.id)
         {
             FILE* f = fopen("./recv.pcm", "ab+");        
-            fwrite(frame_ptr.frame->payload, sizeof(short), 480, f);
+            fwrite(frame_ptr.frame->payload, sizeof(short), FRAME_LENGTH_IN_SHORT, f);
             fclose(f);
             return SS_NoErr;
         }
@@ -274,7 +275,7 @@ bool CUserAgent::add_mix_frame(RAW_AUDIO_FRAME_PTR* frame_ptr)
     if(NULL == frame_ptr->frame) return false;
     
     CAudioCodec::mix(_mix_frame_ptr.frame->payload, frame_ptr->frame->payload,
-                    960,//sizeof(mix_frame_ptr.frame->payload),
+                    FRAME_LENGTH_IN_BYTE,//sizeof(mix_frame_ptr.frame->payload),
                     1.0,
                     1);
                     
@@ -297,7 +298,7 @@ void CUserAgent::send_mix_frame()
         _pcm_player.play(mix_frame_ptr.frame->payload);
 #else
         //FILE* f = fopen("./mix.pcm", "ab+");        
-        //fwrite(mix_frame_ptr.frame->payload, sizeof(short), 480, f);
+        //fwrite(mix_frame_ptr.frame->payload, sizeof(short), FRAME_LENGTH_IN_SHORT, f);
         //fclose(f);
 #endif
     }
@@ -307,7 +308,7 @@ void CUserAgent::send_audio_packet(unsigned char* data, unsigned long len)
 {
     if(true == _send_idle) return;
     
-    if(NULL != _rtp_send_session) _rtp_send_session->send_rtp_packet(data, len, G711RTPPacket, true, AUDIO_SAMPLING_RATE, _info.id);
+    if(NULL != _rtp_send_session) _rtp_send_session->send_rtp_packet(data, len, G711RTPPacket, false, AUDIO_SAMPLING_RATE, _info.id);
 }
 
 void CUserAgent::remove_addr()
