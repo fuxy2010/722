@@ -24,7 +24,7 @@ void CLocalRecordThread::run()
 
 void CLocalRecordThread::on_start()
 {
-    SINGLETON(CScheduleServer).reg_ua(1, "127.0.0.1", 0, 0);//, 0, UA_MobilePhone);
+    SINGLETON(CScheduleServer).reg_ua(SELF_UA_ID, "127.0.0.1", 0, 0);//, 0, UA_MobilePhone);
     
     /* Open PCM device for recording (capture). */
     /* 打开 PCM capture 捕获设备 */
@@ -99,7 +99,7 @@ void CLocalRecordThread::on_close()
 
 int CLocalRecordThread::record()
 {
-    std::cout << "++++++ redord frame: " << _frames << ", " << _size << std::endl;
+    //std::cout << "++++++ redord frame: " << _frames << ", " << _size << std::endl;
     
     /* 捕获数据 */
     _rc = snd_pcm_readi(_handle, _buffer, _frames);
@@ -125,21 +125,24 @@ int CLocalRecordThread::record()
     
     if(false)
     {
-        FILE* f = fopen("./recv.pcm", "ab+");
+        FILE* f = fopen("./local.pcm", "ab+");
         fwrite(_buffer, sizeof(short), _size, f);
         fclose(f);
     }
     else
     {
-        CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
+        //CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
+        //if(NULL != ua) ua->add_raw_audio_frame((short*)_buffer, _frames);
+        
+        CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(SELF_UA_ID);
         if(NULL != ua) ua->add_raw_audio_frame((short*)_buffer, _frames);
     }
         
-    std::cout << "====== redord frame: " << _frames << ", " << _size << std::endl;
+    //std::cout << "====== redord frame: " << _frames << ", " << _size << std::endl;
                   
                   
 #if 0
-    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(1);
+    CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(SELF_UA_ID);
     
     if(NULL == ua) return 1;
     

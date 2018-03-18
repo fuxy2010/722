@@ -20,6 +20,10 @@
 #define _SENDING_DATA_BLOCK_SIZE_	1400
 #endif
 
+#ifndef SELF_UA_ID
+#define SELF_UA_ID  1
+#endif
+
 namespace ScheduleServer
 {
 	//²ÎÊýÉÏÏÂÎÄÀàÐÍ¶¨Òå
@@ -172,9 +176,8 @@ namespace ScheduleServer
 	//会议类型
 	typedef enum
 	{
-		Common_Conference = 0,//普通会议
-		SOS_Conference,//SOS会议
-		WEB_Conference//PC发起会议
+		Common_Conference = 0,
+		Broadcast_Conference
 	}
 	CONFERENCE_TYPE;
 

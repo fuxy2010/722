@@ -65,13 +65,27 @@ MID conf_room_add_member(CID cid, CODEC codec, int mode, unsigned short port, ch
 {
     MID mid;
     
-    if(SS_NoErr != SINGLETON(CScheduleServer).add_paiticipant(mid, cid, ip, port, codec)) return -1;
+    if(SS_NoErr != SINGLETON(CScheduleServer).add_paiticipant(mid, cid, ip, port, codec, Speaker)) return -1;
+    
+    return mid;
+}
+
+MID conf_room_add_audience(CID cid, CODEC codec, int mode, unsigned short port, char* ip)
+{
+    MID mid;
+    
+    if(SS_NoErr != SINGLETON(CScheduleServer).add_paiticipant(mid, cid, ip, port, codec, Audience)) return -1;
     
     return mid;
 }
 
 //8 删除会议室成员
 void conf_room_rm_member(MID mid, CID cid)
+{
+    SINGLETON(CScheduleServer).remove_paiticipant(cid, mid);
+}
+
+void conf_room_rm_audience(MID mid, CID cid)
 {
     SINGLETON(CScheduleServer).remove_paiticipant(cid, mid);
 }

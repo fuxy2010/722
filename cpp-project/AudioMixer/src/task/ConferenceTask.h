@@ -71,14 +71,11 @@ namespace ScheduleServer
 
         void init_participants();
 
-	public://»áÒé¿ØÖÆ²Ù×÷
-		//Ìí¼ÓÓë»áÈËÔ±,µ«¸ÃÈËÔ±»¹Î´ºô½Ð
-		SS_Error add_participant(unsigned long ua_id, bool is_speaker);
+	public:
+		SS_Error add_participant(unsigned long ua_id, PARTICIPANT_ROLE role);
 
-		//ÌÞ³ýÓë»áÈËÔ±
-		SS_Error remove_participant(unsigned long ua_id);
+        SS_Error remove_participant(unsigned long ua_id);
 
-		//½áÊø»áÒé
 		SS_Error close();
 
 	public:
@@ -88,11 +85,9 @@ namespace ScheduleServer
     private:
         //void audio_mix_for_speakers();
         //void audio_mix_for_audiences();
-        void audio_mix();
+        virtual void audio_mix();
         
 	public:
-		//static const unsigned long _update_participants_info_interval;//¸üÐÂÓë»áUAÐÅÏ¢µÄÊ±¼ä¼ä¸ô£¨ºÁÃë£©
-		//static const unsigned long _notify_conference_status_interval;//Í¨Öª»áÒé·¢ÆðÈË»áÒé×´Ì¬µÄÊ±¼ä¼ä¸ô£¨ºÁÃë£©
 		static const unsigned short _max_speaker_num;//×î¶à·¢ÑÔÈË¸öÊý
 
 	protected:
@@ -131,10 +126,9 @@ namespace ScheduleServer
 	private:
 		//CTaskCounter _generate_task_counter;//»áÒé²úÉúÈÎÎñ¼ÆÊýÆ÷
         
-    private:
+    protected:
         CAudioCodec* _audio_codec;
         CAudioCodec* _audio_codec2;
-        //unsigned char _mix_audio_packet[1024];//for audience
         
         struct timeval _start;
         struct timeval _end;
@@ -176,8 +170,8 @@ namespace ScheduleServer
         void play() { _local_mute = false; }
         void mute() { _local_mute = true; }
         
-        void add_self();
-        void remove_self();
+        //void add_self();
+        //void remove_self();
 	};
     
     //Common////////////////////////////////////////////////////////////////////////
@@ -197,6 +191,27 @@ namespace ScheduleServer
 		{
 			return Common_Conference;
 		}
+	};
+    
+    //Broadcast////////////////////////////////////////////////////////////////////////
+	class CBroadcastConferenceTask : public CConferenceTask
+	{
+	public:
+		CBroadcastConferenceTask(CONFERENCE_TASK_INFO& task_info) : CConferenceTask(task_info)
+		{
+		}
+		virtual ~CBroadcastConferenceTask()
+		{
+		}
+
+	public:
+		//返回会议类型
+		virtual CONFERENCE_TYPE get_type()
+		{
+			return Broadcast_Conference;
+		}
+        
+        virtual void audio_mix();
 	};
 }
 

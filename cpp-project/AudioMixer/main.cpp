@@ -473,9 +473,13 @@ void conference()
     //MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "172.16.26.100");
     //MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "172.16.26.100");
     
-    MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.3.80");
-    MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "192.168.3.80");
-    MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "192.168.3.80");
+    //MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.3.80");
+    //MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "192.168.3.80");
+    //MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "192.168.3.80");
+    
+    MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.1.16");
+    MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "192.168.1.16");
+    MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "192.168.1.16");
 #endif
     ///////////////////////////
     
@@ -508,17 +512,25 @@ void conference()
         }
         else if("d" == input_str)
         {
-            conf_disable_member_recv(mid1);
-            conf_disable_member_recv(mid2);
+            //conf_disable_member_recv(mid1);
+            //conf_disable_member_recv(mid2);
         }
         else if("e" == input_str)
         {
-            conf_enable_member_recv(mid1);
-            conf_enable_member_recv(mid2);
+            //conf_enable_member_recv(mid1);
+            //conf_enable_member_recv(mid2);
         }        
         else if("p" == input_str)
         {
             conf_play(cid);
+        }
+        else if("as" == input_str)
+        {
+            conf_add_self(cid);
+        }
+        else if("rs" == input_str)
+        {
+            conf_add_self(0);
         }
 	}
     

@@ -34,8 +34,8 @@ namespace ScheduleServer
 
 		~CScheduleServer();
 
-		SS_Error start(RUNNING_MODE mode);
-		SS_Error shutdown();
+		//SS_Error start(RUNNING_MODE mode);
+		//SS_Error shutdown();
         
         SS_Error start_mixer(unsigned short local_recv_port);
 		SS_Error shutdown_mixer();
@@ -270,7 +270,7 @@ namespace ScheduleServer
         SS_Error add_conference(unsigned long& id);
         SS_Error close_conference(unsigned long id);
         //SS_Error add_paiticipant(unsigned long conference_id, unsigned long participant_id);
-        unsigned long add_paiticipant(unsigned long& participant_id, unsigned long conference_id, char* ip, unsigned short, int codec);
+        unsigned long add_paiticipant(unsigned long& participant_id, unsigned long conference_id, char* ip, unsigned short, int codec, PARTICIPANT_ROLE role);
         SS_Error remove_paiticipant(unsigned long conference_id, unsigned long participant_id);
         
         SS_Error pause_conference(unsigned long conference_id);

@@ -37,9 +37,11 @@ extern int conf_room_recover(CID cid);
 
 //7 添加成员到会议室
 extern MID conf_room_add_member(CID cid, CODEC codec, int mode, unsigned short port, char* ip);
+extern MID conf_room_add_audience(CID cid, CODEC codec, int mode, unsigned short port, char* ip);
 
 //8 删除会议室成员
 extern void conf_room_rm_member(MID mid, CID cid);
+extern void conf_room_rm_audience(MID mid, CID cid);
 
 //9 打开成员的音频发送
 extern int conf_enable_member_send(MID mid);
@@ -93,6 +95,7 @@ extern int relay_remove_dest(char* ip, unsigned short port);
 extern int conf_play(CID cid);
 
 //将本机作为发言人添加到指定会议中
+//cid为0则将本机从所有会议中删除
 extern int conf_add_self(CID cid);
 
 #ifdef __cplusplus

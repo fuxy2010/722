@@ -33,6 +33,7 @@ CScheduleServer::~CScheduleServer()
 {
 }
 
+/*
 SS_Error CScheduleServer::start(RUNNING_MODE mode)
 {
     struct timeval time;
@@ -41,7 +42,7 @@ SS_Error CScheduleServer::start(RUNNING_MODE mode)
     
     //_cur_path = path;
     
-/*#if 0
+#if 0
     std::string role;
     std::cout << "If this is sender then press \"yes\", otherwise press \"no\"" << std::endl;
 	std::cin >> role;
@@ -111,7 +112,7 @@ SS_Error CScheduleServer::start(RUNNING_MODE mode)
         
         std::cout << "audio sender started!" << std::endl;
     }    
-#endif*/
+#endif
 
     //Audio recv rtp session
     _rtp_recv_session = new CRTPRecvSession*[1];
@@ -186,7 +187,8 @@ SS_Error CScheduleServer::shutdown()
 {
 	_enalble = false;
     
-    /*for(unsigned short j = 0; j < UA_NUM; ++j)
+#if 0
+    for(unsigned short j = 0; j < UA_NUM; ++j)
     {
         _audio_send_thread[j]->Kill();
         delete _audio_send_thread[j];
@@ -195,7 +197,8 @@ SS_Error CScheduleServer::shutdown()
     
     _audio_mix_thread->Kill();
     delete _audio_mix_thread;
-    _audio_mix_thread = NULL;*/
+    _audio_mix_thread = NULL;
+#endif
 
 	//¹Ø±ÕRTP½ÓÊÕ»á»°////////////////////////////////////////////////////////////////////////
 	for(unsigned short i = 0; i < _rtp_recv_thread_num; ++i)
@@ -217,6 +220,7 @@ SS_Error CScheduleServer::shutdown()
 
 	return SS_NoErr;
 }
+*/
 
 SS_Error CScheduleServer::start_mixer(unsigned short local_recv_port)
 {
@@ -240,7 +244,7 @@ SS_Error CScheduleServer::start_mixer(unsigned short local_recv_port)
 	CTaskThreadPool::add_threads(2, this);
     
     _local_play_thread.Start();
-    //_local_record_thread.Start();
+    _local_record_thread.Start();
 
 	return SS_NoErr;
 
@@ -262,7 +266,7 @@ SS_Error CScheduleServer::shutdown_mixer()
 	delete[] _rtp_recv_session;
 	_rtp_recv_session = NULL;
     
-    //_local_record_thread.Kill();
+    _local_record_thread.Kill();
     _local_play_thread.Kill();
     
     CTaskThreadPool::remove_threads();
@@ -587,7 +591,7 @@ SS_Error CScheduleServer::close_conference(unsigned long id)
 }
 
 //SS_Error CScheduleServer::add_paiticipant(unsigned long conference_id, unsigned long participant_id)
-unsigned long CScheduleServer::add_paiticipant(unsigned long& participant_id, unsigned long conference_id, char* ip, unsigned short port, int codec)
+unsigned long CScheduleServer::add_paiticipant(unsigned long& participant_id, unsigned long conference_id, char* ip, unsigned short port, int codec, PARTICIPANT_ROLE role)
 {
     struct timeval time;
     gettimeofday(&time, NULL);
@@ -604,7 +608,7 @@ unsigned long CScheduleServer::add_paiticipant(unsigned long& participant_id, un
     
     reg_ua(id, (const char*)ip, port, codec);
     
-    conference->add_participant(id, true);
+    conference->add_participant(id, role);
     
     participant_id = id;
     
@@ -697,7 +701,7 @@ void CScheduleServer::add_self(unsigned long conference_id)
         
         if(NULL == task) continue;
         
-        //if(conference_id != task->get_conference_id()) task->remove_self();
-        //else  task->add_self();
+        if(conference_id != task->get_conference_id()) task->remove_participant(SELF_UA_ID);
+        else task->add_participant(SELF_UA_ID, Speaker);
     }
 }
