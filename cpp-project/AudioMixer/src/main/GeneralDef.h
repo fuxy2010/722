@@ -160,7 +160,8 @@ namespace ScheduleServer
 		MAINTANCE_THREAD,//Î¬»¤Ïß³Ì
 		MQTT_THREAD,//mqtt thread
         PLAY_THRED,//local pcm play thread
-        RECORD_THREAD//local pcm record thread
+        RECORD_THREAD,//local pcm record thread
+        MIX_THREAD
 	}
 	THREAD_TYPE;
     

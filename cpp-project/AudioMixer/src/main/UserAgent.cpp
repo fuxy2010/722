@@ -17,28 +17,28 @@ const unsigned long CUserAgent::_max_audio_packet_num = 15;//ÒôÆµÊý¾Ý°�
 const unsigned short CUserAgent::_min_audio_frame_num = 3;//UA¸ÕÓë»áÊ±¿ÉÈ¡ÓïÒôÖ¡Ç¿_raw_audio_frame_listÖÁÉÙÓ¦¸Ã»º³åµÄÓïÒôÖ¡µÄÊýÁ¿
 
 CUserAgent::CUserAgent() :
-_latest_audio_packet_timestamp(0),
+//_latest_audio_packet_timestamp(0),
 //_latest_video_packet_timestamp(0),
-_latest_available_audio_packet_timestamp(0),
+//_latest_available_audio_packet_timestamp(0),
 //_continuous_fetch_video_packet_fail_time(0),
 //_last_video_frame_timestamp(0)
 _last_audio_packet_sequence(0),
 //_fetch_audio_frame_fail_times(0),
 //_fetch_audio_frame_timestamp(0),
-_next_fetched_audio_sequence(0),
+//_next_fetched_audio_sequence(0),
 _rtp_send_session(NULL),
 _send_idle(false),
 _recv_idle(false)
 {
-    remove_all_audio_packet();
+    remove_all_audio_frames();
     
     update_threshold();
 }
 
 CUserAgent::~CUserAgent()
 {
-    remove_all_audio_packet();
-	_next_fetched_audio_sequence = 0;
+    remove_all_audio_frames();
+	//_next_fetched_audio_sequence = 0;
 
 }
 
@@ -54,7 +54,7 @@ void CUserAgent::update_threshold()
 //dataÎª¾»ºÉÖ¸Õë,lengthÎª¾»ºÉ³¤¶È
 SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned long& length, const unsigned short& sequence, const unsigned long& timestamp)
 {
-    _latest_audio_packet_timestamp = clock() / 1000;
+    //_latest_audio_packet_timestamp = clock() / 1000;
     
     if(true == _recv_idle) return SS_NoErr;
 
@@ -129,7 +129,7 @@ SS_Error CUserAgent::add_audio_frame(const unsigned char* data, const unsigned l
 
 SS_Error CUserAgent::add_raw_audio_frame(const short* data, const unsigned long& length)
 {
-    _latest_audio_packet_timestamp = clock() / 1000;
+    //_latest_audio_packet_timestamp = clock() / 1000;
     
     if(true == _recv_idle) return SS_NoErr;
 
@@ -220,7 +220,7 @@ RAW_AUDIO_FRAME_PTR CUserAgent::fetch_audio_frame()
 			{
 				//if(_fetch_audio_frame_fail_times)
 				{
-					remove_slient_audio_packet();
+					remove_slient_audio_frames();
 				}
 			}
             
@@ -236,7 +236,7 @@ RAW_AUDIO_FRAME_PTR CUserAgent::fetch_audio_frame()
 	return frame_ptr;
 }
 
-SS_Error CUserAgent::remove_all_audio_packet()
+SS_Error CUserAgent::remove_all_audio_frames()
 {
 	{
 		CSSLocker lock(&_raw_audio_frame_list_mutex);
@@ -253,7 +253,7 @@ SS_Error CUserAgent::remove_all_audio_packet()
 	return SS_NoErr;
 }
 
-SS_Error CUserAgent::remove_slient_audio_packet()
+SS_Error CUserAgent::remove_slient_audio_frames()
 {
 	return SS_NoErr;
 }

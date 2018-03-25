@@ -20,6 +20,8 @@
       <File Name="src/task/Task.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="thread">
+      <File Name="src/thread/ConferenceMixThread.h"/>
+      <File Name="src/thread/ConferenceMixThread.cpp"/>
       <File Name="src/thread/BroadcastThread.h"/>
       <File Name="src/thread/BroadcastThread.cpp"/>
       <File Name="src/thread/LocalRecordThread.h"/>
@@ -30,12 +32,6 @@
       <File Name="src/thread/TaskThread.cpp"/>
       <File Name="src/thread/BaseThread.h"/>
       <File Name="src/thread/BaseThread.cpp"/>
-      <File Name="src/thread/PCMPlayThread.cpp"/>
-      <File Name="src/thread/PCMPlayThread.h"/>
-      <File Name="src/thread/AudioMixThread.cpp"/>
-      <File Name="src/thread/AudioMixThread.h"/>
-      <File Name="src/thread/AudioSendThread.h"/>
-      <File Name="src/thread/AudioSendThread.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="codec">
       <File Name="src/codec/PCMPlayer2.h"/>

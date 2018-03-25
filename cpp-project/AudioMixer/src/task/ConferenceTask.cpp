@@ -149,6 +149,8 @@ SS_Error CConferenceTask::on_done()
 	_participants.clear();
 
 	//_audience_vec.clear();
+    
+    remove_all_mix_audio_frames();
 
 	return SS_NoErr;
 }
@@ -461,8 +463,10 @@ void CConferenceTask::audio_mix()
         else if(false == _local_mute)
         {
             //send to self
-            CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
-            if(NULL != ua) ua->add_raw_audio_frame(mix_frame_ptr.frame->payload, FRAME_LENGTH_IN_SHORT);
+            //CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
+            //if(NULL != ua) ua->add_raw_audio_frame(mix_frame_ptr.frame->payload, FRAME_LENGTH_IN_SHORT);
+            
+            add_raw_mix_audio_frame(mix_frame_ptr);
         }
 #endif
         
@@ -611,14 +615,98 @@ void CConferenceTask::remove_self()
     
 }*/
 
+//conference_frame_ptr will be removed after audio_mix()
+SS_Error CConferenceTask::add_raw_mix_audio_frame(RAW_AUDIO_FRAME_PTR conference_frame_ptr)
+{
+    {
+        CSSLocker lock(&_raw_audio_frame_list_mutex);
+        
+        RAW_AUDIO_FRAME_PTR frame_ptr;
+        if(false == CMemPool::malloc_raw_audio_frame(frame_ptr)) return SS_NoErr;
+        
+        frame_ptr.frame->energy = conference_frame_ptr.frame->energy;
+        frame_ptr.frame->available = conference_frame_ptr.frame->available;
+        frame_ptr.frame->sequence = conference_frame_ptr.frame->sequence;
+        frame_ptr.frame->src_timestamp = conference_frame_ptr.frame->src_timestamp;
+        frame_ptr.frame->encoded_size = conference_frame_ptr.frame->encoded_size;
+        memcpy(frame_ptr.frame->payload, conference_frame_ptr.frame->payload, FRAME_LENGTH_IN_SHORT * sizeof(short));
+
+		if(3 < _raw_audio_frame_list.size())
+		{
+			CMemPool::free_raw_audio_frame(_raw_audio_frame_list.front());
+			_raw_audio_frame_list.pop_front();
+		}
+        
+        if(false)
+        {
+            FILE* f = fopen("./mix.pcm", "ab+");        
+            fwrite(frame_ptr.frame->payload, sizeof(short), FRAME_LENGTH_IN_SHORT, f);
+            fclose(f);
+            return SS_NoErr;
+        }
+
+		_raw_audio_frame_list.push_back(frame_ptr);
+	}
+    
+	return SS_NoErr;
+}
+
+RAW_AUDIO_FRAME_PTR CConferenceTask::fetch_mix_audio_frame()
+{
+    {
+		CSSLocker lock(&_raw_audio_frame_list_mutex);
+
+		//为平滑计队列中有3个以上的包才取
+		if(false == _raw_audio_frame_list.empty())
+		{
+			RAW_AUDIO_FRAME_PTR frame_ptr = _raw_audio_frame_list.front();//*(_audio_packet_list.begin());
+			_raw_audio_frame_list.pop_front();
+			
+			return frame_ptr;
+		}        
+	}
+
+	//如果未取到包则返回一个空数据包
+	RAW_AUDIO_FRAME_PTR frame_ptr;	
+	
+	return frame_ptr;
+}
+
+SS_Error CConferenceTask::remove_all_mix_audio_frames()
+{
+	{
+		CSSLocker lock(&_raw_audio_frame_list_mutex);
+
+		for(std::list<RAW_AUDIO_FRAME_PTR>::iterator iter = _raw_audio_frame_list.begin();
+			iter != _raw_audio_frame_list.end();
+			++iter)
+		{
+			CMemPool::free_raw_audio_frame(*iter);
+		}
+
+		_raw_audio_frame_list.clear();
+	}
+	return SS_NoErr;
+}
+
 void CBroadcastConferenceTask::audio_mix()
 {
 	//CTimeConsuming tc('M', 10.0);
 
 	CSSLocker lock(&_participants_mutex);
     
-    RAW_AUDIO_FRAME_PTR mix_frame_ptr;
+    //两个混音帧，fetch一轮后，一个混音帧存主持人声音，另一个存所有听众（也是发言人）声音混音
+    //mix时，将前一个混音帧发给听众，将后一个混音帧发给主持人
     
+    RAW_AUDIO_FRAME_PTR master_frame_ptr;
+    if(false == CMemPool::malloc_raw_audio_frame(master_frame_ptr)) return;
+    
+    master_frame_ptr.frame->src_timestamp = clock();
+	master_frame_ptr.frame->ua_id = 0;
+	master_frame_ptr.frame->energy = 1;
+	master_frame_ptr.frame->available = false;
+    
+    RAW_AUDIO_FRAME_PTR mix_frame_ptr;    
     if(false == CMemPool::malloc_raw_audio_frame(mix_frame_ptr)) return;
 
 	mix_frame_ptr.frame->src_timestamp = clock();
@@ -626,49 +714,69 @@ void CBroadcastConferenceTask::audio_mix()
 	mix_frame_ptr.frame->energy = 1;
 	mix_frame_ptr.frame->available = false;
     
-    unsigned char mix_audio_packet_speaker[1024];//for speaker
-    unsigned char mix_audio_packet_audience[1024];//for audience
+    //unsigned char mix_audio_packet_speaker[1024];//for speaker
+    //unsigned char mix_audio_packet_master[1024];//for master
+    unsigned char mix_audio_packet[1024];
 
-	//�������������֡
+	//mix speaker frame exclude self
 	for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
 	{
         if(Observer == iter->second.role) continue;
         
-		if(Speaker != iter->second.role) continue;
+        if(Speaker != iter->second.role) continue;
+        
+        if(NULL == master_frame_ptr.frame) break;
+        
+        if(SELF_UA_ID == iter->first)
+        {
+            RAW_AUDIO_FRAME_PTR* frame_ptr = iter->second.get_raw_audio_frame();
+            if(NULL == frame_ptr->frame) continue;
+                
+            memcpy(master_frame_ptr.frame->payload, frame_ptr->frame->payload, FRAME_LENGTH_IN_BYTE);
+            
+            master_frame_ptr.frame->available = true;
+            continue;
+        }
             
         if(NULL == mix_frame_ptr.frame) break;
         
-        RAW_AUDIO_FRAME_PTR* frame_ptr = iter->second.get_raw_audio_frame();
-        if(NULL == frame_ptr->frame)
-            continue;
-        
-        CAudioCodec::mix(mix_frame_ptr.frame->payload, frame_ptr->frame->payload,
-                        FRAME_LENGTH_IN_BYTE,//sizeof(mix_frame_ptr.frame->payload),
-                        1.0,
-                        1);
-        
-        mix_frame_ptr.frame->available = true;//混音成功一次即表明该语音帧有效
+        {
+            RAW_AUDIO_FRAME_PTR* frame_ptr = iter->second.get_raw_audio_frame();
+            if(NULL == frame_ptr->frame) continue;
+            
+            CAudioCodec::mix(mix_frame_ptr.frame->payload, frame_ptr->frame->payload,
+                            FRAME_LENGTH_IN_BYTE,//sizeof(mix_frame_ptr.frame->payload),
+                            1.0,
+                            1);
+            
+            mix_frame_ptr.frame->available = true;//混音成功一次即表明该语音帧有效
+        }
 	}
     
+    //send to master
     if(true == mix_frame_ptr.frame->available)
     {
-#if 1
-        if(false)
-        {
-            //FILE* f = fopen("./mix.pcm", "ab+");
-            //fwrite(mix_frame_ptr.frame->payload, sizeof(short), FRAME_LENGTH_IN_SHORT, f);
-            //fclose(f);
-        }
-        else if(false == _local_mute)
+        //::memset(mix_audio_packet_master, 0, sizeof(mix_audio_packet_master));
+        //int master_packet_len = _audio_codec->encode(mix_frame_ptr.frame->payload, mix_audio_packet_master);
+        
+        //CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(SELF_UA_ID);
+        //if(NULL != ua) ua->send_audio_packet(mix_audio_packet_master, master_packet_len);
+        
+        //iff(false == _local_mute)
         {
             //send to self
-            CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
-            if(NULL != ua) ua->add_raw_audio_frame(mix_frame_ptr.frame->payload, FRAME_LENGTH_IN_SHORT);
+            //CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(0);
+            //if(NULL != ua) ua->add_raw_audio_frame(mix_frame_ptr.frame->payload, FRAME_LENGTH_IN_SHORT);
+            
+            add_raw_mix_audio_frame(mix_frame_ptr);
         }
-#endif
-        
-        ::memset(mix_audio_packet_audience, 0, sizeof(mix_audio_packet_audience));
-        int audience_packet_len = _audio_codec->encode(mix_frame_ptr.frame->payload, mix_audio_packet_audience);
+    }
+    
+    //send to other speakers
+    if(true == master_frame_ptr.frame->available)
+    {
+        ::memset(mix_audio_packet, 0, sizeof(mix_audio_packet));
+        int speaker_packet_len = _audio_codec->encode(master_frame_ptr.frame->payload, mix_audio_packet);
 
 #if 1
         struct  timeval  t1;
@@ -677,48 +785,13 @@ void CBroadcastConferenceTask::audio_mix()
         
         for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
         {
-            if(Observer == iter->second.role) continue;
-            
-            RAW_AUDIO_FRAME_PTR mix_frame_ptr2;    
-            if(false == CMemPool::malloc_raw_audio_frame(mix_frame_ptr2)) continue;
-            
-            mix_frame_ptr2.frame->src_timestamp = clock();
-            mix_frame_ptr2.frame->ua_id = 0;
-            mix_frame_ptr2.frame->energy = 1;
-            mix_frame_ptr2.frame->available = false;
-            memcpy(mix_frame_ptr2.frame->payload, mix_frame_ptr.frame->payload, FRAME_LENGTH_IN_BYTE);
-
-            if(Speaker == iter->second.role)
-            {
-                RAW_AUDIO_FRAME_PTR* frame_ptr = iter->second.get_raw_audio_frame();
-            
-                if(NULL == frame_ptr->frame) continue;
-                
-                CAudioCodec::remove(mix_frame_ptr2.frame->payload, frame_ptr->frame->payload,
-                            FRAME_LENGTH_IN_BYTE,//sizeof(mix_frame_ptr.frame->payload),
-                            1.0,
-                            1);
-                
-                ::memset(mix_audio_packet_speaker, 0, sizeof(mix_audio_packet_speaker));
-                
-                //struct  timeval  t11;
-                //gettimeofday(&t11, NULL);
-                int speaker_packet_len = _audio_codec->encode(mix_frame_ptr2.frame->payload, mix_audio_packet_speaker);
-                //struct  timeval  t12;
-                //gettimeofday(&t12, NULL);
-                //unsigned long enc_timer = 1000000 * (t12.tv_sec - t11.tv_sec) + t12.tv_usec - t11.tv_usec;
-                //printf("========= enc = %ld us\n", enc_timer);
-                
-                CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
-                if(NULL != ua) ua->send_audio_packet(mix_audio_packet_speaker, speaker_packet_len);
-            }
-            else
+            if(SELF_UA_ID != iter->first && Speaker == iter->second.role)
             {
                 CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
-                if(NULL != ua) ua->send_audio_packet(mix_audio_packet_audience, audience_packet_len);
+                if(NULL != ua) ua->send_audio_packet(mix_audio_packet, speaker_packet_len);
+                
+                continue;
             }
-            
-            CMemPool::free_raw_audio_frame(mix_frame_ptr2);
         }
         
         gettimeofday(&t2, NULL);
@@ -727,5 +800,29 @@ void CBroadcastConferenceTask::audio_mix()
 #endif
     }
     
+    //send to other audiences
+    if(true == mix_frame_ptr.frame->available || true == master_frame_ptr.frame->available)
+    {
+        CAudioCodec::mix(mix_frame_ptr.frame->payload, master_frame_ptr.frame->payload,
+                            FRAME_LENGTH_IN_BYTE,
+                            1.0,
+                            1);
+                            
+        ::memset(mix_audio_packet, 0, sizeof(mix_audio_packet));
+        int audience_packet_len = _audio_codec->encode(mix_frame_ptr.frame->payload, mix_audio_packet);
+        
+        for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
+        {
+            if(SELF_UA_ID != iter->first && Audience == iter->second.role)
+            {
+                CUserAgent* ua = SINGLETON(CScheduleServer).fetch_ua(iter->first);
+                if(NULL != ua) ua->send_audio_packet(mix_audio_packet, audience_packet_len);
+                
+                continue;
+            }
+        }
+    }
+    
+    CMemPool::free_raw_audio_frame(master_frame_ptr);
     CMemPool::free_raw_audio_frame(mix_frame_ptr);
 }

@@ -7,7 +7,7 @@
 // **********************************************************************
 #include "GeneralDef.h"
 #include "BaseThread.h"
-#include "sys/time.h"
+#include <sys/time.h>
 
 using namespace ScheduleServer;
 

@@ -117,7 +117,7 @@ namespace ScheduleServer
 
 		//CPCMCodec _audience_pcm_codec;//·Ç·¢ÑÔÈËÊÖÌ¨»ò¹Ì»°¹²ÓÃµÄ±à½âÂëÆ÷£¨Ö»±àÂë£©
 
-		unsigned long _next_fetch_audio_frame_timestamp;//ÏÂ´ÎÈ¡ÒôÆµÊý¾Ý°üµÄÊ±´Á		
+		unsigned long _next_fetch_audio_frame_timestamp;//ÏÂ´ÎÈ¡ÒôÆµÊý¾Ý°üµÄÊ±´Á
 
 		CSSMutex _conference_control_mutext;//»áÒé¿ØÖÆ²Ù×÷»¥³âÁ¿
         
@@ -150,6 +150,7 @@ namespace ScheduleServer
         {
             std::cout << "====================================" << std::endl;
             std::cout << "Conference ID: " << _task_info.conference_id << std::endl;
+            std::cout << "Conference Type: " << get_type() << std::endl;
             
             for(map<unsigned long, PARTICIPANT>::iterator iter = _participants.begin(); iter != _participants.end(); ++iter)
             {
@@ -172,6 +173,17 @@ namespace ScheduleServer
         
         //void add_self();
         //void remove_self();
+        
+    protected:
+        std::list<RAW_AUDIO_FRAME_PTR> _raw_audio_frame_list;
+		CSSMutex _raw_audio_frame_list_mutex;
+        
+        SS_Error add_raw_mix_audio_frame(RAW_AUDIO_FRAME_PTR conference_frame_ptr);
+        SS_Error remove_all_mix_audio_frames();
+        
+    public:
+		RAW_AUDIO_FRAME_PTR fetch_mix_audio_frame();
+		
 	};
     
     //Common////////////////////////////////////////////////////////////////////////

@@ -5,8 +5,8 @@
 // ÐÞ¸ÄÀúÊ·¼ÇÂ¼: 
 // ÈÕÆÚ, ×÷Õß, ±ä¸üÄÚÈÝ
 // **********************************************************************
-#ifndef _LOCAL_PLAY_THREAD_H_      
-#define _LOCAL_PLAY_THREAD_H_
+#ifndef _CONFERENCE_MIX_THREAD_H_      
+#define _CONFERENCE_MIX_THREAD_H_
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 #pragma once
@@ -15,24 +15,22 @@
 #include "GeneralDef.h"
 #include "BaseThread.h"
 #include "Task.h"
-#include "PCMPlayer.h"
-//#include "PCMPlayer2.h"
 
 namespace ScheduleServer
 {
 	//ÈÎÎñ´¦ÀíÏß³Ì
-	class CLocalPlayThread : public CBaseThread
+	class CConferenceMixThread : public CBaseThread
 	{
 	public:
-		CLocalPlayThread() {};//×î¶à²¢·¢Ö´ÐÐ10ÏîÈÎÎñ
-		virtual ~CLocalPlayThread() {};
+		CConferenceMixThread() : _next_fetch_audio_frame_timestamp(0) {};
+		virtual ~CConferenceMixThread() {};
 
 		static void sleep_ms(unsigned long interval);
 
 		//·µ»ØÏß³ÌÀàÐÍ
 		virtual THREAD_TYPE get_type()
 		{
-			return PLAY_THRED;
+			return MIX_THREAD;
 		}
 
 	protected:
@@ -44,12 +42,11 @@ namespace ScheduleServer
 		virtual void on_close();
 
 	private:
-        int play();
+        int mix();
         
     private:
-        CPCMPlayer _pcm_player;
-        //CPCMPlayer2 _pcm_player;
+        unsigned long _next_fetch_audio_frame_timestamp;
 	};
 }
 
-#endif  // _LOCAL_PLAY_THREAD_H_   
+#endif  // _CONFERENCE_MIX_THREAD_H_   

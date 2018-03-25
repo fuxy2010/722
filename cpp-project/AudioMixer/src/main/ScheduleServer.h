@@ -14,14 +14,12 @@
 #include "ConfigBox.h"
 #include "UserAgent.h"
 #include "JRTPSession.h"
-#include "AudioSendThread.h"
-#include "AudioMixThread.h"
-#include "PCMPlayThread.h"
 #include "PCMPlayer.h"
 #include "TaskThread.h"
 #include "LocalPlayThread.h"
 #include "LocalRecordThread.h"
 #include "BroadcastThread.h"
+#include "ConferenceMixThread.h"
 
 #include "rtpipv4address.h"
 
@@ -87,9 +85,6 @@ namespace ScheduleServer
 		CRTPRecvSession** _rtp_recv_session;//Ã½Ìå½ÓÊÕRTP SessionµÄÖ¸ÕëÊý×é
 		unsigned short _rtp_recv_thread_num;//Ã½Ìå½ÓÊÕRTP SessionµÄÊýÁ¿
 		unsigned short _rtp_recv_base_port;//Ã½Ìå½ÓÊÕRTP SessionµÄ¼àÌý»ù×¼¶Ë¿Ú
-        
-        CAudioSendThread* _audio_send_thread[UA_NUM];
-        CAudioMixThread* _audio_mix_thread;
 
 	public:
 		static std::string _ver;
@@ -256,11 +251,12 @@ namespace ScheduleServer
         
     public:
         CPCMPlayer _pcm_player;
+        
     private:
-        //CPCMPlayThread _pcm_play_thread;
         CLocalPlayThread _local_play_thread;
         CLocalRecordThread _local_record_thread;
         CBroadcastThread _broadcast_thread;
+        CConferenceMixThread _conference_mix_thread;
         
     private:
         std::map<unsigned long, CTask*> _conference_map;
@@ -268,6 +264,7 @@ namespace ScheduleServer
         
     public:
         SS_Error add_conference(unsigned long& id);
+        SS_Error add_broadcast_conference(unsigned long& id);
         SS_Error close_conference(unsigned long id);
         //SS_Error add_paiticipant(unsigned long conference_id, unsigned long participant_id);
         unsigned long add_paiticipant(unsigned long& participant_id, unsigned long conference_id, char* ip, unsigned short, int codec, PARTICIPANT_ROLE role);
@@ -279,6 +276,7 @@ namespace ScheduleServer
         void query_conference(unsigned long conference_id);
         void play_conference(unsigned long conference_id);
         void add_self(unsigned long conference_id);
+        bool fetch_conference_mix_audio(RAW_AUDIO_FRAME_PTR mix_frame_ptr);
         
     private:
         unsigned long _milestone;

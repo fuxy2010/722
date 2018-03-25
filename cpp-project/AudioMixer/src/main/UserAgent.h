@@ -61,21 +61,13 @@ namespace ScheduleServer
 		SS_Error add_audio_frame(const unsigned char* data, const unsigned long& length, const unsigned short& sequence, const unsigned long& timestamp);
         
         SS_Error add_raw_audio_frame(const short* data, const unsigned long& length);
-
-		//È¡×îÔçµÄÒôÆµÊý¾Ý°ü
-		//AUDIO_PACKET_PTR fetch_audio_packet();
-		//½âÂë×îÔçµÄÒôÆµÊý¾Ý°ü²¢·ÅÈëÔ­Ê¼ÓïÒôÖ¡¶ÓÁÐ
-		//void decode_audio(CAudioCodec* codec);
-		//È¡×îÔçµÄÔ­Ê¼ÓïÒôÖ¡
-		//¸ù¾Ý»áÒéIDÈ¡Êý¾Ý°ü£¬Èç²»ÊÇÓÉ¸ÃUA²ÎÓëµÄ»áÒéÈÎÎñÈ¡Êý¾Ý°üÔò¼´Ê¹ÓÐÊý¾Ý°üÒ²²»Ó¦È¡£¬ÇÒstill_in_this_conferenceÎªfalse;
+        
 		RAW_AUDIO_FRAME_PTR fetch_audio_frame();
 
 	protected:
-		//É¾³ýËùÓÐÒôÆµÊý¾Ý°ü
-		SS_Error remove_all_audio_packet();
+		SS_Error remove_all_audio_frames();
 
-		//É¾³ýËùÓÐ½Ó½ü¾²ÒôµÄÒôÆµ°ü
-		SS_Error remove_slient_audio_packet();
+    SS_Error remove_slient_audio_frames();
 
 	protected:
 		//Ô­Ê¼ÓïÒôÖ¡¶ÓÁÐ
@@ -83,9 +75,9 @@ namespace ScheduleServer
 		CSSMutex _raw_audio_frame_list_mutex;
         
         size_t _threshold;//very important!!!
-		unsigned short _next_fetched_audio_sequence;//ÏÂÒ»´ÎÒªfetchµÄÒôÆµ°üÐòºÅ
+		//unsigned short _next_fetched_audio_sequence;
 
-		short _predictive_audio_frame[2048];//Ô¤²â²¹³¥¶ª°ü£¬×î¶à²¹³¥3¸ö°ü£¨9Ö¡£©
+		//short _predictive_audio_frame[2048];
         
     public:
         void update_threshold();
@@ -100,8 +92,8 @@ namespace ScheduleServer
 		static const unsigned short _min_audio_frame_num;
 	
     protected:
-		unsigned long _latest_audio_packet_timestamp;//×îÐÂÊÕµ½µÄÓïÒôÊý¾Ý°üÊ±´Á
-		unsigned long _latest_available_audio_packet_timestamp;//×îÐÂÊÕµ½µÄ·Ç¾²ÒôÓïÒôÊý¾Ý°üÊ±´Á
+		//unsigned long _latest_audio_packet_timestamp;//×îÐÂÊÕµ½µÄÓïÒôÊý¾Ý°üÊ±´Á
+		//unsigned long _latest_available_audio_packet_timestamp;//×îÐÂÊÕµ½µÄ·Ç¾²ÒôÓïÒôÊý¾Ý°üÊ±´Á
 
 		CAudioCodec* _audio_codec;
 

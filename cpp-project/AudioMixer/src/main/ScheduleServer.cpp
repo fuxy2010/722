@@ -243,8 +243,9 @@ SS_Error CScheduleServer::start_mixer(unsigned short local_recv_port)
     //启动任务线程////////////////////////////////////////////////////////////////////////
 	CTaskThreadPool::add_threads(2, this);
     
+    _conference_mix_thread.Start();
     _local_play_thread.Start();
-    _local_record_thread.Start();
+    _local_record_thread.Start();    
 
 	return SS_NoErr;
 
@@ -264,10 +265,11 @@ SS_Error CScheduleServer::shutdown_mixer()
     delete _rtp_recv_session[0];
     _rtp_recv_session[0] = NULL;
 	delete[] _rtp_recv_session;
-	_rtp_recv_session = NULL;
+	_rtp_recv_session = NULL;    
     
     _local_record_thread.Kill();
     _local_play_thread.Kill();
+    _conference_mix_thread.Kill();
     
     CTaskThreadPool::remove_threads();
 
@@ -573,6 +575,33 @@ SS_Error CScheduleServer::add_conference(unsigned long& id)
     return SS_NoErr;
 }
 
+SS_Error CScheduleServer::add_broadcast_conference(unsigned long& id)
+{
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    id = 1000000 * time.tv_sec + time.tv_usec;
+    id -= _milestone;
+    
+    CONFERENCE_TASK_INFO conference_info;
+    conference_info.conference_id = id;
+    
+    CConferenceTask* conference = new CBroadcastConferenceTask(conference_info);
+        
+    if(SS_NoErr != SINGLETON(CScheduleServer).add_task(conference, conference_info.conference_id))
+    {
+        delete conference;
+        conference = NULL;
+        
+        return SS_AddTaskFail;
+    }
+        
+    CSSLocker lock(&_conference_map_mutex);
+    
+    _conference_map[id] = conference;
+    
+    return SS_NoErr;
+}
+
 SS_Error CScheduleServer::close_conference(unsigned long id)
 {
     CSSLocker lock(&_conference_map_mutex);
@@ -686,8 +715,10 @@ void CScheduleServer::play_conference(unsigned long conference_id)
         
         if(NULL == task) continue;
         
-        if(conference_id != task->get_conference_id()) task->mute();
-        else  task->play();
+        //if(conference_id != task->get_conference_id()) task->mute();
+        //else task->play();
+        
+        task->play();
     }
 }
 
@@ -704,4 +735,39 @@ void CScheduleServer::add_self(unsigned long conference_id)
         if(conference_id != task->get_conference_id()) task->remove_participant(SELF_UA_ID);
         else task->add_participant(SELF_UA_ID, Speaker);
     }
+}
+
+bool CScheduleServer::fetch_conference_mix_audio(RAW_AUDIO_FRAME_PTR mix_frame_ptr)
+{
+    CSSLocker lock(&_conference_map_mutex);
+    
+    bool fetched = false;
+    
+    for(map<unsigned long, CTask*>::iterator iter = _conference_map.begin(); iter != _conference_map.end(); ++iter)
+    {
+        CConferenceTask* task  = dynamic_cast<CConferenceTask*>(iter->second);
+        
+        if(NULL == task) continue;
+        
+        RAW_AUDIO_FRAME_PTR frame_ptr = task->fetch_mix_audio_frame();
+        
+        if(NULL == frame_ptr.frame || false == frame_ptr.frame->available)
+        {
+            CMemPool::free_raw_audio_frame(frame_ptr);
+            continue;
+        }
+        
+        fetched = true;
+        
+        CAudioCodec::mix(mix_frame_ptr.frame->payload, frame_ptr.frame->payload,
+                        FRAME_LENGTH_IN_BYTE,
+                        1.0,
+                        1);
+                        
+        mix_frame_ptr.frame->available = true;//混音成功一次即表明该语音帧有效
+        
+        CMemPool::free_raw_audio_frame(frame_ptr);
+    }
+    
+    return fetched;
 }

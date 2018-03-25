@@ -466,6 +466,7 @@ void conference()
     CID cid = 0;
 #if 1
     cid = conf_room_new();
+    //cid = conf_room_new_broadcast();
         
     conf_room_start(cid);
     
@@ -473,13 +474,13 @@ void conference()
     //MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "172.16.26.100");
     //MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "172.16.26.100");
     
-    //MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.3.80");
-    //MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "192.168.3.80");
-    //MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "192.168.3.80");
+    MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.3.80");
+    MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "192.168.3.80");
+    MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "192.168.3.80");
     
-    MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.1.16");
-    MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "192.168.1.16");
-    MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "192.168.1.16");
+    //MID mid1 = conf_room_add_member(cid, G711, 0, 22000, "192.168.1.16");
+    //MID mid2 = conf_room_add_member(cid, G711, 0, 22010, "192.168.1.16");
+    //MID mid3 = conf_room_add_member(cid, G711, 0, 22020, "192.168.1.16");
 #endif
     ///////////////////////////
     
@@ -537,7 +538,74 @@ void conference()
     conf_uninit();
 }
 
-void broadcast()
+void multi_conferences()
+{
+    if(0 != conf_init(30000))//启动服务
+    {
+        std::cout << "<FAIL> ScheduleServer failed in starting, please press any key to exit!" << std::endl;
+        std::cin.get();
+        
+        conf_uninit();
+    }
+    
+    //start conference/////////
+    CID cid1 = 0;
+    CID cid2 = 0;
+#if 1
+    cid1 = conf_room_new();
+    cid2 = conf_room_new_broadcast();
+        
+    conf_room_start(cid1);
+    conf_room_start(cid2);
+    
+    //MID mid1 = conf_room_add_member(cid1, G711, 0, 22000, "172.16.26.100");
+    //MID mid2 = conf_room_add_member(cid2, G711, 0, 22010, "172.16.26.100");
+    //MID mid3 = conf_room_add_member(cid2, G711, 0, 22020, "172.16.26.100");
+    
+    MID mid1 = conf_room_add_member(cid1, G711, 0, 22000, "192.168.3.80");
+    MID mid2 = conf_room_add_member(cid2, G711, 0, 22010, "192.168.3.80");
+    MID mid3 = conf_room_add_member(cid2, G711, 0, 22020, "192.168.3.80");
+    
+    //MID mid1 = conf_room_add_member(cid1, G711, 0, 22000, "192.168.1.16");
+    //MID mid2 = conf_room_add_member(cid2, G711, 0, 22010, "192.168.1.16");
+    //MID mid3 = conf_room_add_member(cid2, G711, 0, 22020, "192.168.1.16");
+#endif
+    ///////////////////////////
+    
+    std::string input_str("");    
+	while (true)
+	{
+        std::cin >> input_str;
+        
+        input_str.erase(0, input_str.find_first_not_of(" \t\n\r"));
+		input_str.erase(input_str.find_last_not_of(" \t\n\r") + 1);
+
+		if (input_str.empty()) continue;
+        
+        if("query" == input_str)
+        {
+            conf_room_show(cid1);
+            conf_room_show(cid2);
+        }
+		else if("p" == input_str)
+        {
+            conf_play(cid1);
+            conf_play(cid2);
+        }
+        else if("as" == input_str)
+        {
+            conf_add_self(cid1);
+        }
+        else if("rs" == input_str)
+        {
+            conf_add_self(0);
+        }
+	}
+    
+    conf_uninit();
+}
+
+/*void broadcast()
 {
     if(0 != broadcast_start())//启动服务
     {
@@ -569,7 +637,7 @@ void broadcast()
 	}
     
     broadcast_shutown();
-}
+}*/
 
 void realay()
 {
@@ -584,8 +652,9 @@ int main(int argc, char **argv)
 {
     //alsa_check();
     
-    conference();
+    //conference();
     //broadcast();
+    multi_conferences();
     
 	return 0;
 }

@@ -22,6 +22,16 @@ CID conf_room_new()
     return id;
 }
 
+CID conf_room_new_broadcast()
+{
+    CID id = 0;
+    
+    if(SS_NoErr != SINGLETON(CScheduleServer).add_broadcast_conference(id)) id = -1;
+    else conf_add_self(id);
+    
+    return id;
+}
+
 //2 删除会议室
 void conf_room_rm(CID cid)
 {

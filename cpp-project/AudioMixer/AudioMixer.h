@@ -19,6 +19,7 @@ CODEC;
 //全双工
 //1 创建会议室
 extern CID conf_room_new();
+extern CID conf_room_new_broadcast();
 
 //2 删除会议室
 extern void conf_room_rm(CID cid);
@@ -75,20 +76,6 @@ extern int conf_init(unsigned short local_port);
 
 //20 停止混音模块
 extern int conf_uninit();
-
-//////////////////////////////////////////////////////
-//半双工会议
-extern int broadcast_start();
-extern int broadcast_shutown();
-extern int broadcast_add_dest(char* ip, unsigned short port, CODEC codec);
-extern int broadcast_remove_dest(char* ip, unsigned short port);
-
-extern int relay_start(unsigned short local_port, char* remote_ip, unsigned short remote_port);
-extern int relay_shutown();
-extern int relay_add_dest(char* ip, unsigned short port, CODEC codec);
-extern int relay_remove_dest(char* ip, unsigned short port);
-
-//////////////////////////////////////////////////////
 
 //本地播放指定会议室音频
 //cid为0则停止播放所有会议室音频
